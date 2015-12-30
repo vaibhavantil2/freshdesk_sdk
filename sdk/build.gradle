@@ -1,0 +1,56 @@
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath 'ca.cutterslade.gradle:gradle-dependency-analyze:1.0.3'
+  }
+}
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'ca.cutterslade.analyze'
+apply plugin: 'jacoco'
+
+analyzeClassesDependencies {
+  justWarn = true
+}
+analyzeTestClassesDependencies {
+  justWarn = true
+}
+
+// Application plugin config:
+mainClassName = 'com.freshdesk.sdk.FreshSDKMain'
+applicationName = 'frsh'
+applicationDefaultJvmArgs = ['-Xms128m', '-Xmx512m']
+
+allprojects {
+  tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xlint:deprecation' << '-Xlint:unchecked'
+  }
+}
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+  maven { url "https://jitpack.io" }
+}
+
+dependencies {
+  compile 'org.slf4j:slf4j-nop:1.7.12',
+    'io.airlift:airline:0.7',
+    'org.reflections:reflections:0.9.10',
+    'org.eclipse.jetty:jetty-servlet:9.3.+',
+    'commons-io:commons-io:2.4',
+    'org.zeroturnaround:zt-zip:1.8',
+    'com.github.bkiers:Liqp:0.6.4',
+    'org.yaml:snakeyaml:1.16',
+    'org.wiztools.commons:wiztools-commons-lib:0.4.1',
+    'org.wiztools:app-update:0.2.0',
+    'org.apache.logging.log4j:log4j-core:2.4'
+  testCompile 'junit:junit:4.+'
+}
+
+test {
+  systemProperties = [FRSH_SDK_DEV: 'src/dist']
+}

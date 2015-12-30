@@ -1,0 +1,5 @@
+target
+
+src/test/resources/app-prj/work
+!src/test/resources/app-prj/work/README.md
+

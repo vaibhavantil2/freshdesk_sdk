@@ -1,0 +1,9 @@
+<div id="sample_highrise_widget" title="Sample CRM FreshPlug">
+  <div class="content"></div>
+  <div class="error"></div>
+</div>
+<script type="text/javascript">
+  CustomWidget.include_js("/javascripts/integrations/sample_highrise.js");
+  sample_highrise_options={ domain:"freshdesk3.highrisehq.com", api_key:"c1ca9cc10f8f8a2a8ef422da49d67f51", 
+              reqId:"{{requester.id}}", reqName:"{{requester.name | escape_html}}", reqEmail:"{{requester.email}}"}; 
+</script>

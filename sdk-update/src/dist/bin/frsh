@@ -1,0 +1,18 @@
+#!/bin/sh
+
+if [ -z "$FRSH_HOME" ]; then
+  echo "Please set the FRSH_HOME environment variable."
+  exit 1
+fi
+
+if [ ! -d "$FRSH_HOME" ]; then
+  echo "FRSH_HOME is not a dir"
+  exit 1
+fi
+
+if [ ! -x "$FRSH_HOME/sdk/latest/bin/frsh" ]; then
+  echo "Installation not complete. Please run 'frsh-update'."
+  exit 1
+fi
+
+$FRSH_HOME/sdk/latest/bin/frsh $*

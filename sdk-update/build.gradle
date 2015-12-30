@@ -1,0 +1,57 @@
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath 'ca.cutterslade.gradle:gradle-dependency-analyze:1.0.3'
+  }
+}
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'ca.cutterslade.analyze'
+apply plugin: 'jacoco'
+
+analyzeClassesDependencies {
+  justWarn = true
+}
+
+analyzeTestClassesDependencies {
+  justWarn = true
+}
+
+// Application plugin config:
+mainClassName = 'com.freshdesk.sdkupdate.SdkUpdateMain'
+applicationName = 'frsh-update'
+applicationDefaultJvmArgs = ['-Xms128m', '-Xmx512m']
+
+distTar {
+  archiveName 'frshsdk-' + version + '.tar'
+}
+distZip {
+	archiveName 'frshsdk-' + version + '.zip'
+}
+
+allprojects {
+  tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xlint:deprecation' << '-Xlint:unchecked'
+  }
+}
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+  maven { url "https://jitpack.io" }
+}
+
+dependencies {
+  compile 'org.slf4j:slf4j-nop:1.7.12',
+    'org.wiztools.commons:wiztools-commons-lib:0.4.1',
+    'org.wiztools:app-update:0.2.0'
+  testCompile 'junit:junit:4.+',
+    'org.eclipse.jetty:jetty-server:9.3.+'
+}
+
+test {
+  systemProperties = [FRSH_HOME: 'src/dist']
+}

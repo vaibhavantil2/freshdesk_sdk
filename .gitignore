@@ -1,0 +1,14 @@
+/target
+/build
+**/build
+/release
+/bin
+/gen
+/data
+/logs/
+**/*.log
+.gradle
+
+/sdk/nbproject/
+
+/.nb-gradle/
