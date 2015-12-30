@@ -20,6 +20,12 @@ Same command in Windows:
 
 It is recommended to add the above commands to startup scripts in your system, so that you don't have to set this command every time you open a new shell.
 
+## Updating SDK to the latest version
+
+To check for, and install new versions, use the command:
+
+    $ frsh-update
+
 ## Running
 
 Once the PATH is set, in your commandline:
