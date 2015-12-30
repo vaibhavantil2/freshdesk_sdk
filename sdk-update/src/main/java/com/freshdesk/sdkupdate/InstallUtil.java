@@ -39,6 +39,9 @@ public class InstallUtil implements Rollbackable {
             System.out.println("Updating links...");            
             File installedDir = new File(destDir, installedDirName);
             latestLink = createLatestLink(installedDir);
+            
+            // Feedback:
+            System.out.println("Successfully installed.");
         }
         catch(IOException ex) {
             throw new SdkUpdateException(ex);

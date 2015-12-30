@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import me.tongfei.progressbar.ProgressBar;
 import org.wiztools.commons.SystemProperty;
 
 /**
@@ -31,24 +32,21 @@ public class DownloadUtil implements Rollbackable {
         try {
             URLConnection con = new URL(url).openConnection();
             con.connect();
+            final int totalLen = con.getContentLength();
+            ProgressBar pb = new ProgressBar("Downloading", totalLen);
+            pb.start();
             try(
                     InputStream is = con.getInputStream();
                     OutputStream os = new FileOutputStream(dlFile);
                     ) {
                 byte[] buf = new byte[1024*5];
                 int len;
-                final int maxLoop = 80; // Prints a `.` once in every maxLoop
-                int i = 0;
                 while((len=is.read(buf)) != -1) {
                     os.write(buf, 0, len);
                     
-                    // Print feedback:
-                    if(i++ == maxLoop) {
-                        i = 0;
-                        System.out.print(".");
-                    }
+                    pb.stepBy(len);
                 }
-                System.out.println("."); // Print newline after all the dots!
+                pb.stop();
             }
             return dlFile;
         }
