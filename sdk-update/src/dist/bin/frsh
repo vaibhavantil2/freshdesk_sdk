@@ -16,6 +16,7 @@ if [ -e "$FRSH_HOME/config/first_install" ]; then
   source "$FRSH_HOME/config/first_install" # load the version variable from here
   if [ ! -e "$FRSH_HOME/sdk/latest" ]; then
     ln -s "$FRSH_HOME/sdk/frsh-$version" "$FRSH_HOME/sdk/latest"
+    chmod +x "$FRSH_HOME/sdk/latest/bin/frsh"
   fi
   rm -f "$FRSH_HOME/config/first_install"
 fi
