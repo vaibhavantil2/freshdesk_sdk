@@ -1,7 +1,11 @@
 task pkg {
+  file("${buildDir}/config").mkdirs()
+  file("${buildDir}/config/first_install").text = "version=${version}"
+
   ant.zip(destfile: "${buildDir}/distributions/frshsdk-${version}.zip") {
     zipfileset(src: "sdk-update/build/distributions/frshsdk-${version}.zip")
     zipfileset(src: "sdk/build/distributions/frsh-${version}.zip",
       prefix: "frshsdk-${version}/sdk")
+    zipfileset(dir: "${buildDir}/config", prefix: "frshsdk-${version}/config")
   }
 }

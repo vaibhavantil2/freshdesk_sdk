@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 if [ -z "$FRSH_HOME" ]; then
   echo "Please set the FRSH_HOME environment variable."
   exit 1
@@ -8,6 +10,14 @@ fi
 if [ ! -d "$FRSH_HOME" ]; then
   echo "FRSH_HOME is not a dir."
   exit 1
+fi
+
+if [ -e "$FRSH_HOME/config/first_install" ]; then
+  source "$FRSH_HOME/config/first_install" # load the version variable from here
+  if [ ! -e "$FRSH_HOME/sdk/latest" ]; then
+    ln -s "$FRSH_HOME/sdk/frsh-$version" "$FRSH_HOME/sdk/latest"
+  fi
+  rm -f "$FRSH_HOME/config/first_install"
 fi
 
 if [ ! -x "$FRSH_HOME/sdk/latest/bin/frsh" ]; then
