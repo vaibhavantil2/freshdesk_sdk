@@ -57,6 +57,10 @@ public class SdkUpdateMain {
             System.err.println("Rollback complete. Try fixing the error.");
         }
         finally {
+            // Cleanup must happen in reverse order:
+            Collections.reverse(cleanables);
+            
+            // Now clean:
             cleanables.stream().forEach((c) -> {
                 try {
                     c.clean();

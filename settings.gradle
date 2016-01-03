@@ -1,3 +1,2 @@
-// include 'common'
 include 'sdk'
 include 'sdk-update'
