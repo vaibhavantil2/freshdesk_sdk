@@ -1,0 +1,7 @@
+task pkg {
+  ant.zip(destfile: "${buildDir}/distributions/frshsdk-${version}.zip") {
+    zipfileset(src: "sdk-update/build/distributions/frshsdk-${version}.zip")
+    zipfileset(src: "sdk/build/distributions/frsh-${version}.zip",
+      prefix: "frshsdk-${version}/sdk")
+  }
+}
