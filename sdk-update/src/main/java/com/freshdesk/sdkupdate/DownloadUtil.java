@@ -8,24 +8,30 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
 import me.tongfei.progressbar.ProgressBar;
-import org.wiztools.commons.SystemProperty;
 
 /**
  *
  * @author subhash
  */
-public class DownloadUtil implements Rollbackable {
+public class DownloadUtil implements Rollbackable, Cleanable {
     
     private final String url;
+    private final File dlDir;
     private final File dlFile;
     
     public DownloadUtil(String url) {
         this.url = url;
         final String fileName = url.substring(url.lastIndexOf('/'));
-        dlFile = new File(
-                    new File(SystemProperty.tmpDir),
-                    fileName);
+        
+        try {
+            dlDir = Files.createTempDirectory("frsh-").toFile();
+            dlFile = new File(dlDir, fileName);
+        }
+        catch(IOException ex) {
+            throw new SdkUpdateException(ex);
+        }
     }
     
     public File download() {
@@ -60,8 +66,25 @@ public class DownloadUtil implements Rollbackable {
 
     @Override
     public void rollback() {
-        if(dlFile != null && dlFile.exists()) {
-            dlFile.delete();
+        clean();
+    }
+
+    @Override
+    public void clean() {
+        // dlFile:
+        try {
+            if(dlFile.exists()) Files.delete(dlFile.toPath());
+        }
+        catch(IOException ex) {
+            throw new SdkUpdateException(ex);
+        }
+        
+        // dlDir:
+        try {
+            if(dlDir.exists()) Files.delete(dlDir.toPath());
+        }
+        catch(IOException ex) {
+            throw new SdkUpdateException(ex);
         }
     }
 }

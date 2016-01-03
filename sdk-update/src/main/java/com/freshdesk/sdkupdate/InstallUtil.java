@@ -28,7 +28,6 @@ public class InstallUtil implements Rollbackable {
             String installedDirName = getNameWithoutExtn(source.getName());
             
             // Unzip:
-            System.out.println("Unzipping...");
             ZipUtil.unzip(source, destDir);
             
             // Set executable permission:
@@ -36,12 +35,8 @@ public class InstallUtil implements Rollbackable {
             frshCmd.setExecutable(true, false); // set +x for all users
             
             // Create symbolic link to `latest`:
-            System.out.println("Updating links...");            
             File installedDir = new File(destDir, installedDirName);
             latestLink = createLatestLink(installedDir);
-            
-            // Feedback:
-            System.out.println("Successfully installed.");
         }
         catch(IOException ex) {
             throw new SdkUpdateException(ex);

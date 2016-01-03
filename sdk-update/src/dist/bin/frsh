@@ -6,7 +6,7 @@ if [ -z "$FRSH_HOME" ]; then
 fi
 
 if [ ! -d "$FRSH_HOME" ]; then
-  echo "FRSH_HOME is not a dir"
+  echo "FRSH_HOME is not a dir."
   exit 1
 fi
 
