@@ -15,19 +15,19 @@ public class UserBean implements java.io.Serializable {
         this.userDetails = (Map<String, Object>) userDetails.get("user");
         setValues();
     }
-    private int id;
+    private long id;
     private String name;
     private String email;
     private boolean active;
 
-    protected  int getId() { return id; }
+    protected long getId() { return id; }
     protected String getName() { return name; }
     protected String getEmail() { return email; }
     protected boolean getActive() { return active; }
     
-    private  void setId() { this.id = Integer.parseInt(getValue("id").toString()); }
+    private void setId() { this.id = Long.parseLong(getValue("id").toString()); }
     private void setName() {this.name = (String) getValue("name"); }
-    private  void setEmail() { this.email = (String) getValue("email"); }
+    private void setEmail() { this.email = (String) getValue("email"); }
     private void  setActive() { this.active = (boolean) getValue("active"); } 
     
     private Object getValue(String in) {
@@ -42,13 +42,16 @@ public class UserBean implements java.io.Serializable {
     }
     
     private Map<String, Object> stripName(Map<String, Object> in) {
-        Map<String, Object> out = new HashMap<>();
-        for(String key : in.keySet()) {
-            if (key.startsWith("cf_")) {
-                out.put(key.split("cf_")[1], in.get(key));
+        Map<String, Object> out = null;
+        if (in != null) {
+            out = new HashMap<>();
+            for(String key : in.keySet()) {
+                if (key.startsWith("cf_")) {
+                    out.put(key.split("cf_")[1], in.get(key));
+                }
             }
         }
-        return out;
+        return out;  
     }
     
     public Map<String, Object> getCustomFields() {
