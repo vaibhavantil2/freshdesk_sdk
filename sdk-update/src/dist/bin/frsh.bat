@@ -17,6 +17,6 @@ IF EXIST "%FRSH_HOME%\config\first_install.bat" (
 
 IF NOT EXIST "%FRSH_HOME%\sdk\latest\bin\frsh.bat" (
   ECHO Installation not complete. Please run 'frsh-update.bat'.
-) else (
+) ELSE (
   "%FRSH_HOME%\sdk\latest\bin\frsh.bat" %*
 )
