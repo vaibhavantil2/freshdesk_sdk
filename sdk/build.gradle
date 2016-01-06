@@ -52,5 +52,8 @@ dependencies {
 }
 
 test {
-  systemProperties = [FRSH_SDK_DEV: 'src/dist']
+  systemProperties = [
+    FRSH_SDK_DEV: 'src/dist',
+    FRSH_HOME: 'src/dist' // dummy value to pass FreshSDKMainTest
+  ]
 }
