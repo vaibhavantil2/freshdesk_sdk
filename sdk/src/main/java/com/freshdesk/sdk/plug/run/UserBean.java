@@ -42,9 +42,8 @@ public class UserBean implements java.io.Serializable {
     }
     
     private Map<String, Object> stripName(Map<String, Object> in) {
-        Map<String, Object> out = null;
+        Map<String, Object> out = new HashMap<>();
         if (in != null) {
-            out = new HashMap<>();
             for(String key : in.keySet()) {
                 if (key.startsWith("cf_")) {
                     out.put(key.split("cf_")[1], in.get(key));
