@@ -1,5 +1,4 @@
 {
-    "version": "1.0",
-    "dl_url": "http://s3.amazonaws.com/freshapps-staging-pub/sdk/frsh-1.0.zip"
+    "version": "0.2.0",
+    "dl_url": "http://s3.amazonaws.com/freshapps-staging-pub/sdk/frsh-0.2.0.zip"
 }
-
