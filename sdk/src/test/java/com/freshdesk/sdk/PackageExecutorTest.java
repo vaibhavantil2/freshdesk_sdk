@@ -50,7 +50,6 @@ public class PackageExecutorTest {
         try {
             String[] args = new String[]{f.getAbsolutePath()};
             InitExecutor init = new InitExecutor();
-            init.arguments = Arrays.asList(new String[]{"plug"});
             init.init(f);
             init.execute();
             

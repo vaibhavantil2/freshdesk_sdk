@@ -15,7 +15,6 @@ import org.wiztools.commons.ZipUtil;
 public class InitExecutor extends AbstractInitExecutor {
     
     private static final String PLUG_TEMPLATE = "plug-template.zip";
-    private static final String APP_TEMPLATE = "app-template.zip";
     
     @Arguments
     public List<String> arguments;
@@ -26,10 +25,6 @@ public class InitExecutor extends AbstractInitExecutor {
         return type == ExtnType.PLUG;
     }
     
-    private boolean isAppProject() {
-        return type == ExtnType.APP;
-    }
-    
     private String tmpl;
     private File prjDir;
     
@@ -37,33 +32,17 @@ public class InitExecutor extends AbstractInitExecutor {
     public void init(File dir) {
         super.init(dir);
         
-        // Validate command arguments:
-        if(arguments == null) {
+        if((arguments != null) && (arguments.size() > 1)) {
             throw new SdkException(ExitStatus.INVALID_PARAM,
-                    "What type to init? Give plug / app as parameter.");
-        }
-        if(arguments.size() > 2) {
-            throw new SdkException(ExitStatus.INVALID_PARAM,
-                    "init command takes atmost 2 parameters: type and foldername (optional).");
+                    "init command takes atmost 1 parameter: foldername (optional).");
         }
 
         // Project type determination:
-        final String typeStr = arguments.get(0);
-        switch(typeStr) {
-            case "plug":
-                type = ExtnType.PLUG;
-                break;
-            case "app":
-                type = ExtnType.APP;
-                break;
-            default:
-                throw new SdkException(ExitStatus.INVALID_PARAM,
-                        "init type not recognized: " + typeStr);
-        }
+        type = ExtnType.PLUG;
         
         // Project dir determination & validations:
-        if(arguments.size() == 2) {
-            String folderName = arguments.get(1);
+        if((arguments != null) && (arguments.size() == 1)) {
+            String folderName = arguments.get(0);
             prjDir = new File(folderName);
         }
         else {
@@ -85,9 +64,6 @@ public class InitExecutor extends AbstractInitExecutor {
         // Execute lifecycle:
         if(isPlugProject()) {
             tmpl = PLUG_TEMPLATE;
-        }
-        else if(isAppProject()) {
-            tmpl = APP_TEMPLATE;
         }
     }
 

@@ -36,27 +36,6 @@ public class InitExecutorTest {
     public void tearDown() {
         
     }
-
-    /**
-     * Test of execute method, of class InitAppExecutor.
-     */
-    @Test
-    public void testExecuteforApp() throws Exception {
-        System.out.println("execute");
-        final File prjDir = File.createTempFile("fa_", "_tc");
-        prjDir.delete();
-        prjDir.mkdirs();
-        InitExecutor instance = new InitExecutor();
-        instance.arguments = Arrays.asList(new String[]{"plug"});
-        instance.init(prjDir);
-        instance.execute();
-        if (prjDir.exists()) {
-            FileUtils.deleteDirectory(prjDir);
-        }
-        else {
-            fail("init-app failed.");
-        }
-    }
     
     /**
      * Test of execute method, of class InitAppExecutor.
@@ -68,7 +47,6 @@ public class InitExecutorTest {
         prjDir.delete();
         prjDir.mkdirs();
         InitExecutor instance = new InitExecutor();
-        instance.arguments = Arrays.asList(new String[]{"plug"});
         instance.init(prjDir);
         instance.execute();
         if (prjDir.exists()) {

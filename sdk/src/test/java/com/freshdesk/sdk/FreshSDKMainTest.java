@@ -34,34 +34,6 @@ public class FreshSDKMainTest {
     @After
     public void tearDown() {
     }
-
-    /**
-     * Test of main method, of class FreshSDKMain.
-     */
-    // @Test TBD commenting for App development!
-    public void testMainforApp() throws IOException {
-        System.out.println("main");
-        
-        // init-app:
-        final File prjDir = File.createTempFile("fa_", "_tc");
-        prjDir.delete();
-        String dir = prjDir.getAbsolutePath();
-        String[] args = new String[]{"init", "app", dir};
-        FreshSDKMain.main(args);
-        if (prjDir.exists()) {
-            FileUtils.deleteDirectory(prjDir);
-        }
-        else {
-            fail("init app failed.");
-        }
-        
-        // help:
-        FreshSDKMain.main(new String[]{"help"});
-        
-        // invalid input: TBD
-        args[0] = "testdefault";
-        // FreshSDKMain.main(args);
-    }
     
     /**
      * Test of main method, of class FreshSDKMain.
@@ -74,7 +46,7 @@ public class FreshSDKMainTest {
         final File prjDir = File.createTempFile("fa_", "_tc");
         prjDir.delete();
         String dir = prjDir.getAbsolutePath();
-        String[] args = new String[]{"init", "plug", dir};
+        String[] args = new String[]{"init", dir};
         FreshSDKMain.main(args);
         if (prjDir.exists()) {
             FileUtils.deleteDirectory(prjDir);

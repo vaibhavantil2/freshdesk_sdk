@@ -50,7 +50,6 @@ public class CleanExecutorTest {
         
         try {
             InitExecutor init = new InitExecutor();
-            init.arguments = Arrays.asList(new String[]{"plug"});
             init.init(f);
             init.execute();
             
