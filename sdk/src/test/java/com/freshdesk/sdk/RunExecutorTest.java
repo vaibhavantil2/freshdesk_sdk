@@ -47,6 +47,7 @@ public class RunExecutorTest {
         prjDir.mkdirs();
         
         InitExecutor inst1 = new InitExecutor();
+        inst1.arguments = Arrays.asList(new String[]{"plug"});
         inst1.init(prjDir);
         inst1.execute();
         

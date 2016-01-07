@@ -1,6 +1,5 @@
 package com.freshdesk.sdk;
 
-import com.freshdesk.sdk.InitExecutor;
 import java.io.File;
 import java.util.Arrays;
 import org.apache.commons.io.FileUtils;
@@ -47,6 +46,7 @@ public class InitExecutorTest {
         prjDir.delete();
         prjDir.mkdirs();
         InitExecutor instance = new InitExecutor();
+        instance.arguments = Arrays.asList(new String[]{"plug"});
         instance.init(prjDir);
         instance.execute();
         if (prjDir.exists()) {

@@ -46,7 +46,7 @@ public class FreshSDKMainTest {
         final File prjDir = File.createTempFile("fa_", "_tc");
         prjDir.delete();
         String dir = prjDir.getAbsolutePath();
-        String[] args = new String[]{"init", dir};
+        String[] args = new String[]{"init", "plug", dir};
         FreshSDKMain.main(args);
         if (prjDir.exists()) {
             FileUtils.deleteDirectory(prjDir);

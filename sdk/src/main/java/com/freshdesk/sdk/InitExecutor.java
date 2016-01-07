@@ -32,17 +32,31 @@ public class InitExecutor extends AbstractInitExecutor {
     public void init(File dir) {
         super.init(dir);
         
-        if((arguments != null) && (arguments.size() > 1)) {
+        if(arguments == null) {
             throw new SdkException(ExitStatus.INVALID_PARAM,
-                    "init command takes atmost 1 parameter: foldername (optional).");
+                    "What type to init? Give plug as parameter.");
+        }
+        
+        if((arguments != null) && (arguments.size() > 2)) {
+            throw new SdkException(ExitStatus.INVALID_PARAM,
+                    "init command takes atmost 2 parameters: type and foldername (optional).");
         }
 
         // Project type determination:
-        type = ExtnType.PLUG;
+        final String typeStr = arguments.get(0);
+        switch(typeStr) {
+            case "plug":
+                type = ExtnType.PLUG;
+                break;
+            default:
+                throw new SdkException(ExitStatus.INVALID_PARAM,
+                        "init type not recognized: " + typeStr);
+        }
+
         
         // Project dir determination & validations:
-        if((arguments != null) && (arguments.size() == 1)) {
-            String folderName = arguments.get(0);
+        if(arguments.size() == 2) {
+            String folderName = arguments.get(1);
             prjDir = new File(folderName);
         }
         else {
