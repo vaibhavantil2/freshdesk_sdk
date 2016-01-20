@@ -1,0 +1,11 @@
+def sdkTmplDir = 'src/dist/template'
+def tmplSrcDir = 'template'
+def plugTmplOutFile = "${sdkTmplDir}/plug-template.zip"
+
+task pkg {
+  ant.zip(destfile: "${plugTmplOutFile}", basedir: "${tmplSrcDir}/plug")
+}
+
+// task clean {
+//   ant.delete(file: plugTmplOutFile)
+// }
