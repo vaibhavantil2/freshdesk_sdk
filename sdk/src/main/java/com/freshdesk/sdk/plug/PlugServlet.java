@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.wiztools.appupdate.Version;
 import org.wiztools.appupdate.VersionImpl;
 import static java.nio.charset.StandardCharsets.*;
-import org.wiztools.commons.FileUtil;
 import org.wiztools.commons.StreamUtil;
 import org.wiztools.commons.StringUtil;
 
@@ -73,7 +72,6 @@ public class PlugServlet extends SuperServlet {
 
         final File prjDir = new File(".");
         final File libDir = new File(prjDir, "lib");
-        final File indexPage = new File(libDir, "index.html");
         final ManifestContents manifest = new ManifestContents(prjDir);
 
         String body = StreamUtil.inputStream2String(req.getInputStream(), UTF_8);
@@ -118,30 +116,22 @@ public class PlugServlet extends SuperServlet {
                     .addExisting(currentUserDetails)
                     .addInstallationParams(ipc.getIParams()).build();
 
-            if(indexPage.exists() && indexPage.isFile() && indexPage.canRead()) {
-                final String fileContents = FileUtil.getContentAsString(
-                        indexPage, manifest.getCharset());
-
-                TemplateRendererSdk renderer = new TemplateRendererSdk()
-                        .registerFilter(new FilterAssetURLPlug(prjDir));
-                String finalOutput = renderer.renderString(fileContents, renderParams);
-                if(trace) {
-                    System.out.println("### Plug response:\n");
-                    System.out.println(finalOutput);
-                    System.out.println();
-                }
-                
-                // To avoid SSL mixed-content warning:
-                MixedContentUtil.allowedOrigin(resp, "*");
-                
-                try(OutputStream os = resp.getOutputStream()) {
-                    os.write(finalOutput.getBytes());
-                    os.flush();
-                }
+            String consolidatedResponse = new PlugResponse(libDir, manifest).getPlugResponse();
+            TemplateRendererSdk renderer = new TemplateRendererSdk()
+                    .registerFilter(new FilterAssetURLPlug(prjDir));
+            String finalOutput = renderer.renderString(consolidatedResponse, renderParams);
+            if(trace) {
+                System.out.println("### Plug response:\n");
+                System.out.println(finalOutput);
+                System.out.println();
             }
-            else {
-                System.err.println("index.html not found!");
-                resp.sendError(HttpServletResponse.SC_NOT_FOUND, "index.html not found");
+
+            // To avoid SSL mixed-content warning:
+            MixedContentUtil.allowedOrigin(resp, "*");
+
+            try(OutputStream os = resp.getOutputStream()) {
+                os.write(finalOutput.getBytes());
+                os.flush();
             }
         }
         catch(FAException ex) {
