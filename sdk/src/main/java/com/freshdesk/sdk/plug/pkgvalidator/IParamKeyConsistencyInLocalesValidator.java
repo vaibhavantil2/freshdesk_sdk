@@ -28,7 +28,7 @@ public class IParamKeyConsistencyInLocalesValidator extends BasePrePkgValidator 
             
             if(!first.equals(current)) {
                 throw new SdkException(ExitStatus.CORRUPT_IPARAM,
-                        "Inconsistent keys detected in `iparam_??.yml` files.");
+                        "Inconsistent keys detected between `iparam_??.yml` files.");
             }
         }
     }
