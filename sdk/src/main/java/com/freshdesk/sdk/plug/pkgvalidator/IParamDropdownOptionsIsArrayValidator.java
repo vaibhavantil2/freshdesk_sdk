@@ -26,8 +26,10 @@ public class IParamDropdownOptionsIsArrayValidator extends BasePrePkgValidator {
                         Object type = ((Map<String, Object>) v).get("type");
                         if("dropdown".equals(type)) {
                             if(!(((Map<String, Object>) v).get("options") instanceof List)) {
+                                String msg = String.format(
+                                        "Dropdown `options` in `iparam_%s.yml` is not a List.", l);
                                 throw new SdkException(ExitStatus.CORRUPT_IPARAM,
-                                    "`options` in `iparam_??.yml` is not a List.");
+                                    msg);
                             }
                         }
                     }
