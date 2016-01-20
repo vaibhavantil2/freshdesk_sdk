@@ -16,21 +16,22 @@ public class IParamDropdownOptionsIsArrayValidator extends BasePrePkgValidator {
 
     @Override
     public void validate() throws SdkException {
-        if(iparamConfig != null) {
-            for(String l: iparamConfig.getConfigLangs()) {
-                Map<String, Object> ips = iparamConfig.getConfig(l);
-                for(Map.Entry<String, Object> e: ips.entrySet()) {
-                    String k = e.getKey();
-                    Object v = e.getValue();
-                    if(v instanceof Map) {
-                        Object type = ((Map<String, Object>) v).get("type");
-                        if("dropdown".equals(type)) {
-                            if(!(((Map<String, Object>) v).get("options") instanceof List)) {
-                                String msg = String.format(
-                                        "Dropdown `options` in `iparam_%s.yml` is not a List.", l);
-                                throw new SdkException(ExitStatus.CORRUPT_IPARAM,
-                                    msg);
-                            }
+        if(iparamConfig == null) {
+            return;
+        }
+        for(String l: iparamConfig.getConfigLangs()) {
+            Map<String, Object> ips = iparamConfig.getConfig(l);
+            for(Map.Entry<String, Object> e: ips.entrySet()) {
+                String k = e.getKey();
+                Object v = e.getValue();
+                if(v instanceof Map) {
+                    Object type = ((Map<String, Object>) v).get("type");
+                    if("dropdown".equals(type)) {
+                        if(!(((Map<String, Object>) v).get("options") instanceof List)) {
+                            String msg = String.format(
+                                    "Dropdown `options` in `iparam_%s.yml` is not a List.", l);
+                            throw new SdkException(ExitStatus.CORRUPT_IPARAM,
+                                msg);
                         }
                     }
                 }
