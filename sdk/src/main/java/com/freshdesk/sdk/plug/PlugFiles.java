@@ -22,4 +22,12 @@ public enum PlugFiles {
                 throw new FAException("Invalid Plug File.");
         }
     }  
+    
+    public static String[] getAllFiles() {
+        return new String[] {
+            toString(HTML),
+            toString(CSS),
+            toString(JS)
+        };
+    }
 }
