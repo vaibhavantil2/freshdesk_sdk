@@ -10,6 +10,7 @@ public abstract class AbstractProjectExecutor extends BaseCommandExecutor {
     
     protected File prjDir;
     protected ManifestContents manifest;
+    protected IParamConfig iparamConfig;
     protected IParamContents iparams;
     protected ExtnType extnType;
 
@@ -31,7 +32,15 @@ public abstract class AbstractProjectExecutor extends BaseCommandExecutor {
         // Extension type:
         extnType = manifest.getPackageType();
         
-        // IParams:
+        // IParam Config:
+        try {
+            iparamConfig = new IParamConfig(prjDir, manifest.getCharset());
+        }
+        catch(FAException ex) {
+            throw new SdkException(ExitStatus.CORRUPT_IPARAM, ex.getMessage());
+        }
+        
+        // IParam Data:
         try {
             iparams = new IParamContents(prjDir, manifest.getCharset());
         }

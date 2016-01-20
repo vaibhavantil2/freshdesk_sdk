@@ -50,76 +50,10 @@ public final class YamlUtil {
             final Map<String, Object> yamlObj = (Map<String, Object>) yaml.load(reader);
             if(yamlObj != null) {
                 return yamlObj.entrySet().stream().collect(
-                    Collectors.toMap(
-                            e -> e.getKey(), e -> e.getValue().toString()));
+                        Collectors.toMap(
+                                e -> e.getKey(), e -> e.getValue().toString()));
             }
             return Collections.EMPTY_MAP;
         }
     }
-    
-    public static void validate(final File yamlFile, Charset c) throws FileNotFoundException, IOException {
-        if((!yamlFile.exists()) || (!yamlFile.canRead())) {
-            throw new FileNotFoundException("yamlFile not found: " + yamlFile.getAbsolutePath());
-        }
-        
-        final Yaml yaml = new Yaml();
-        try (final Reader reader = new InputStreamReader(
-                new FileInputStream(yamlFile), c)) {
-            final Map<String, Object> yamlObj = (Map<String, Object>) yaml.load(reader);
-            if(yamlObj == null) {
-                LOGGER.info("Ignoring empty iparam file");
-                return;
-            }
-            final Map<String, Object> innerFields = (Map<String, Object>)yamlObj.get("iparam");
-            if(innerFields != null) {
-                for(final Map.Entry<String, Object> e: innerFields.entrySet()) {
-                    if(!validateYaml((Map<String, Object>) e.getValue())) {
-                        throw new FAException("Yaml file not valid" + yamlFile.getName());
-                    }
-                }
-            }
-            else {
-                throw new FAException("Yaml file not valid " + yamlFile.getName());
-            }
-        }
-    }
-    
-    private static boolean validateYaml(final Map<String, Object> obj) throws IOException {
-         if(checkMandatoryFields(obj)) {
-            for(final String key : obj.keySet()) {
-                if(Arrays.binarySearch(ALL_FIELDS, key) < 0) {
-                    throw new FAException("Invalid field " + key + " encountered in Installation Params " + obj.toString());
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-    
-    private static boolean checkMandatoryFields(final Map<String, Object> obj) {
-        final String[] mandatoryFields = MANDATORY_FIELDS;
-        for(final String field : mandatoryFields) {
-            if(!obj.containsKey(field)) {
-                return false;
-            }
-        }
-        return validateFieldType(obj.get("type").toString(), obj);
-    }
-    
-    private static boolean validateFieldType(final String fieldType, final Map<String, Object> obj) {
-        switch(fieldType) {
-            case "text" : 
-                break;
-            case "dropdown" :
-                final Object options = obj.get("options");
-                if(options == null) {
-                    return false;
-                }
-                break;
-            default :
-                throw new FAException("Invalid Field Type : " + fieldType);
-        }
-        return true;
-    }
-    
 }

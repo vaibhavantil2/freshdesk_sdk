@@ -24,6 +24,7 @@ public class ValidateExecutor extends AbstractProjectExecutor {
             // Instantiate:
             validator.setPrjDir(prjDir);
             validator.setManifest(manifest);
+            validator.setIparamConfig(iparamConfig);
             validator.setIParam(iparams);
             
             // Now validate:

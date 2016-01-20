@@ -29,12 +29,13 @@ public class PackageExecutor extends AbstractProjectExecutor {
                         "Dir creation failed: " + distDir.getName());
             }
         }
-        
+
         // 1. Run pre-package validations:
         for(PrePkgValidator validator: getPrePkgValidators()) {
             // Instantiate:
             validator.setPrjDir(prjDir);
             validator.setManifest(manifest);
+            validator.setIparamConfig(iparamConfig);
             validator.setIParam(iparams);
             
             // Now validate:
