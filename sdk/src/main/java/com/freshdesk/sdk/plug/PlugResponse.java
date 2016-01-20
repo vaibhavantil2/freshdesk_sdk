@@ -63,9 +63,9 @@ public class PlugResponse {
         StringBuilder sb = new StringBuilder();
         final String jsContents = getFileContent(jsFile);
         sb.append("<script type='text/javascript'>\n");
-        sb.append("Freshapp.run(function() {\n")
+        sb.append("var plugCodeTest = ")
                 .append(jsContents)
-                .append("\n});\n")
+                .append("Freshapp.run(plugCodeTest.init());\n")
                 .append("</script>");
         return sb.toString();
     }
