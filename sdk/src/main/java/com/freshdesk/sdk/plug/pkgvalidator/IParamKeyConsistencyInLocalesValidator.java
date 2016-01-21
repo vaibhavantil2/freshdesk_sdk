@@ -12,23 +12,34 @@ import java.util.Set;
  */
 @PrePackageValidator
 public class IParamKeyConsistencyInLocalesValidator extends BasePrePkgValidator {
+    
+    private static final String ERR_MSG = "Inconsistent keys detected between `iparam_??.yml` files.";
 
     @Override
     public void validate() throws SdkException {
         if(iparamConfig == null) {
             return;
         }
+        
+        boolean isFirst = true;
         Set first = null;
         for(String l: iparamConfig.getConfigLangs()) {
             Set current = iparamConfig.getConfig(l).keySet();
-            if(first == null) {
+            if(isFirst) {
+                isFirst = false;
                 first = current;
                 continue;
             }
             
-            if(!first.equals(current)) {
-                throw new SdkException(ExitStatus.CORRUPT_IPARAM,
-                        "Inconsistent keys detected between `iparam_??.yml` files.");
+            // Check for equality:
+            if((first == null && current == null)) {
+                continue;
+            }
+            if((first != null) && (!first.equals(current))) {
+                throw new SdkException(ExitStatus.CORRUPT_IPARAM, ERR_MSG);
+            }
+            if((current != null) && (!current.equals(first))) {
+                throw new SdkException(ExitStatus.CORRUPT_IPARAM, ERR_MSG);
             }
         }
     }
