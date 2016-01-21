@@ -14,7 +14,7 @@ import java.util.Map;
 @PrePackageValidator
 public class IParamDropdownOptionsIsArrayValidator extends BasePrePkgValidator {
     
-    private static final String ERR_MSG = "Dropdown `options` in `iparam_%s.yml` is given as string. Must be a list.";
+    private static final String ERR_MSG = "Dropdown `options` in `iparam_%s.yml` is not a list.";
 
     @Override
     public void validate() throws SdkException {
