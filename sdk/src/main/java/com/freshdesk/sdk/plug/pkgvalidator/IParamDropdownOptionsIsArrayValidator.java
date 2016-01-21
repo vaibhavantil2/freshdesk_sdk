@@ -14,7 +14,7 @@ import java.util.Map;
 @PrePackageValidator
 public class IParamDropdownOptionsIsArrayValidator extends BasePrePkgValidator {
     
-    private static final String ERR_MSG = "Dropdown `options` in `iparam_%s.yml` is not a list.";
+    private static final String ERR_MSG = "Dropdown `options` for key `%s` in `iparam_%s.yml` is not a list.";
 
     @Override
     public void validate() throws SdkException {
@@ -24,6 +24,7 @@ public class IParamDropdownOptionsIsArrayValidator extends BasePrePkgValidator {
         for(String l: iparamConfig.getConfigLangs()) {
             Map<String, Object> ips = iparamConfig.getConfig(l);
             for(Map.Entry<String, Object> e: ips.entrySet()) {
+                Object k = e.getKey();
                 Object v = e.getValue();
                 
                 if(v instanceof Map) {
@@ -33,7 +34,7 @@ public class IParamDropdownOptionsIsArrayValidator extends BasePrePkgValidator {
                     Object type = value.get("type");
                     if("dropdown".equals(type)) {
                         if(!(value.get("options") instanceof List)) {
-                            String msg = String.format(ERR_MSG, l);
+                            String msg = String.format(ERR_MSG, k, l);
                             throw new SdkException(
                                     ExitStatus.CORRUPT_IPARAM, msg);
                         }
