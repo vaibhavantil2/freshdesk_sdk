@@ -90,8 +90,10 @@ public class PlugServlet extends SuperServlet {
         
         try {
             Map<String, Object> urlBody = JsonUtil.jsonToMap(body);
+            @SuppressWarnings("unchecked")
             Map<String, Object> pageParams = (Map<String, Object>)urlBody
                     .get("pageParams");
+            @SuppressWarnings("unchecked")
             Map<String, Object> requester = (Map<String, Object>)urlBody
                     .get("requester");
             String pgStr = (String) urlBody.get("page");

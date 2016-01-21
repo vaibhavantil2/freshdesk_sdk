@@ -13,6 +13,8 @@ import java.util.Map;
  */
 @PrePackageValidator
 public class IParamDropdownOptionsIsArrayValidator extends BasePrePkgValidator {
+    
+    private static final String ERR_MSG = "Dropdown `options` in `iparam_%s.yml` is given as string. Must be a list.";
 
     @Override
     public void validate() throws SdkException {
@@ -22,16 +24,18 @@ public class IParamDropdownOptionsIsArrayValidator extends BasePrePkgValidator {
         for(String l: iparamConfig.getConfigLangs()) {
             Map<String, Object> ips = iparamConfig.getConfig(l);
             for(Map.Entry<String, Object> e: ips.entrySet()) {
-                String k = e.getKey();
                 Object v = e.getValue();
+                
                 if(v instanceof Map) {
-                    Object type = ((Map<String, Object>) v).get("type");
+                    @SuppressWarnings("unchecked")
+                    Map<String, Object> value = (Map<String, Object>) v;
+                    
+                    Object type = value.get("type");
                     if("dropdown".equals(type)) {
-                        if(!(((Map<String, Object>) v).get("options") instanceof List)) {
-                            String msg = String.format(
-                                    "Dropdown `options` in `iparam_%s.yml` is not a List.", l);
-                            throw new SdkException(ExitStatus.CORRUPT_IPARAM,
-                                msg);
+                        if(!(value.get("options") instanceof List)) {
+                            String msg = String.format(ERR_MSG, l);
+                            throw new SdkException(
+                                    ExitStatus.CORRUPT_IPARAM, msg);
                         }
                     }
                 }

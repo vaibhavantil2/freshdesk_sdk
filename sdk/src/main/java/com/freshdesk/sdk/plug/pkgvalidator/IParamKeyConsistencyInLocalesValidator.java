@@ -13,7 +13,7 @@ import java.util.Set;
 @PrePackageValidator
 public class IParamKeyConsistencyInLocalesValidator extends BasePrePkgValidator {
     
-    private static final String ERR_MSG = "Inconsistent keys detected between `iparam_??.yml` files.";
+    private static final String ERR_MSG = "Inconsistent keys detected among `iparam_??.yml` files.";
 
     @Override
     public void validate() throws SdkException {

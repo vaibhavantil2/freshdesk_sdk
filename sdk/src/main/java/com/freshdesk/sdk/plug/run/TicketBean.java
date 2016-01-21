@@ -20,6 +20,7 @@ public class TicketBean implements java.io.Serializable {
     private static final DateFormat HELPKIT_DATE_FORMAT = new SimpleDateFormat(
             "MMMMM dd yyyy 'at' hh:mm a");
     
+    @SuppressWarnings("unchecked")
     private final Map<String, Object> ticketDetails;
     
     private final String ticketId;
@@ -94,6 +95,7 @@ public class TicketBean implements java.io.Serializable {
         return out;
     }
     
+    @SuppressWarnings("unchecked")
     public Map<String, Object> getCustomFields() {
         return this.stripName((Map<String, Object>)ticketDetails.get("custom_field"));
     }

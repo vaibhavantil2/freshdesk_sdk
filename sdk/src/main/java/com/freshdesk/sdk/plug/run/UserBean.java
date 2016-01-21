@@ -9,8 +9,10 @@ import java.util.Map;
  */
 public class UserBean implements java.io.Serializable {
     
+    @SuppressWarnings("unchecked")
     protected Map<String, Object> userDetails;
     
+    @SuppressWarnings("unchecked")
     public UserBean(Map<String, Object> userDetails) {
         this.userDetails = (Map<String, Object>) userDetails.get("user");
         setValues();
@@ -53,6 +55,7 @@ public class UserBean implements java.io.Serializable {
         return out;  
     }
     
+    @SuppressWarnings("unchecked")
     public Map<String, Object> getCustomFields() {
         return stripName((Map<String, Object>) userDetails.get("custom_field"));
     }

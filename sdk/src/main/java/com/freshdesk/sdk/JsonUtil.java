@@ -23,7 +23,7 @@ public final class JsonUtil {
     
     public static Map<String, Object> jsonToMap(final String jsonStr) {
         if(StringUtil.isEmpty(jsonStr)) {
-            return Collections.EMPTY_MAP;
+            return Collections.emptyMap();
         }
         
         Map<String, Object> out = new HashMap<>();
