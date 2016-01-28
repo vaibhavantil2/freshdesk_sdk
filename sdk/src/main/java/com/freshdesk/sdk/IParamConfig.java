@@ -45,14 +45,11 @@ public class IParamConfig {
         try (final Reader reader = new InputStreamReader(
                 new FileInputStream(f), c)) {
             final Yaml yaml = new Yaml();
-            @SuppressWarnings("unchecked")
-            final Map<String, Object> m = (Map<String, Object>) yaml.load(reader);
             
-            if(m != null) {
-                @SuppressWarnings("unchecked")
-                Map<String, Object> d = (Map<String, Object>) m.get("iparam");
-                if(d != null) return d;
-            }
+            @SuppressWarnings("unchecked")
+            final Map<String, Object> d = (Map<String, Object>) yaml.load(reader);
+            if(d != null) return d;
+            
             return Collections.emptyMap();
         }
     }
