@@ -62,10 +62,8 @@ public class PlugResponse {
     private String getJsContent() throws IOException {
         StringBuilder sb = new StringBuilder();
         final String jsContents = getFileContent(jsFile);
-        sb.append("<script type='text/javascript'>\n");
-        sb.append("var plugCodeTest = ")
-                .append(jsContents)
-                .append("Freshapp.run(plugCodeTest.init());\n")
+        sb.append("<script type='text/javascript'>\n")
+                .append("Freshapp.run(function() {"+  jsContents +"});\n")
                 .append("</script>");
         return sb.toString();
     }
