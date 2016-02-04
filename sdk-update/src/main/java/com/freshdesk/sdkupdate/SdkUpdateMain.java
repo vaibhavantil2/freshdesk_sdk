@@ -26,7 +26,7 @@ public class SdkUpdateMain {
 
                 File downloaded = dlu.download();
                 System.out.println("File downloaded. Installing...");
-                InstallUtil inu = new InstallUtil(downloaded, Constants.SDK_DIR);
+                InstallUtil inu = new InstallUtil(downloaded, Constants.SDK_DIR, latest);
                 rollbackables.add(inu);
                 inu.install();
                 

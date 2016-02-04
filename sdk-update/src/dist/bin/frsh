@@ -12,17 +12,11 @@ if [ ! -d "$FRSH_HOME" ]; then
   exit 1
 fi
 
-if [ -e "$FRSH_HOME/config/first_install" ]; then
-  source "$FRSH_HOME/config/first_install" # load the version variable from here
-  if [ ! -e "$FRSH_HOME/sdk/latest" ]; then
-    ln -s "$FRSH_HOME/sdk/frsh-$version" "$FRSH_HOME/sdk/latest"
-  fi
-  rm -f "$FRSH_HOME/config/first_install"
-fi
-
-if [ ! -x "$FRSH_HOME/sdk/latest/bin/frsh" ]; then
-  echo "Installation not complete. Please run 'frsh-update'."
+if [ -e "$FRSH_HOME/config/exec_version" ]; then
+  source "$FRSH_HOME/config/exec_version" # load the `version` variable from here
+else
+  echo "Installation corrupted. Please reinstall."
   exit 1
 fi
 
-$FRSH_HOME/sdk/latest/bin/frsh $*
+$FRSH_HOME/sdk/frsh-${version}/bin/frsh $*

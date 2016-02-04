@@ -5,18 +5,11 @@ IF NOT DEFINED FRSH_HOME (
   EXIT /B
 )
 
-IF EXIST "%FRSH_HOME%\config\first_install.bat" (
-  CALL "%FRSH_HOME%\config\first_install.bat"
+IF EXIST "%FRSH_HOME%\config\exec_version.bat" (
+  CALL "%FRSH_HOME%\config\exec_version.bat"
   IF DEFINED version (
-    mklink /D "%FRSH_HOME%\sdk\latest" "%FRSH_HOME%\sdk\frsh-%version%"
-    IF EXIST "%FRSH_HOME%\sdk\latest" (
-      DEL "%FRSH_HOME%\config\first_install.bat"
-    )
+    "%FRSH_HOME%\sdk\frsh-%version%\bin\frsh.bat" %*
+  ) ELSE (
+    ECHO "Installation corrupted. Please reinstall."
   )
-)
-
-IF NOT EXIST "%FRSH_HOME%\sdk\latest\bin\frsh.bat" (
-  ECHO Installation not complete. Please run 'frsh-update.bat'.
-) ELSE (
-  "%FRSH_HOME%\sdk\latest\bin\frsh.bat" %*
 )

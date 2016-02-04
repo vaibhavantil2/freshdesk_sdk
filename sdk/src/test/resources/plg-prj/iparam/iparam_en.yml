@@ -14,19 +14,19 @@
 
 # Sample:
 
-iparam:
-  username:
-    display_name: "Username"
-    description: "Please enter your username"
-    type: "text"
-    required: "true"
-  country:
-    display_name: "Country"
-    description: "Please enter your location"
-    type: "dropdown"
-    options:
-      - India
-      - Iceland
-      - US
-      - UK
-    default_value: US
+
+username:
+  display_name: "Username"
+  description: "Please enter your username"
+  type: "text"
+  required: "true"
+country:
+  display_name: "Country"
+  description: "Please enter your location"
+  type: "dropdown"
+  options:
+    - India
+    - Iceland
+    - US
+    - UK
+  default_value: US
