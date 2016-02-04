@@ -12,3 +12,4 @@
 /sdk/nbproject/
 
 /.nb-gradle/
+**/*.bak
