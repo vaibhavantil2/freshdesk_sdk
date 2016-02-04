@@ -54,5 +54,5 @@ dependencies {
 }
 
 test {
-  systemProperties = [FRSH_HOME: 'src/dist']
+  systemProperties = [FRSH_HOME: 'src/test/resources/frsh_home']
 }
