@@ -19,12 +19,11 @@ public class InstallUtil implements Rollbackable {
     private final File source;
     private final Version version;
     
-    private final String FRSH_HOME = System.getenv("FRSH_HOME");
-    private final File unxExecVer = new File(FRSH_HOME + "/config/exec_version");
-    private final File winExecVer = new File(FRSH_HOME + "/config/exec_version.bat");
+    private final File unxExecVer = new File(Constants.FRSH_HOME + "/config/exec_version");
+    private final File winExecVer = new File(Constants.FRSH_HOME + "/config/exec_version.bat");
 
-    private final File bakUnxExecVer = new File(FRSH_HOME + "/config/exec_version.bak");
-    private final File bakWinExecVer = new File(FRSH_HOME + "/config/exec_version.bat.bak");
+    private final File bakUnxExecVer = new File(Constants.FRSH_HOME + "/config/exec_version.bak");
+    private final File bakWinExecVer = new File(Constants.FRSH_HOME + "/config/exec_version.bat.bak");
     
     public InstallUtil(File source, File destDir, Version latest) {
         this.destDir = destDir;
@@ -57,7 +56,7 @@ public class InstallUtil implements Rollbackable {
     }
     
     // Overwrites the existing config:
-    private void updateExecVersionConfig() throws IOException {
+    protected void updateExecVersionConfig() throws IOException {
         // 1. Rename exisiting config to .bak extension:
         Files.move(unxExecVer.toPath(),
                 bakUnxExecVer.toPath(),
