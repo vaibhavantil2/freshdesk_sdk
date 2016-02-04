@@ -105,7 +105,7 @@ public class PlugServlet extends SuperServlet {
             if (pgUrl == null) {
                 throw new FAException("`url' missing in request.");
             }
-            PlugPages plugpage = PlugPages.fromString(pgStr);
+            PlugPage plugpage = PlugPage.fromString(pgStr);
             
             IParamContents ipc = new IParamContents(prjDir, manifest.getCharset());
             

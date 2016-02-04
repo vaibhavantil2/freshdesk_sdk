@@ -6,10 +6,10 @@ import com.freshdesk.sdk.FAException;
  *
  * @author user
  */
-public enum PlugPages {
+public enum PlugPage {
     TICKET, CONTACT;
     
-    public static PlugPages fromString(String str) {
+    public static PlugPage fromString(String str) {
         switch(str) {
             case "ticket":
                 return TICKET;

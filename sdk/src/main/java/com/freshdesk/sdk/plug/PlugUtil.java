@@ -18,12 +18,12 @@ public class PlugUtil {
 
     private final Map<String, Object> params;
     private final Map<String, Object> requester;
-    private final PlugPages plugPage;
+    private final PlugPage plugPage;
     private final String pageUrl;
     
     public PlugUtil(Map<String,Object> params,
             Map<String, Object> requester,
-            PlugPages page,
+            PlugPage page,
             String pgUrl) throws FAException {
         if (params != null) {
             this.params = params;
@@ -55,11 +55,11 @@ public class PlugUtil {
         Map<String, Object> out = new HashMap<>();
         try {
             if (params != null) {
-                if(plugPage == PlugPages.TICKET) {
+                if(plugPage == PlugPage.TICKET) {
                     out.putAll(prepareTicketObject(params));
                     out.putAll(prepareContactObject(requester));
                 }
-                if(plugPage == PlugPages.CONTACT) {
+                if(plugPage == PlugPage.CONTACT) {
                     out = prepareContactObject(params);
                 }
             }
@@ -70,7 +70,7 @@ public class PlugUtil {
             return out;
         }
         catch (Exception ex) {
-            ex.printStackTrace();
+            ex.printStackTrace(System.err);
         }
         return out;
     }
