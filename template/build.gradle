@@ -1,11 +1,7 @@
-def sdkTmplDir = 'build'
-def plugTmplOutFile = "${sdkTmplDir}/plug-template.zip"
+apply plugin: 'base'
 
-task build {
-  ant.mkdir(dir: sdkTmplDir)
+def plugTmplOutFile = "${buildDir}/plug-template.zip"
+
+build.doLast {
   ant.zip(destfile: plugTmplOutFile, basedir: "plug")
-}
-
-task clean {
-  ant.delete(dir: sdkTmplDir)
 }
