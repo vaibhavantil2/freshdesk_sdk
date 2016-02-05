@@ -22,11 +22,7 @@ public final class Constants {
     
     // SDK Directories:
     public static final File SDK_DIR = getSdkHome();
-    public static final File SDK_BIN_DIR = new File(SDK_DIR, "bin");
     public static final File SDK_TMPL_DIR = new File(SDK_DIR, "template");
-    public static final File SDK_LIB_DIR = new File(SDK_DIR, "lib");
-    public static final File SDK_FRMW_DIR = new File(SDK_DIR, "framework");
-    public static final File SDK_GEMS_DIR = new File(SDK_DIR, "gems");
     
     public static final int SERVER_PORT = 10001;
     
