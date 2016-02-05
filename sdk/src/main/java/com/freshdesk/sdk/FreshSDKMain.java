@@ -12,11 +12,6 @@ public class FreshSDKMain {
 
     public static void main(final String[] args) {
 
-        if (Constants.FRSH_HOME == null) {
-            System.err.println("Please set FRSH_HOME environment variable.");
-            ExitStatus.SETUP_ERROR.exit();
-        }
-
         if (args.length == 0) {
             HelpExecutor.printUsage(System.err);
             ExitStatus.NO_PARAM.exit();
