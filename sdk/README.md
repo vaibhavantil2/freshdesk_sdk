@@ -10,7 +10,7 @@ export PATH=$FRSH_SDK_DEV/bin:$PATH
 To build the exploded directory of SDK:
 
 ```
-$ ./gradlew installDist
+$ gradle installDist
 ```
 
 The exploded installation directory is created in the folder `/path/to/code/freshapps_sdk/sdk/build/install/frsh`.
