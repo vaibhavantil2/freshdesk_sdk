@@ -8,5 +8,7 @@ task pkg {
     zipfileset(src: "sdk/build/distributions/frsh-${version}.zip",
       prefix: "frshsdk-${version}/sdk")
     zipfileset(dir: "${buildDir}/config", prefix: "frshsdk-${version}/config")
+    zipfileset(dir: "template/build", includes: "plug-template.zip",
+      fullpath: "template/plug-template.zip")
   }
 }

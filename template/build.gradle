@@ -3,7 +3,7 @@ def plugTmplOutFile = "${sdkTmplDir}/plug-template.zip"
 
 task build {
   ant.mkdir(dir: sdkTmplDir)
-  ant.zip(destfile: "${plugTmplOutFile}", basedir: "plug")
+  ant.zip(destfile: plugTmplOutFile, basedir: "plug")
 }
 
 task clean {
