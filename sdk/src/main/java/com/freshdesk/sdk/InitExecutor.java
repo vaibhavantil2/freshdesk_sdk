@@ -84,8 +84,12 @@ public class InitExecutor extends AbstractInitExecutor {
     @Override
     public void execute() throws SdkException {
         try {
-            ZipUtil.unzip(
-                    new File(Constants.SDK_TMPL_DIR, tmpl), prjDir);
+            File tmplFile = new File(Constants.SDK_TMPL_DIR, tmpl);
+            if(!tmplFile.canRead()) {
+                throw new SdkException(ExitStatus.SETUP_ERROR,
+                        "New project template not found: " + tmplFile);
+            }
+            ZipUtil.unzip(tmplFile, prjDir);
             if(verbose) {
                 System.out.println("Project created: " + prjDir.getName());
             }

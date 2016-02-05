@@ -1,6 +1,9 @@
 package com.freshdesk.sdk;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  *
@@ -47,7 +50,28 @@ public final class Constants {
             return new File(sdkHome);
         }
         else {
-            return new File(FRSH_HOME, "sdk/latest");
+            try {
+                String version = getSdkInstalledVersion();
+                return new File(FRSH_HOME, "sdk/frsh-" + version);
+            }
+            catch(IOException ex) {
+                throw new SdkException(ExitStatus.SETUP_ERROR, ex);
+            }
+        }
+    }
+    
+    private static String getSdkInstalledVersion() throws IOException {
+        File f = new File(FRSH_HOME, "config/exec_version");
+        if(f.canRead()) {
+            Properties p = new Properties();
+            p.load(new FileInputStream(f));
+            String version = p.getProperty("version");
+            if(version != null) return version;
+            else throw new SdkException(ExitStatus.SETUP_ERROR,
+                    "`version` not available in `" + f.getAbsolutePath() + "`.");
+        }
+        else {
+            throw new IOException("Cannot read: " + f.getAbsolutePath());
         }
     }
 }
