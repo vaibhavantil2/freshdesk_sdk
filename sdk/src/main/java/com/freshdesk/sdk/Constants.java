@@ -22,7 +22,7 @@ public final class Constants {
     
     // SDK Directories:
     public static final File SDK_DIR = getSdkHome();
-    public static final File SDK_TMPL_DIR = new File(SDK_DIR, "template");
+    public static final File SDK_TMPL_DIR = new File(FRSH_HOME, "template");
     
     public static final int SERVER_PORT = 10001;
     
@@ -34,7 +34,7 @@ public final class Constants {
         if(home != null) {
             return new File(home);
         }
-        return null;
+        throw new SdkException(ExitStatus.SETUP_ERROR, "FRSH_HOME not defined.");
     }
     
     private static File getSdkHome() {
@@ -64,10 +64,10 @@ public final class Constants {
             String version = p.getProperty("version");
             if(version != null) return version;
             else throw new SdkException(ExitStatus.SETUP_ERROR,
-                    "`version` not available in `" + f.getAbsolutePath() + "`.");
+                    String.format("`version` not available in `%s`.", f));
         }
         else {
-            throw new IOException("Cannot read: " + f.getAbsolutePath());
+            throw new IOException(String.format("Cannot read: %s.", f));
         }
     }
 }
