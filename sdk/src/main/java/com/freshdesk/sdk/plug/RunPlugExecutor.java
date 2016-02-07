@@ -35,6 +35,8 @@ public class RunPlugExecutor extends AbstractRunExecutor {
         RunServletUtil.registerCommonServlets(ctx, opts);
         
         try {
+            NotifyCodeChangeWebSocketEndpoint.setVerbosity(opts);
+            
             ServerContainer container = WebSocketServerContainerInitializer.configureContext(ctx);
             container.addEndpoint(NotifyCodeChangeWebSocketEndpoint.class);
         }

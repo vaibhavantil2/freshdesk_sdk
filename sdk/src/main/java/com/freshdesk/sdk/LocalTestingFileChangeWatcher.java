@@ -21,11 +21,18 @@ public class LocalTestingFileChangeWatcher {
     
     private final NotifyLocalModification notifier;
     
+    public boolean verbose = false;
+    public boolean verboseException = false;
+    public boolean trace = false;
+    
     public LocalTestingFileChangeWatcher(NotifyLocalModification notifier) {
         this.notifier = notifier;
+        
     }
     
     public void watch(File prjDir) throws IOException {
+        if(verbose) System.out.println("Starting the file modification monitoring service...");
+        
         WatchService watcher = FileSystems.getDefault().newWatchService();
         final SimpleFileVisitor<Path> fileVisitor = new SimpleFileVisitor<Path>(){
             @Override
@@ -48,9 +55,14 @@ public class LocalTestingFileChangeWatcher {
             watchKey.pollEvents().stream().forEach((event) -> {
                 WatchEvent.Kind<?> kind = event.kind();
                 if (!(kind == OVERFLOW)) {
-                    WatchEvent<Path> ev = (WatchEvent<Path>)event;
-                    Path filename = ev.context();
-                    notifier.notify(filename.toFile());
+                    WatchEvent<Path> we = (WatchEvent<Path>)event;
+                    if(verbose || trace) {
+                        System.out.printf(
+                                "[Local Modification] %s (%s).\n",
+                                we.context(),
+                                we.kind());
+                    }
+                    notifier.notify(we);
                 }
             });
             
@@ -59,5 +71,11 @@ public class LocalTestingFileChangeWatcher {
                 break;
             }
         }
+    }
+    
+    public void setVerbosity(VerboseOptions opts) {
+        verbose = opts.isVerbose();
+        verboseException = opts.isVerboseException();
+        trace = opts.isTrace();
     }
 }
