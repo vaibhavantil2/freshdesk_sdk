@@ -8,5 +8,5 @@ import java.nio.file.WatchEvent;
  * @author subhash
  */
 public interface NotifyLocalModification {
-    void notify(WatchEvent<Path> kind);
+    void notify(WatchEvent<Path> we);
 }

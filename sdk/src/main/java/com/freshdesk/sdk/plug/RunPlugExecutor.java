@@ -4,9 +4,13 @@ import com.freshdesk.sdk.Constants;
 import com.freshdesk.sdk.ExitStatus;
 import com.freshdesk.sdk.SdkException;
 import com.freshdesk.sdk.AbstractRunExecutor;
+import com.freshdesk.sdk.LocalTestingFileChangeWatcher;
 import com.freshdesk.sdk.NotifyCodeChangeWebSocketEndpoint;
 import com.freshdesk.sdk.RunServletUtil;
 import com.freshdesk.sdk.VerboseOptions;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.WatchEvent;
 import javax.servlet.ServletException;
 import javax.websocket.DeploymentException;
 import org.eclipse.jetty.server.Server;
@@ -37,8 +41,28 @@ public class RunPlugExecutor extends AbstractRunExecutor {
         try {
             NotifyCodeChangeWebSocketEndpoint.setVerbosity(opts);
             
-            ServerContainer container = WebSocketServerContainerInitializer.configureContext(ctx);
+            final ServerContainer container = WebSocketServerContainerInitializer.configureContext(ctx);
             container.addEndpoint(NotifyCodeChangeWebSocketEndpoint.class);
+            
+            // Configure the file change watcher to notify to ws://
+            final LocalTestingFileChangeWatcher watcher =
+                    new LocalTestingFileChangeWatcher((WatchEvent<Path> we) -> {
+                        NotifyCodeChangeWebSocketEndpoint.sendMessage(we);
+                });
+            watcher.setVerbosity(opts);
+            
+            // Start file change watcher service:
+            new Thread(() -> {
+                try {
+                    watcher.watch(prjDir);
+                }
+                catch(IOException ex) {
+                    System.err.println("File change watcher failed to start...");
+                    if(verboseException) {
+                        ex.printStackTrace(System.err);
+                    }
+                }
+            }).start();
         }
         catch(ServletException | DeploymentException ex) {
             throw new SdkException(ExitStatus.CMD_FAILED, ex);
@@ -56,5 +80,4 @@ public class RunPlugExecutor extends AbstractRunExecutor {
         }
         server.setStopAtShutdown(true);
     }
-    
 }
