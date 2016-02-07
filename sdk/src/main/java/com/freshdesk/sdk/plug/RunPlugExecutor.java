@@ -41,13 +41,14 @@ public class RunPlugExecutor extends AbstractRunExecutor {
         try {
             NotifyCodeChangeWebSocketEndpoint.setVerbosity(opts);
             
-            final ServerContainer container = WebSocketServerContainerInitializer.configureContext(ctx);
+            final ServerContainer container = WebSocketServerContainerInitializer
+                    .configureContext(ctx);
             container.addEndpoint(NotifyCodeChangeWebSocketEndpoint.class);
             
             // Configure the file change watcher to notify to ws://
             final LocalTestingFileChangeWatcher watcher =
-                    new LocalTestingFileChangeWatcher((WatchEvent<Path> we) -> {
-                        NotifyCodeChangeWebSocketEndpoint.sendMessage(we);
+                new LocalTestingFileChangeWatcher((WatchEvent<Path> we) -> {
+                    NotifyCodeChangeWebSocketEndpoint.sendMessage(we);
                 });
             watcher.setVerbosity(opts);
             
