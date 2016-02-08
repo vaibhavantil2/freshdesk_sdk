@@ -30,34 +30,34 @@ public class NotifyCodeChangeWebSocketEndpoint {
     private static final String MSG_OPN = String.format(MSG_PREFIX, "open");
     private static final String MSG_CLS = String.format(MSG_PREFIX, "close");
     
-    private static final LinkedBlockingQueue<Session> sessions = new LinkedBlockingQueue<>();
+    private static final LinkedBlockingQueue<Session> SESSIONS = new LinkedBlockingQueue<>();
     
     @OnOpen
     public void onOpen(Session session) {
-        if(trace) System.out.printf("%s %s.\n", MSG_OPN, session.getId());
+        SESSIONS.add(session);
         
-        sessions.add(session);
+        if(trace) System.out.printf("%s %s.\n", MSG_OPN, session.getId());
     }
     
     @OnClose
     public void onClose(Session session) {
-        if(trace) System.out.printf("%s %s.\n", MSG_CLS, session.getId());
+        SESSIONS.remove(session);
         
-        sessions.remove(session);
+        if(trace) System.out.printf("%s %s.\n", MSG_CLS, session.getId());
     }
     
     @OnMessage
     public void onMessage(String msg, Session session) {
-        if(trace) System.out.printf("%s %s.\n", MSG_REC, msg);
+        if(trace) System.out.printf("%s (%s) %s.\n", MSG_REC, session.getId(), msg);
     }
     
     public static void sendMessage(WatchEvent<Path> we) {
         String msg = watchEvent2Json(we);
-        for(Iterator<Session> itr=sessions.iterator();itr.hasNext();) {
+        for(Iterator<Session> itr=SESSIONS.iterator();itr.hasNext();) {
             Session s = itr.next();
             try {
                 s.getBasicRemote().sendText(msg);
-                System.out.printf("%s %s.\n", MSG_SND, msg);
+                System.out.printf("%s (%s) %s.\n", MSG_SND, s.getId(), msg);
             }
             catch(IOException ex) {
                 itr.remove();
