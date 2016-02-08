@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.WatchEvent;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 import javax.websocket.OnClose;
@@ -52,16 +53,23 @@ public class NotifyCodeChangeWebSocketEndpoint {
     
     public static void sendMessage(WatchEvent<Path> we) {
         String msg = watchEvent2Json(we);
-        sessions.stream().forEach((s) -> {
+        for(Iterator<Session> itr=sessions.iterator();itr.hasNext();) {
+            Session s = itr.next();
             try {
                 s.getBasicRemote().sendText(msg);
                 System.out.printf("%s %s.\n", MSG_SND, msg);
             }
             catch(IOException ex) {
-                sessions.remove(s);
-                if(verboseException) ex.printStackTrace(System.err);
+                itr.remove();
+                if(verboseException) {
+                    System.err.printf(
+                            "Error sending ws://notify-change for session %s."
+                                    + " Marked session as closed.\n",
+                            s.getId());
+                    ex.printStackTrace(System.err);
+                }
             }
-        });
+        }
     }
     
     private static String watchEvent2Json(WatchEvent<Path> we) {
