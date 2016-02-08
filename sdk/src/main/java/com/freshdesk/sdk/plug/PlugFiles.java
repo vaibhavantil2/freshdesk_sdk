@@ -15,7 +15,7 @@ public enum PlugFiles {
             case HTML :
                 return "app.html";
             case CSS :
-                return "app.css";
+                return "app.scss";
             case JS :
                 return "app.js";
             default :
