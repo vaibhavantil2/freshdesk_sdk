@@ -1,6 +1,6 @@
 apply plugin: 'base'
 
-def plugTmplOutFile = "${buildDir}/plug-template.zip"
+def plugTmplOutFile = "${buildDir}/plug-template-${version}.zip"
 
 build.doLast {
   ant.zip(destfile: plugTmplOutFile, basedir: "plug")
