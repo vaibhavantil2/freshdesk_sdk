@@ -9,29 +9,29 @@ import java.io.File;
  */
 public class CoreUpdater extends AbstractUpdater {
 
-	@Override
-	public void update() throws SdkUpdateException {
-		System.out.println("New version availability check...");
-		WsUtil wsu = new WsUtil(Constants.VER_WS_ENDPT);
+    @Override
+    public void update() throws SdkUpdateException {
+        System.out.println("New version availability check...");
+        WsUtil wsu = new WsUtil(Constants.VER_WS_ENDPT);
 
-		Version current = SdkUtil.getCurrentVersion(Constants.SDK_DIR);
-		Version latest = wsu.getLatest();
+        Version current = SdkUtil.getCurrentVersion(Constants.SDK_DIR);
+        Version latest = wsu.getLatest();
 
-		if(current.isLessThan(latest)) {
-			System.out.println("New version available: " + latest + ". Downloading...");
-			DownloadUtil dlu = new DownloadUtil(wsu.getDlUrl());
-			rollbackables.add(dlu);
+        if(current.isLessThan(latest)) {
+            System.out.println("New version available: " + latest + ". Downloading...");
+            DownloadUtil dlu = new DownloadUtil(wsu.getDlUrl());
+            rollbackables.add(dlu);
 
-			File downloaded = dlu.download();
-			System.out.println("File downloaded. Installing...");
-			InstallUtil inu = new InstallUtil(downloaded, Constants.SDK_DIR, latest);
-			rollbackables.add(inu);
-			inu.install();
+            File downloaded = dlu.download();
+            System.out.println("File downloaded. Installing...");
+            InstallUtil inu = new InstallUtil(downloaded, Constants.SDK_DIR, latest);
+            rollbackables.add(inu);
+            inu.install();
 
-			System.out.println("Successfully installed.");
-		}
-		else {
-			System.out.println("Already at latest version. Quitting...");
-		}
-	}
+            System.out.println("Successfully installed.");
+        }
+        else {
+            System.out.println("Already at latest version. Quitting...");
+        }
+    }
 }

@@ -8,16 +8,16 @@ import java.util.List;
  */
 public abstract class AbstractUpdater implements Updater {
 
-	protected List<Rollbackable> rollbackables = new ArrayList<>();
-	protected List<Cleanable> cleanables = new ArrayList<>();
+    protected List<Rollbackable> rollbackables = new ArrayList<>();
+    protected List<Cleanable> cleanables = new ArrayList<>();
 
-	@Override
-	public void setRollbackables(List<Rollbackable> r) {
+    @Override
+    public void setRollbackables(List<Rollbackable> r) {
 		this.rollbackables = r;
 	}
 
-	@Override
-	public void setCleanables(List<Cleanable> c) {
-		this.cleanables = c;
-	}
+    @Override
+    public void setCleanables(List<Cleanable> c) {
+        this.cleanables = c;
+    }
 }
