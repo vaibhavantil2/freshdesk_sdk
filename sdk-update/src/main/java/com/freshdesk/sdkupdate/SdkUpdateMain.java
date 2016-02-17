@@ -13,28 +13,15 @@ public class SdkUpdateMain {
         List<Cleanable> cleanables = new ArrayList<>();
         
         try {
-            System.out.println("New version availability check...");
-            WsUtil wsu = new WsUtil(Constants.VER_WS_ENDPT);
+            CoreUpdater cp = new CoreUpdater();
+            cp.setCleanables(cleanables);
+            cp.setRollbackables(rollbackables);
+            cp.update();
 
-            Version current = SdkUtil.getCurrentVersion(Constants.SDK_DIR);
-            Version latest = wsu.getLatest();
-
-            if(current.isLessThan(latest)) {
-                System.out.println("New version available: " + latest + ". Downloading...");
-                DownloadUtil dlu = new DownloadUtil(wsu.getDlUrl());
-                rollbackables.add(dlu);
-
-                File downloaded = dlu.download();
-                System.out.println("File downloaded. Installing...");
-                InstallUtil inu = new InstallUtil(downloaded, Constants.SDK_DIR, latest);
-                rollbackables.add(inu);
-                inu.install();
-                
-                System.out.println("Successfully installed.");
-            }
-            else {
-                System.out.println("Already at latest version. Quitting...");
-            }
+            TmplUpdater tp = new TmplUpdater();
+            tp.setCleanables(cleanables);
+            tp.setRollbackables(rollbackables);
+            tp.update();
         }
         catch(SdkUpdateException ex) {
             // Feedback:
