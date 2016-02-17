@@ -1,3 +1,8 @@
+import groovy.json.JsonOutput
+
+def dlCoreUrl = "http://dl.freshdev.io/sdk/core/frsh-${version}.zip"
+def dlTmplUrl = "http://dl.freshdev.io/sdk/freshdesk/template/plug-template-${version}.zip"
+
 task pkg {
   file("${buildDir}/config").mkdirs()
   file("${buildDir}/config/exec_version").text = "version=${version}"
@@ -9,6 +14,18 @@ task pkg {
       prefix: "frshsdk-${version}/sdk")
     zipfileset(dir: "${buildDir}/config", prefix: "frshsdk-${version}/config")
     zipfileset(dir: "template/build", includes: "plug-template.zip",
-      fullpath: "template/plug-template.zip")
+      prefix: "frshsdk-${version}/template")
   }
+
+  // Create version.json's:
+  file("${buildDir}/ws").mkdir()
+
+  // 1. Create version.json:
+  def json = JsonOutput.toJson([version: version, dl_url: dlCoreUrl])
+  file("${buildDir}/ws/version.json").text = json
+
+
+  // 2. Create template-version.json:
+  json = JsonOutput.toJson([version: version, dl_url: dlTmplUrl])
+  file("${buildDir}/ws/template-version.json").text = json
 }

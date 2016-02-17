@@ -12,4 +12,5 @@
 /sdk/nbproject/
 
 /.nb-gradle/
+/.idea/
 **/*.bak
