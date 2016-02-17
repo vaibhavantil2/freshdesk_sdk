@@ -4,10 +4,12 @@ def dlCoreUrl = "http://dl.freshdev.io/sdk/core/frsh-${version}.zip"
 def dlTmplUrl = "http://dl.freshdev.io/sdk/freshdesk/template/plug-template-${version}.zip"
 
 task pkg {
+  // 1. exec_version creation:
   file("${buildDir}/config").mkdirs()
   file("${buildDir}/config/exec_version").text = "version=${version}"
   file("${buildDir}/config/exec_version.bat").text = "SET version=${version}"
 
+  // 2. Fat zip creation:
   ant.zip(destfile: "${buildDir}/distributions/frshsdk-${version}.zip") {
     zipfileset(src: "sdk-update/build/distributions/frshsdk-${version}.zip")
     zipfileset(src: "sdk/build/distributions/frsh-${version}.zip",
@@ -17,15 +19,14 @@ task pkg {
       prefix: "frshsdk-${version}/template")
   }
 
-  // Create version.json's:
-  file("${buildDir}/ws").mkdir()
+  // 3. Create version.json's:
+  file("${buildDir}/ws").mkdirs()
 
-  // 1. Create version.json:
+  // 3.1. Create version.json:
   def json = JsonOutput.toJson([version: version, dl_url: dlCoreUrl])
   file("${buildDir}/ws/version.json").text = json
 
-
-  // 2. Create template-version.json:
+  // 3.2. Create template-version.json:
   json = JsonOutput.toJson([version: version, dl_url: dlTmplUrl])
   file("${buildDir}/ws/template-version.json").text = json
 }
