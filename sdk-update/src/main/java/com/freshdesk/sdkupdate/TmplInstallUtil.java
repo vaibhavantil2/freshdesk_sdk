@@ -31,6 +31,7 @@ public class TmplInstallUtil implements Rollbackable {
             Files.move(source.toPath(),
                 destDir.toPath(),
                 StandardCopyOption.REPLACE_EXISTING);
+            Files.delete(bakTmplFile.toPath());
         }
         catch (IOException ex){
          throw new SdkUpdateException(ex);

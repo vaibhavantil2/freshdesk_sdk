@@ -11,7 +11,7 @@ public class Constants {
     public static final File FRSH_HOME = getFrshHome();
     public static final File BIN_DIR = new File(FRSH_HOME, "bin");
     public static final File SDK_DIR = new File(FRSH_HOME, "sdk");
-    public static final File TMPL_DIR = new File(FRSH_HOME, "template");
+    public static final File TMPL_DIR = new File(FRSH_HOME, "/template/plug-template.zip");
 
     public static final String DOMAIN = "http://dl.freshdev.io";
 
