@@ -12,10 +12,9 @@ public class Constants {
     public static final File BIN_DIR = new File(FRSH_HOME, "bin");
     public static final File SDK_DIR = new File(FRSH_HOME, "sdk");
     public static final File TMPL_DIR = new File(FRSH_HOME, "template");
-    
-    public static final String VER_WS_ENDPT = "http://dl.freshdev.io/sdk/version.json";
-    public static final String TMPLVER_WS_ENDPT = "http://dl.freshdev.io/sdk/freshdesk/template-version.json";
-    
+
+    public static final String DOMAIN = "http://dl.freshdev.io";
+
     private static File getFrshHome() {
         String home = System.getProperty(FRSH_HOME_ENV);
         if(home == null) {

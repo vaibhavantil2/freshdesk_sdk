@@ -8,11 +8,11 @@ import java.io.File;
  */
 public class TmplUpdater extends AbstractUpdater {
     @Override
-    public void update() throws SdkUpdateException {
-        System.out.println("New version availability check...");
-        WsUtil wsu = new WsUtil(Constants.TMPLVER_WS_ENDPT);
+    public void update(String url) throws SdkUpdateException {
+        System.out.println("New template version availability check...");
+        WsUtil wsu = new WsUtil(url);
 
-        System.out.println("Downloading Template...");
+        System.out.println("Downloading template...");
         DownloadUtil dlu = new DownloadUtil(wsu.getDlUrl());
         rollbackables.add(dlu);
 

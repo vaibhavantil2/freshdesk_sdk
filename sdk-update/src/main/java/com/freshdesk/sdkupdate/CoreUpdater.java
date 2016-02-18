@@ -10,9 +10,9 @@ import java.io.File;
 public class CoreUpdater extends AbstractUpdater {
 
     @Override
-    public void update() throws SdkUpdateException {
+    public void update(String url) throws SdkUpdateException {
         System.out.println("New version availability check...");
-        WsUtil wsu = new WsUtil(Constants.VER_WS_ENDPT);
+        WsUtil wsu = new WsUtil(url);
 
         Version current = SdkUtil.getCurrentVersion(Constants.SDK_DIR);
         Version latest = wsu.getLatest();

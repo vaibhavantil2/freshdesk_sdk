@@ -48,7 +48,8 @@ dependencies {
   compile 'org.slf4j:slf4j-nop:1.7.12',
     'org.wiztools.commons:wiztools-commons-lib:0.4.1',
     'org.wiztools:app-update:0.2.0',
-    'me.tongfei:progressbar:0.4.0'
+    'me.tongfei:progressbar:0.4.0',
+    'net.sf.jopt-simple:jopt-simple:5.0-beta-1'
   testCompile 'junit:junit:4.+',
     'org.eclipse.jetty:jetty-server:9.3.+'
 }

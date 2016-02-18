@@ -5,25 +5,38 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.wiztools.appupdate.Version;
+import joptsimple.OptionSet;
+import joptsimple.OptionParser;
 
 public class SdkUpdateMain {
 
     public static void main(String[] args) {
         List<Rollbackable> rollbackables = new ArrayList<>();
         List<Cleanable> cleanables = new ArrayList<>();
-        
+        final String ENDPT;
+
+        OptionParser parser = new OptionParser( "d:" );
+        OptionSet options = parser.parse(args);
+
+        if (options.valueOf("d")!=null) {
+            ENDPT = options.valueOf("d").toString();
+        }
+        else{
+            ENDPT = Constants.DOMAIN;
+        }
+
         try {
             // Updates core
             CoreUpdater cp = new CoreUpdater();
             cp.setCleanables(cleanables);
             cp.setRollbackables(rollbackables);
-            cp.update();
+            cp.update(ENDPT + "/sdk/version.json");
 
             // Updates template
             TmplUpdater tp = new TmplUpdater();
             tp.setCleanables(cleanables);
             tp.setRollbackables(rollbackables);
-            tp.update();
+            tp.update(ENDPT + "/sdk/freshdesk/template-version.json");
         }
         catch(SdkUpdateException ex) {
             // Feedback:
