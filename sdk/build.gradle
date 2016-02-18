@@ -47,7 +47,7 @@ dependencies {
     'org.wiztools.commons:wiztools-commons-lib:0.4.1',
     'org.wiztools:app-update:0.2.0',
     'org.apache.logging.log4j:log4j-core:2.4',
-    'com.cathive.sass:sass-java:4.0.0'
+    'com.vaadin:vaadin-sass-compiler:0.9.13'
   testCompile 'junit:junit:4.+',
     'commons-io:commons-io:2.4'
 }

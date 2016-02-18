@@ -1,14 +1,11 @@
 package com.freshdesk.sdk.plug;
 
-import com.cathive.sass.SassCompilationException;
-import com.cathive.sass.SassContext;
-import com.cathive.sass.SassFileContext;
-import com.cathive.sass.SassOptions;
-import com.cathive.sass.SassOutputStyle;
 import com.freshdesk.sdk.FAException;
 import com.freshdesk.sdk.ManifestContents;
+import com.freshdesk.sdk.TemplateRendererSdk;
+import com.freshdesk.sdk.plug.run.NamespaceResolver;
+import com.freshdesk.sdk.plug.run.ScssCompiler;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -24,8 +21,10 @@ public class PlugResponse {
     private final File cssFile;
     private final File jsFile;
     private final ManifestContents manifest;
+    private final File workDir;
+    private final NamespaceResolver namespace;
     
-    public PlugResponse(File libDir, ManifestContents mf) {
+    public PlugResponse(File libDir, ManifestContents mf, NamespaceResolver namespace) {
         if(libDir.isDirectory() && libDir.canRead()) {
             htmlFile = new File(libDir, PlugFiles.toString(PlugFiles.HTML));
             cssFile = new File(libDir, PlugFiles.toString(PlugFiles.CSS));
@@ -35,7 +34,9 @@ public class PlugResponse {
                 && jsFile.isFile() && jsFile.canRead())) {
                 throw new FAException("Files missing");
             }
-            manifest = mf;
+            workDir = new File(".", "work");
+            this.manifest = mf;
+            this.namespace = namespace;
         }
         else {
             throw new FAException("Lib Directory corrupt/ not readable.");
@@ -57,28 +58,39 @@ public class PlugResponse {
     }
     
     private String getCssContent() throws IOException {
-        StringBuilder sb = new StringBuilder("<style>");//.append("#testplug { \n");
-        File workDir = new File(".", "work");
+        
+        StringBuilder out = new StringBuilder();
+        
         if(!workDir.isDirectory()) {
             workDir.mkdirs();
         }
-        File compiledCssFile = new File(workDir, "app.css");
-        OutputStream os = new FileOutputStream(compiledCssFile);
-        try {
-            SassContext ctx = SassFileContext.create(cssFile.toPath());
-            SassOptions options = ctx.getOptions();
-            options.setOutputStyle(SassOutputStyle.EXPANDED);
-            ctx.compile(os);
-            final String cssContents = getFileContent(compiledCssFile);
-            sb.append(cssContents).append("</style>");
-            return sb.toString();
-        }
-        catch (FileNotFoundException ex) {
-            throw new FAException("app.scss File unavailable.", ex);
-        }
-        catch (SassCompilationException ex) {
-            throw new FAException("Scss Compilation Failed.", ex);
-        }
+        
+        // Read from scss file for liquid parsing
+        File tmpFile = File.createTempFile("fa_", "_app.scss", workDir);
+        OutputStream os = new FileOutputStream(tmpFile);
+        String scssContent = getFileContent(cssFile);
+        
+        // Write to a temporary file
+        TemplateRendererSdk renderer = new TemplateRendererSdk();
+        String liquidParsedScss = renderer.renderString(scssContent, namespace.getNamespace());
+        os.write(liquidParsedScss.getBytes());
+        os.close();
+        
+        // Read from temporary file for Scss Compilation
+        File outputFile = new File(workDir, "app.css");
+        ScssCompiler compiler = new ScssCompiler(tmpFile, outputFile);
+        compiler.compile();
+
+        // Delete temporary file
+        tmpFile.delete();
+        
+        // Read from app.css in workDir for final output
+        String finalCss = getFileContent(outputFile);
+        
+        // Append style tag and return
+        out.append("<style>\n").append(finalCss).append("</style>\n");
+        
+        return out.toString();
     }
     
     private String getHtmlContent() throws IOException {

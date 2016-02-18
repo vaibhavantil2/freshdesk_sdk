@@ -9,6 +9,7 @@ import com.freshdesk.sdk.MixedContentUtil;
 import com.freshdesk.sdk.SuperServlet;
 import com.freshdesk.sdk.TemplateRendererSdk;
 import com.freshdesk.sdk.VerboseOptions;
+import com.freshdesk.sdk.plug.run.NamespaceResolver;
 import com.freshdesk.sdk.plug.run.UserBean;
 import com.freshdesk.sdk.plug.run.UserLiquefier;
 import com.freshdesk.sdk.plug.run.UserType;
@@ -110,13 +111,15 @@ public class PlugServlet extends SuperServlet {
             Map<String, Object> currentUserDetails = UserLiquefier.getUserObject(
                                                      UserType.CURRENT_USER,
                                                      new UserBean((Map<String, Object>)urlBody.get("current_user")));
-
+            
+            NamespaceResolver namespace = new NamespaceResolver();
             Map<String, Object> renderParams = new TemplateCtxBuilder()
                     .addExisting(params)
                     .addExisting(currentUserDetails)
+                    .addExisting(namespace.getNamespace())
                     .addInstallationParams(ipc.getIParams()).build();
 
-            String consolidatedResponse = new PlugResponse(libDir, manifest).getPlugResponse();
+            String consolidatedResponse = new PlugResponse(libDir, manifest, namespace).getPlugResponse();
             TemplateRendererSdk renderer = new TemplateRendererSdk()
                     .registerFilter(new FilterAssetURLPlug(prjDir));
             String finalOutput = renderer.renderString(consolidatedResponse, renderParams);
