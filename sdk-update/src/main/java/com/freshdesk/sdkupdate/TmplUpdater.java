@@ -10,7 +10,7 @@ public class TmplUpdater extends AbstractUpdater {
     @Override
     public void update() throws SdkUpdateException {
         System.out.println("New version availability check...");
-        WsUtil wsu = new WsUtil(Constants.VER_WS_ENDPT);
+        WsUtil wsu = new WsUtil(Constants.TMPLVER_WS_ENDPT);
 
         System.out.println("Downloading Template...");
         DownloadUtil dlu = new DownloadUtil(wsu.getDlUrl());

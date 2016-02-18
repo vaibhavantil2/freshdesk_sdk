@@ -13,11 +13,13 @@ public class SdkUpdateMain {
         List<Cleanable> cleanables = new ArrayList<>();
         
         try {
+            // Updates core
             CoreUpdater cp = new CoreUpdater();
             cp.setCleanables(cleanables);
             cp.setRollbackables(rollbackables);
             cp.update();
 
+            // Updates template
             TmplUpdater tp = new TmplUpdater();
             tp.setCleanables(cleanables);
             tp.setRollbackables(rollbackables);
