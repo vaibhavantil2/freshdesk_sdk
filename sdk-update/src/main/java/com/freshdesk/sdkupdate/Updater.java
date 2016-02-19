@@ -8,5 +8,5 @@ import java.util.List;
 public interface Updater {
     void setRollbackables(List<Rollbackable> r);
     void setCleanables(List<Cleanable> c);
-    void update(String url);
+    boolean update(String url);
 }

@@ -4,39 +4,53 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import joptsimple.OptionException;
 import org.wiztools.appupdate.Version;
 import joptsimple.OptionSet;
 import joptsimple.OptionParser;
 
 public class SdkUpdateMain {
 
-    public static void main(String[] args) {
-        List<Rollbackable> rollbackables = new ArrayList<>();
-        List<Cleanable> cleanables = new ArrayList<>();
+    public static void main(String[] args) throws OptionException{
+
+        // Cli parsing:
         final String ENDPT;
 
         OptionParser parser = new OptionParser( "d:" );
-        OptionSet options = parser.parse(args);
-
-        if (options.valueOf("d")!=null) {
-            ENDPT = options.valueOf("d").toString();
-        }
-        else{
-            ENDPT = Constants.DOMAIN;
-        }
-
         try {
+            OptionSet options = parser.parse(args);
+
+            if (options.valueOf("d") != null) {
+                ENDPT = options.valueOf("d").toString();
+            } else {
+                ENDPT = Constants.DL_HOST;
+            }
+        }
+        catch(OptionException ex) {
+            System.err.println("Cli parse error. Exiting...");
+            ex.printStackTrace(System.err);
+            return;
+        }
+
+        // Update core logic:
+        List<Rollbackable> rollbackables = new ArrayList<>();
+        List<Cleanable> cleanables = new ArrayList<>();
+        try {
+
             // Updates core
             CoreUpdater cp = new CoreUpdater();
             cp.setCleanables(cleanables);
             cp.setRollbackables(rollbackables);
-            cp.update(ENDPT + "/sdk/version.json");
+            boolean upSuccess = cp.update(ENDPT + Constants.SDK_VER_PATH);
 
             // Updates template
-            TmplUpdater tp = new TmplUpdater();
-            tp.setCleanables(cleanables);
-            tp.setRollbackables(rollbackables);
-            tp.update(ENDPT + "/sdk/freshdesk/template-version.json");
+            if(upSuccess) {
+                TmplUpdater tp = new TmplUpdater();
+                tp.setCleanables(cleanables);
+                tp.setRollbackables(rollbackables);
+                tp.update(ENDPT + Constants.TMPL_VER_PATH);
+            }
         }
         catch(SdkUpdateException ex) {
             // Feedback:

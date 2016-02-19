@@ -10,7 +10,7 @@ import org.wiztools.appupdate.VersionImpl;
 public final class Versions {
     private Versions() {}
     
-    public static final Version SDK_VERSION = new VersionImpl("0.2.1");
+    public static final Version SDK_VERSION = new VersionImpl("0.2.2");
     public static final Version PLATFORM_VERSION = new VersionImpl("1.0");
     
     public static boolean isCompatible(Version extnVersion) {

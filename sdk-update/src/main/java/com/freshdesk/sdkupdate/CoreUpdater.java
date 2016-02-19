@@ -10,7 +10,7 @@ import java.io.File;
 public class CoreUpdater extends AbstractUpdater {
 
     @Override
-    public void update(String url) throws SdkUpdateException {
+    public boolean update(String url) throws SdkUpdateException {
         System.out.println("New version availability check...");
         WsUtil wsu = new WsUtil(url);
 
@@ -29,9 +29,11 @@ public class CoreUpdater extends AbstractUpdater {
             inu.install();
 
             System.out.println("Successfully installed.");
+            return true;
         }
         else {
             System.out.println("Already at latest version. Quitting...");
+            return false;
         }
     }
 }
