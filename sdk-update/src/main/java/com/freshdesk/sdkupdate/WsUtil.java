@@ -29,6 +29,10 @@ public class WsUtil {
         return vUrl.getVersion();
     }
     
+    public Version getLeastVersionRequired() {
+        return vUrl.getLeastVersionRequired();
+    }
+    
     public String getDlUrl() {
         return vUrl.getDlUrl();
     }

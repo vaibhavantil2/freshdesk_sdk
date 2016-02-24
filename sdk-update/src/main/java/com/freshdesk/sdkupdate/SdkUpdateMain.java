@@ -1,12 +1,10 @@
 package com.freshdesk.sdkupdate;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import joptsimple.OptionException;
-import org.wiztools.appupdate.Version;
 import joptsimple.OptionSet;
 import joptsimple.OptionParser;
 

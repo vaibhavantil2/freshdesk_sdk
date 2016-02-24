@@ -1,6 +1,7 @@
 package com.freshdesk.sdkupdate;
 
 import org.wiztools.appupdate.Version;
+import com.freshdesk.sdkcommon.Versions;
 
 import java.io.File;
 
@@ -16,7 +17,17 @@ public class CoreUpdater extends AbstractUpdater {
 
         Version current = SdkUtil.getCurrentVersion(Constants.SDK_DIR);
         Version latest = wsu.getLatest();
+        Version leastVersion = wsu.getLeastVersionRequired();
+        
+        // Check for least version required:
+        if(Versions.SDK_VERSION.isLessThan(leastVersion)) {
+            String msg = String.format(
+                "Cannot update to v%s using `frsh-update`."
+                + " Full distribution re-installation recommended.", latest);
+            throw new SdkUpdateException(msg);
+        }
 
+        // Download & install:
         if(current.isLessThan(latest)) {
             System.out.println("New version available: " + latest + ". Downloading...");
             DownloadUtil dlu = new DownloadUtil(wsu.getDlUrl());
