@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.wiztools.appupdate.Version;
 import org.wiztools.appupdate.VersionImpl;
+import com.freshdesk.sdkcommon.Versions;
 
 /**
  *

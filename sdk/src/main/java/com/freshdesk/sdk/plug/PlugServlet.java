@@ -12,7 +12,7 @@ import com.freshdesk.sdk.VerboseOptions;
 import com.freshdesk.sdk.plug.run.UserBean;
 import com.freshdesk.sdk.plug.run.UserLiquefier;
 import com.freshdesk.sdk.plug.run.UserType;
-import com.freshdesk.sdk.version.Versions;
+import com.freshdesk.sdkcommon.Versions;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;

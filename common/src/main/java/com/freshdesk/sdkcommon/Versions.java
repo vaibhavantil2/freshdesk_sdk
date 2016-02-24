@@ -1,4 +1,4 @@
-package com.freshdesk.sdk.version;
+package com.freshdesk.sdkcommon;
 
 import org.wiztools.appupdate.Version;
 import org.wiztools.appupdate.VersionImpl;

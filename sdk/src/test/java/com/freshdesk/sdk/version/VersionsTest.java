@@ -8,6 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.wiztools.appupdate.Version;
 import org.wiztools.appupdate.VersionImpl;
+import com.freshdesk.sdkcommon.Versions;
 
 /**
  *

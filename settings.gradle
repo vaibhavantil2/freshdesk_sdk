@@ -1,3 +1,4 @@
+include 'common'
 include 'sdk'
 include 'sdk-update'
 include 'template'

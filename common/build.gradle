@@ -1,0 +1,35 @@
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath 'ca.cutterslade.gradle:gradle-dependency-analyze:1.0.3'
+  }
+}
+
+apply plugin: 'java'
+apply plugin: 'ca.cutterslade.analyze'
+apply plugin: 'jacoco'
+
+analyzeClassesDependencies {
+  justWarn = true
+}
+analyzeTestClassesDependencies {
+  justWarn = true
+}
+
+allprojects {
+  tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xlint:deprecation' << '-Xlint:unchecked'
+  }
+}
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+}
+
+dependencies {
+  compile 'org.wiztools:app-update:0.2.0'
+  testCompile 'junit:junit:4.+'
+}

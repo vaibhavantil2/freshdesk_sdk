@@ -1,6 +1,6 @@
 package com.freshdesk.sdk;
 
-import com.freshdesk.sdk.version.Versions;
+import com.freshdesk.sdkcommon.Versions;
 import io.airlift.airline.Command;
 import java.io.File;
 
