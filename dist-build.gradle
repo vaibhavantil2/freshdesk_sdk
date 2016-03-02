@@ -23,7 +23,8 @@ task pkg {
   file("${buildDir}/ws").mkdirs()
 
   // 3.1. Create version.json:
-  def json = JsonOutput.toJson([version: version, dl_url: dlCoreUrl])
+  def json = JsonOutput.toJson([version: version, dl_url: dlCoreUrl,
+                                least_version_required: leastVersionRequired])
   file("${buildDir}/ws/version.json").text = json
 
   // 3.2. Create template-version.json:
