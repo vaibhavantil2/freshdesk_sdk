@@ -16,3 +16,4 @@
 **/*.bak
 **/*.iml
 build.sh
+template_replacer.sh

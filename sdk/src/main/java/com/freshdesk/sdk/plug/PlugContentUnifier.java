@@ -3,28 +3,29 @@ package com.freshdesk.sdk.plug;
 import com.freshdesk.sdk.FAException;
 import com.freshdesk.sdk.ManifestContents;
 import com.freshdesk.sdk.TemplateRendererSdk;
-import com.freshdesk.sdk.plug.run.NamespaceResolver;
 import com.freshdesk.sdk.plug.run.ScssCompiler;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Map;
 import org.wiztools.commons.FileUtil;
 
 /**
  *
  * @author raghav
  */
-public class PlugResponse {
+public class PlugContentUnifier {
     
     private final File htmlFile;
     private final File cssFile;
     private final File jsFile;
     private final ManifestContents manifest;
+    private final File prjDir;
     private final File workDir;
-    private final NamespaceResolver namespace;
+    private final Map<String, Object> renderParams;
     
-    public PlugResponse(File appDir, ManifestContents mf, NamespaceResolver namespace) {
+    public PlugContentUnifier(File appDir, ManifestContents mf, Map<String, Object> renderParams) {
         if(appDir.isDirectory() && appDir.canRead()) {
             htmlFile = new File(appDir, PlugFile.toString(PlugFile.HTML));
             cssFile = new File(appDir, PlugFile.toString(PlugFile.CSS));
@@ -34,9 +35,10 @@ public class PlugResponse {
                 && jsFile.isFile() && jsFile.canRead())) {
                 throw new FAException("Files missing");
             }
-            workDir = new File(".", "work");
+            prjDir = new File(".");
+            workDir = new File(prjDir, "work");
             this.manifest = mf;
-            this.namespace = namespace;
+            this.renderParams = renderParams;
         }
         else {
             throw new FAException("Lib Directory corrupt/ not readable.");
@@ -71,8 +73,8 @@ public class PlugResponse {
         String scssContent = getFileContent(cssFile);
         
         // Write to a temporary file
-        TemplateRendererSdk renderer = new TemplateRendererSdk();
-        String liquidParsedScss = renderer.renderString(scssContent, namespace.getNamespace());
+        TemplateRendererSdk renderer = new TemplateRendererSdk().registerFilter(new FilterAssetURLPlug(prjDir));
+        String liquidParsedScss = renderer.renderString(scssContent, renderParams);
         os.write(liquidParsedScss.getBytes());
         os.close();
         
@@ -101,9 +103,9 @@ public class PlugResponse {
         StringBuilder sb = new StringBuilder();
         final String jsContents = getFileContent(jsFile);
         sb.append("<script type='text/javascript'>\n")
-                .append("Freshapp.run(function() { \n var examplePlug = ")
+                .append("Freshapp.run(function() { \n var fa_prefix = ")
                 .append(jsContents)
-                .append("\nexamplePlug.init(); \n});\n")
+                .append("\nfa_prefix.initialize(); \n});\n")
                 .append("</script>");
         return sb.toString();
     }

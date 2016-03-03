@@ -1,7 +1,7 @@
 (function() {
   return {
-    init: function() {
-      // Place your plug js here.. 
+    initialize: function() {
+      console.log("My first app!");
     }
   }
 })();

@@ -4,8 +4,6 @@ import com.freshdesk.sdk.FAException;
 import com.vaadin.sass.internal.ScssStylesheet;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 /**
@@ -29,7 +27,7 @@ public class ScssCompiler {
         try {
             ScssStylesheet scss = ScssStylesheet.get(inputFile.getCanonicalPath());
             scss.compile();
-            try (Writer writer = createWriter()) {
+            try (Writer writer = new FileWriter(outputFile)) {
                 scss.write(writer);
             }
         }
@@ -37,14 +35,4 @@ public class ScssCompiler {
             throw new FAException(e);
         }
     }
-    
-    private Writer createWriter() throws IOException {
-        if(outputFile != null) {
-            return new FileWriter(outputFile);
-        }
-        else {
-            return new OutputStreamWriter(System.out, "UTF-8");
-        }
-    }
-    
 }

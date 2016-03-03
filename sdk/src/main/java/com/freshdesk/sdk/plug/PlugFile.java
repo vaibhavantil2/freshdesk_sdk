@@ -13,7 +13,7 @@ public enum PlugFile {
     public static String toString(PlugFile file) {
         switch(file) {
             case HTML :
-                return "template.liquid";
+                return "template.html";
             case CSS :
                 return "style.scss";
             case JS :

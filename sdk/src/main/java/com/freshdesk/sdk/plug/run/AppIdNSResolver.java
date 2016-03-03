@@ -8,18 +8,14 @@ import java.util.Map;
  *
  * @author raghav
  */
-public class NamespaceResolver {
+public class AppIdNSResolver {
     
-    private final String plugId;
-    
-    public NamespaceResolver() {
-        // namespace generation logic
-        this.plugId = "testplug";
-    }
+    private static final String NS_LIQUID_KEY = "app_id";
+    private static final String NS_LIQUID_VAL = "fa_prefix";
     
     public Map<String, Object> getNamespace() {
         Map<String, Object> namespaceObject = new HashMap();
-        namespaceObject.put("plug_id", this.plugId);
+        namespaceObject.put(NS_LIQUID_KEY, NS_LIQUID_VAL);
         return Collections.unmodifiableMap(namespaceObject);
     }
     
