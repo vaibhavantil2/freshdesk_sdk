@@ -14,3 +14,5 @@
 /.nb-gradle/
 /.idea/
 **/*.bak
+**/*.iml
+build.sh
