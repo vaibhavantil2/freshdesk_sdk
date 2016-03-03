@@ -72,7 +72,7 @@ public class PlugServlet extends SuperServlet {
         }
 
         final File prjDir = new File(".");
-        final File libDir = new File(prjDir, "lib");
+        final File appDir = new File(prjDir, "app");
         final ManifestContents manifest = new ManifestContents(prjDir);
 
         String body = StreamUtil.inputStream2String(req.getInputStream(), UTF_8);
@@ -121,7 +121,7 @@ public class PlugServlet extends SuperServlet {
                     .addExisting(namespace.getNamespace())
                     .addInstallationParams(ipc.getIParams()).build();
 
-            String consolidatedResponse = new PlugResponse(libDir, manifest, namespace).getPlugResponse();
+            String consolidatedResponse = new PlugResponse(appDir, manifest, namespace).getPlugResponse();
             TemplateRendererSdk renderer = new TemplateRendererSdk()
                     .registerFilter(new FilterAssetURLPlug(prjDir));
             String finalOutput = renderer.renderString(consolidatedResponse, renderParams);

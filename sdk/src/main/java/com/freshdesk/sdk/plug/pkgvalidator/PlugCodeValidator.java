@@ -19,9 +19,9 @@ public class PlugCodeValidator extends BasePrePkgValidator {
 
     @Override
     public void validate() throws SdkException {
-        File libDir = new File(prjDir, "lib");
+        File appDir = new File(prjDir, "app");
         
-        for(File f: libDir.listFiles()) {
+        for(File f: appDir.listFiles()) {
             final String fileName = f.getName();  
             if(Arrays.asList(PLUG_FILES).contains(fileName)) {
                 if(!(f.exists() && f.isFile() && f.canRead())) {
@@ -32,7 +32,7 @@ public class PlugCodeValidator extends BasePrePkgValidator {
             }
             else {
                 throw new SdkException(ExitStatus.CMD_FAILED,
-                    "Unsupported file detected in `lib/': " + fileName);
+                    "Unsupported file detected in `app/': " + fileName);
             }
         }
     }

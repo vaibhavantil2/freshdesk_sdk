@@ -24,11 +24,11 @@ public class PlugResponse {
     private final File workDir;
     private final NamespaceResolver namespace;
     
-    public PlugResponse(File libDir, ManifestContents mf, NamespaceResolver namespace) {
-        if(libDir.isDirectory() && libDir.canRead()) {
-            htmlFile = new File(libDir, PlugFile.toString(PlugFile.HTML));
-            cssFile = new File(libDir, PlugFile.toString(PlugFile.CSS));
-            jsFile = new File(libDir, PlugFile.toString(PlugFile.JS));
+    public PlugResponse(File appDir, ManifestContents mf, NamespaceResolver namespace) {
+        if(appDir.isDirectory() && appDir.canRead()) {
+            htmlFile = new File(appDir, PlugFile.toString(PlugFile.HTML));
+            cssFile = new File(appDir, PlugFile.toString(PlugFile.CSS));
+            jsFile = new File(appDir, PlugFile.toString(PlugFile.JS));
             if(!(htmlFile.isFile() && htmlFile.canRead()
                 && cssFile.isFile() && cssFile.canRead()
                 && jsFile.isFile() && jsFile.canRead())) {
@@ -101,7 +101,9 @@ public class PlugResponse {
         StringBuilder sb = new StringBuilder();
         final String jsContents = getFileContent(jsFile);
         sb.append("<script type='text/javascript'>\n")
-                .append("Freshapp.run(function() { \n var examplePlug = (function() { \n " +  jsContents +"}()); examplePlug.init(); });\n")
+                .append("Freshapp.run(function() { \n var examplePlug = ")
+                .append(jsContents)
+                .append("\nexamplePlug.init(); \n});\n")
                 .append("</script>");
         return sb.toString();
     }
