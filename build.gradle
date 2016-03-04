@@ -10,5 +10,7 @@ repositories {
 }
 
 release {
-  requireBranch = null
+  git {
+    requireBranch = 'master_revamp_appjs'
+  }
 }
