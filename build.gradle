@@ -8,3 +8,7 @@ repositories {
   mavenLocal()
   mavenCentral()
 }
+
+release {
+  requireBranch = null
+}
