@@ -114,7 +114,7 @@ public class PlugServlet extends SuperServlet {
                                                      UserType.CURRENT_USER,
                                                      new UserBean((Map<String, Object>)urlBody.get("current_user")));
             
-            AppIdNSResolver namespace = new AppIdNSResolver();
+            AppIdNSResolver namespace = new AppIdNSResolver(prjDir);
             Map<String, Object> renderParams = new TemplateCtxBuilder()
                     .addExisting(params)
                     .addExisting(currentUserDetails)
