@@ -14,11 +14,20 @@ public class AppIdNSResolver {
     
     private static final String NS_LIQUID_KEY = "app_id";
     private final String NS_LIQUID_VAL;
+    
+    protected String getName(String input) {
+        final int MAX_CHARS = 6;
+        String processed = input.toLowerCase()
+                .replaceAll("[^a-zA-Z0-9]", "-");
+        if(processed.length() > MAX_CHARS) {
+            processed = processed.substring(0, MAX_CHARS);
+        }
+        return "fa_" + processed + "_101";
+    }
 
     public AppIdNSResolver(File prjDir) throws IOException {
-        String dirName = prjDir.getCanonicalPath().substring(
-                   prjDir.getCanonicalPath().lastIndexOf('/') + 1);
-        this.NS_LIQUID_VAL = "fa_" + dirName.substring(0, 6) + "_101";
+        String dirName = prjDir.getCanonicalFile().getName();
+        this.NS_LIQUID_VAL = getName(dirName);
     }
     
     public Map<String, Object> getNamespace() {
