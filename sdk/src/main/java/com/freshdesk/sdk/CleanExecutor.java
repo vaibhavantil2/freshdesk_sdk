@@ -19,7 +19,8 @@ public class CleanExecutor extends AbstractProjectExecutor {
     private static final List<String> CLEANABLE_DIRS = Collections.unmodifiableList(
             Arrays.asList(new String[]{
                 "dist",
-                "work"
+                "work",
+                "build"
             }));
 
     @Override

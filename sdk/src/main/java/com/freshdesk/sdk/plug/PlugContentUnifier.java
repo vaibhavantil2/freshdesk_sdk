@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Collections;
 import java.util.Map;
 import org.wiztools.commons.FileUtil;
 
@@ -18,6 +19,7 @@ import org.wiztools.commons.FileUtil;
 public class PlugContentUnifier {
     
     private final File htmlFile;
+    private final File scssFile;
     private final File cssFile;
     private final File jsFile;
     private final ManifestContents manifest;
@@ -28,10 +30,10 @@ public class PlugContentUnifier {
     public PlugContentUnifier(File appDir, ManifestContents mf, Map<String, Object> renderParams) {
         if(appDir.isDirectory() && appDir.canRead()) {
             htmlFile = new File(appDir, PlugFile.toString(PlugFile.HTML));
-            cssFile = new File(appDir, PlugFile.toString(PlugFile.CSS));
+            scssFile = new File(appDir, PlugFile.toString(PlugFile.SCSS));
             jsFile = new File(appDir, PlugFile.toString(PlugFile.JS));
             if(!(htmlFile.isFile() && htmlFile.canRead()
-                && cssFile.isFile() && cssFile.canRead()
+                && scssFile.isFile() && scssFile.canRead()
                 && jsFile.isFile() && jsFile.canRead())) {
                 throw new FAException("Files missing");
             }
@@ -39,6 +41,7 @@ public class PlugContentUnifier {
             workDir = new File(prjDir, "work");
             this.manifest = mf;
             this.renderParams = renderParams;
+            this.cssFile = new File(workDir, "app.css");
         }
         else {
             throw new FAException("Lib Directory corrupt/ not readable.");
@@ -50,63 +53,67 @@ public class PlugContentUnifier {
     }
     
     public String getPlugResponse() throws IOException {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getCssContent())
-                .append("\n")
-                .append(getHtmlContent())
-                .append("\n")
-                .append(getJsContent());
-        return sb.toString();
-    }
-    
-    private String getCssContent() throws IOException {
-        
-        StringBuilder out = new StringBuilder();
-        
+        StringBuilder output = new StringBuilder();
+
+        // For CSS:
+        String liqParsedScss = parseLiquids(getScssContent());
         if(!workDir.isDirectory()) {
             workDir.mkdirs();
         }
-        
-        // Read from scss file for liquid parsing
+
         File tmpFile = File.createTempFile("fa_", "_app.scss", workDir);
         OutputStream os = new FileOutputStream(tmpFile);
-        String scssContent = getFileContent(cssFile);
-        
-        // Write to a temporary file
-        TemplateRendererSdk renderer = new TemplateRendererSdk().registerFilter(new FilterAssetURLPlug(prjDir));
-        String liquidParsedScss = renderer.renderString(scssContent, renderParams);
-        os.write(liquidParsedScss.getBytes());
+        os.write(liqParsedScss.getBytes());
         os.close();
-        
-        // Read from temporary file for Scss Compilation
-        File outputFile = new File(workDir, "app.css");
-        ScssCompiler compiler = new ScssCompiler(tmpFile, outputFile);
-        compiler.compile();
 
-        // Delete temporary file
-        tmpFile.delete();
-        
-        // Read from app.css in workDir for final output
-        String finalCss = getFileContent(outputFile);
-        
-        // Append style tag and return
-        out.append("<style>\n").append(finalCss).append("</style>\n");
-        
-        return out.toString();
+        compileCss(tmpFile, cssFile);
+        String css = appendStyleTag(getFileContent(cssFile));
+        output.append(css);
+
+        // For HTML:
+        output.append("\n")
+            .append(getHtmlContent());
+
+        // For JS:
+        output.append(appendScriptTag(appendFreshappRunTag(getJsContent())));
+        return output.toString();
+    }
+
+    private String appendStyleTag(String cssContent) {
+        return new StringBuilder().append("<style>\n")
+            .append(cssContent).append("\n</style>\n").toString();
+    }
+
+    private String appendScriptTag(String jsContent) {
+        return new StringBuilder().append("<script type='text/javascript'>\n")
+            .append(jsContent)
+            .append("\n</script>").toString();
+    }
+
+    private String appendFreshappRunTag(String content) {
+        return new StringBuilder().append("Freshapp.run(function() { \n var {{app_id}} = ")
+            .append(content)
+            .append("\n{{app_id}}.initialize(); \n});\n").toString();
     }
     
     private String getHtmlContent() throws IOException {
         return getFileContent(htmlFile);
     }
-    
+
+    private String getScssContent() throws IOException {
+        return getFileContent(scssFile);
+    }
+
     private String getJsContent() throws IOException {
-        StringBuilder sb = new StringBuilder();
-        final String jsContents = getFileContent(jsFile);
-        sb.append("<script type='text/javascript'>\n")
-                .append("Freshapp.run(function() { \n var {{app_id}} = ")
-                .append(jsContents)
-                .append("\n{{app_id}}.initialize(); \n});\n")
-                .append("</script>");
-        return sb.toString();
+        return getFileContent(jsFile);
+    }
+
+    private void compileCss(File inputFile, File outputFile) {
+        new ScssCompiler(inputFile, outputFile).compile();
+    }
+
+    private String parseLiquids(String content) {
+        TemplateRendererSdk renderer =  new TemplateRendererSdk().registerFilter(new FilterAssetURLPlug(prjDir));
+        return renderer.renderString(content, renderParams);
     }
 }

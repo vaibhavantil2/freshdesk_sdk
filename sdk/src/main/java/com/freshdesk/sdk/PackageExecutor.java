@@ -3,8 +3,13 @@ package com.freshdesk.sdk;
 import com.freshdesk.sdk.pkgvalidator.PkgValidatorUtil;
 import com.freshdesk.sdk.pkgvalidator.PostPkgValidator;
 import com.freshdesk.sdk.pkgvalidator.PrePkgValidator;
+import com.freshdesk.sdk.plug.PlugContentUnifier;
+import com.freshdesk.sdk.plug.run.AppIdNSResolver;
 import io.airlift.airline.Command;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,6 +49,27 @@ public class PackageExecutor extends AbstractProjectExecutor {
         
         // 2. Create package:
         final File pkg = new File(distDir, getPackageName());
+
+        // For build dir:
+        ManifestContents mf = new ManifestContents(prjDir);
+        String response = null;
+        try {
+            response = new PlugContentUnifier(new File(prjDir, "app"), mf,
+                new AppIdNSResolver(prjDir).getNamespace()).getPlugResponse();
+            AppIdNSResolver ns = new AppIdNSResolver(prjDir);
+            response = response.replace(ns.getLiquidVal(), "{{" + ns.getLiquidKey() + "}}");
+            File buildDir = new File(prjDir, "build");
+            if(!buildDir.isDirectory()) {
+                buildDir.mkdirs();
+            }
+            File indexFile = new File(buildDir, "index.html");
+            OutputStream os = new FileOutputStream(indexFile);
+            os.write(response.getBytes());
+            os.close();
+        } catch (IOException e) {
+            throw new FAException(e);
+        }
+
         new PkgZipper(verbose).pack(prjDir, pkg);
 
         if(verbose) {

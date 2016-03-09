@@ -25,6 +25,14 @@ public class AppIdNSResolver {
         return "fa_" + processed + "_101";
     }
 
+    public String getLiquidKey() {
+        return NS_LIQUID_KEY;
+    }
+
+    public String getLiquidVal() {
+        return NS_LIQUID_VAL;
+    }
+
     public AppIdNSResolver(File prjDir) throws IOException {
         String dirName = prjDir.getCanonicalFile().getName();
         this.NS_LIQUID_VAL = getName(dirName);

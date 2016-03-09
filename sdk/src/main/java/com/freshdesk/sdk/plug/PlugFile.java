@@ -8,13 +8,13 @@ import com.freshdesk.sdk.FAException;
  */
 public enum PlugFile {
     
-    HTML, CSS, JS;
+    HTML, SCSS, JS;
     
     public static String toString(PlugFile file) {
         switch(file) {
             case HTML :
                 return "template.html";
-            case CSS :
+            case SCSS:
                 return "style.scss";
             case JS :
                 return "app.js";
@@ -26,7 +26,7 @@ public enum PlugFile {
     public static String[] getAllFiles() {
         return new String[] {
             toString(HTML),
-            toString(CSS),
+            toString(SCSS),
             toString(JS)
         };
     }
