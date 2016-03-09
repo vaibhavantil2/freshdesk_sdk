@@ -37,7 +37,7 @@ public class PlugContentUnifier {
                 && jsFile.isFile() && jsFile.canRead())) {
                 throw new FAException("Files missing");
             }
-            prjDir = new File(".");
+            prjDir = appDir.getParentFile();
             workDir = new File(prjDir, "work");
             this.manifest = mf;
             this.renderParams = renderParams;
