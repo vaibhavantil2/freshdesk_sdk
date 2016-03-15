@@ -1,4 +1,4 @@
-package com.freshdesk.sdk.pkgvalidator;
+package com.freshdesk.sdk.validators;
 
 import com.freshdesk.sdk.ExtnType;
 import java.util.Collections;
@@ -13,8 +13,8 @@ import org.reflections.Reflections;
 public final class PkgValidatorUtil {
     private PkgValidatorUtil() {}
     
-    private static final String PKG_PLG_VALIDATORS = "com.freshdesk.sdk.plug.pkgvalidator";
-    private static final String PKG_APP_VALIDATORS = "com.freshdesk.sdk.app.pkgvalidator";
+    private static final String PKG_PLG_VALIDATORS = "com.freshdesk.sdk.plug.validators";
+    private static final String PKG_APP_VALIDATORS = "com.freshdesk.sdk.app.validators";
     
     private static Set<Class<?>> getValidators(ExtnType type,
             Class annotationClass)
@@ -36,7 +36,7 @@ public final class PkgValidatorUtil {
     public static Set<PrePkgValidator> getPrePkgValidators(ExtnType type)
             throws InstantiationException, IllegalAccessException {
         final Set<PrePkgValidator> out = new HashSet<>();
-        for(Class<?> clazz: getValidators(type, PrePackageValidator.class)) {
+        for (Class<?> clazz : getValidators(type, PrePackageValidator.class)) {
             PrePkgValidator obj = (PrePkgValidator) clazz.newInstance();
             out.add(obj);
         }

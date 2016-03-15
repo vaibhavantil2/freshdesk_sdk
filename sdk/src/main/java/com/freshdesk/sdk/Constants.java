@@ -24,6 +24,8 @@ public final class Constants {
     public static final File SDK_DIR = getSdkHome();
     public static final File SDK_TMPL_DIR = new File(FRSH_HOME, "template");
     
+    public static final String URL_SCHEME = "http";
+    public static final String LOCAL_SERVER_URL = "localhost";
     public static final int SERVER_PORT = 10001;
     
     private static File getFrshHome() {

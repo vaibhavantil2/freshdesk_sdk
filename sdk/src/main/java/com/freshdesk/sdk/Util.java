@@ -1,6 +1,8 @@
 package com.freshdesk.sdk;
 
+import com.freshdesk.sdk.plug.PlugFile;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 /**
@@ -49,5 +51,18 @@ public final class Util {
 
     public static boolean isDirEmpty(File f) {
         return f.isDirectory() && f.list().length == 0;
+    }
+
+    public static void appDirValidator(File appDir) throws FileNotFoundException {
+        if (appDir.isDirectory() && appDir.canRead()) {
+            File htmlFile = new File(appDir, PlugFile.toString(PlugFile.HTML));
+            File scssFile = new File(appDir, PlugFile.toString(PlugFile.SCSS));
+            File jsFile = new File(appDir, PlugFile.toString(PlugFile.JS));
+            if(!(htmlFile.isFile() && htmlFile.canRead()
+                && scssFile.isFile() && scssFile.canRead()
+                && jsFile.isFile() && jsFile.canRead())) {
+                throw new FileNotFoundException();
+            }
+        }
     }
 }

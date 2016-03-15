@@ -1,6 +1,7 @@
 package com.freshdesk.sdk.plug;
 
 import com.freshdesk.sdk.TemplateCtxBuilder;
+import com.freshdesk.sdk.ExtnType;
 import com.freshdesk.sdk.FAException;
 import com.freshdesk.sdk.ManifestContents;
 import com.freshdesk.sdk.JsonUtil;
@@ -13,11 +14,14 @@ import com.freshdesk.sdk.plug.run.AppIdNSResolver;
 import com.freshdesk.sdk.plug.run.UserBean;
 import com.freshdesk.sdk.plug.run.UserLiquefier;
 import com.freshdesk.sdk.plug.run.UserType;
+import com.freshdesk.sdk.validators.RunValidator;
+import com.freshdesk.sdk.validators.RuntimeValidatorUtil;
 import com.freshdesk.sdkcommon.Versions;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -88,6 +92,11 @@ public class PlugServlet extends SuperServlet {
         }
         
         try {
+            for(RunValidator validator : getRuntimeValidators()) {
+                validator.setPrjDir(prjDir);
+                validator.validate();
+            }
+
             Map<String, Object> urlBody = JsonUtil.jsonToMap(body);
             @SuppressWarnings("unchecked")
             Map<String, Object> pageParams = (Map<String, Object>)urlBody
@@ -145,6 +154,14 @@ public class PlugServlet extends SuperServlet {
                 ex.printStackTrace(System.err);
             }
             throw new ServletException(ex);
+        }
+    }
+
+    private Set<RunValidator> getRuntimeValidators() {
+        try {
+            return RuntimeValidatorUtil.getRuntimeValidators(ExtnType.PLUG);
+        } catch (InstantiationException | IllegalAccessException ex) {
+            throw new FAException(ex.getMessage());
         }
     }
     

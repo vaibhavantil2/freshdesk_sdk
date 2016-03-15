@@ -1,8 +1,8 @@
-package com.freshdesk.sdk.plug.pkgvalidator;
+package com.freshdesk.sdk.plug.validators;
 
-import com.freshdesk.sdk.pkgvalidator.BasePrePkgValidator;
+import com.freshdesk.sdk.validators.BasePrePkgValidator;
 import com.freshdesk.sdk.ExitStatus;
-import com.freshdesk.sdk.pkgvalidator.PrePackageValidator;
+import com.freshdesk.sdk.validators.PrePackageValidator;
 import com.freshdesk.sdk.SdkException;
 import java.io.File;
 import java.util.Arrays;

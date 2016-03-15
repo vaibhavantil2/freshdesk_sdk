@@ -3,12 +3,12 @@ package com.freshdesk.sdk.plug;
 import com.freshdesk.sdk.FAException;
 import com.freshdesk.sdk.ManifestContents;
 import com.freshdesk.sdk.TemplateRendererSdk;
+import com.freshdesk.sdk.Util;
 import com.freshdesk.sdk.plug.run.ScssCompiler;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Collections;
 import java.util.Map;
 import org.wiztools.commons.FileUtil;
 
@@ -26,29 +26,21 @@ public class PlugContentUnifier {
     private final File prjDir;
     private final File workDir;
     private final Map<String, Object> renderParams;
-    
+    public static final String workDirName = "work";
+    private static final String cssFileName = "app.css";
+
     public PlugContentUnifier(File appDir, ManifestContents mf, Map<String, Object> renderParams) {
-        if(appDir.isDirectory() && appDir.canRead()) {
-            htmlFile = new File(appDir, PlugFile.toString(PlugFile.HTML));
-            scssFile = new File(appDir, PlugFile.toString(PlugFile.SCSS));
-            jsFile = new File(appDir, PlugFile.toString(PlugFile.JS));
-            if(!(htmlFile.isFile() && htmlFile.canRead()
-                && scssFile.isFile() && scssFile.canRead()
-                && jsFile.isFile() && jsFile.canRead())) {
-                throw new FAException("Files missing");
-            }
-            prjDir = appDir.getParentFile();
-            workDir = new File(prjDir, "work");
-            this.manifest = mf;
-            this.renderParams = renderParams;
-            this.cssFile = new File(workDir, "app.css");
-        }
-        else {
-            throw new FAException("Lib Directory corrupt/ not readable.");
-        }
+        htmlFile = new File(appDir, PlugFile.toString(PlugFile.HTML));
+        scssFile = new File(appDir, PlugFile.toString(PlugFile.SCSS));
+        jsFile = new File(appDir, PlugFile.toString(PlugFile.JS));
+        prjDir = appDir.getParentFile();
+        workDir = new File(prjDir, workDirName);
+        this.manifest = mf;
+        this.renderParams = renderParams;
+        this.cssFile = new File(workDir, cssFileName);
     }
     
-    private String getFileContent(File f) throws IOException {
+    public String getFileContent(File f) throws IOException {
         return FileUtil.getContentAsString(f, manifest.getCharset());
     }
     

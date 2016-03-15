@@ -1,9 +1,9 @@
-package com.freshdesk.sdk.plug.pkgvalidator;
+package com.freshdesk.sdk.plug.validators;
 
 import com.freshdesk.sdk.ExitStatus;
 import com.freshdesk.sdk.SdkException;
-import com.freshdesk.sdk.pkgvalidator.BasePostPkgValidator;
-import com.freshdesk.sdk.pkgvalidator.PostPackageValidator;
+import com.freshdesk.sdk.validators.BasePostPkgValidator;
+import com.freshdesk.sdk.validators.PostPackageValidator;
 
 /**
  *

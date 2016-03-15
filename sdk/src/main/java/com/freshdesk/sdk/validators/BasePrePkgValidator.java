@@ -1,4 +1,4 @@
-package com.freshdesk.sdk.pkgvalidator;
+package com.freshdesk.sdk.validators;
 
 import com.freshdesk.sdk.IParamConfig;
 import com.freshdesk.sdk.ManifestContents;

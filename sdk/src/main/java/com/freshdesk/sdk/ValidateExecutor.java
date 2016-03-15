@@ -1,7 +1,7 @@
 package com.freshdesk.sdk;
 
-import com.freshdesk.sdk.pkgvalidator.PkgValidatorUtil;
-import com.freshdesk.sdk.pkgvalidator.PrePkgValidator;
+import com.freshdesk.sdk.validators.PkgValidatorUtil;
+import com.freshdesk.sdk.validators.PrePkgValidator;
 import io.airlift.airline.Command;
 import java.util.ArrayList;
 import java.util.List;

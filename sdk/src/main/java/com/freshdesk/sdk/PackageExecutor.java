@@ -1,8 +1,8 @@
 package com.freshdesk.sdk;
 
-import com.freshdesk.sdk.pkgvalidator.PkgValidatorUtil;
-import com.freshdesk.sdk.pkgvalidator.PostPkgValidator;
-import com.freshdesk.sdk.pkgvalidator.PrePkgValidator;
+import com.freshdesk.sdk.validators.PkgValidatorUtil;
+import com.freshdesk.sdk.validators.PostPkgValidator;
+import com.freshdesk.sdk.validators.PrePkgValidator;
 import com.freshdesk.sdk.plug.PlugContentUnifier;
 import com.freshdesk.sdk.plug.run.AppIdNSResolver;
 import io.airlift.airline.Command;
@@ -11,6 +11,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -57,7 +60,7 @@ public class PackageExecutor extends AbstractProjectExecutor {
             response = new PlugContentUnifier(new File(prjDir, "app"), mf,
                 new AppIdNSResolver(prjDir).getNamespace()).getPlugResponse();
             AppIdNSResolver ns = new AppIdNSResolver(prjDir);
-            response = response.replace(ns.getLiquidVal(), "{{" + ns.getLiquidKey() + "}}");
+            response = replaceAssetUrl(replaceAppId(response, ns));
             File buildDir = new File(prjDir, "build");
             if(!buildDir.isDirectory()) {
                 buildDir.mkdirs();
@@ -129,5 +132,22 @@ public class PackageExecutor extends AbstractProjectExecutor {
         catch(InstantiationException | IllegalAccessException ex) {
             throw new SdkException(ExitStatus.CMD_FAILED, ex);
         }
+    }
+
+    private String replaceAppId(String response,AppIdNSResolver ns){
+        return response.replaceAll(ns.getLiquidVal(), "{{" + ns.getLiquidKey() + "}}");
+    }
+
+    private String replaceAssetUrl(String response){
+        Matcher m = Pattern.compile("assets/(.*)\\w").matcher(response);
+        while (m.find()) {
+            String fileName =  m.group(0).split("/")[1];
+            response = response.replace(Constants.URL_SCHEME + "://" +
+                                            Constants.LOCAL_SERVER_URL + ":" +
+                                            Constants.SERVER_PORT +
+                                            "/assets/" + fileName,
+                                            "{{'" + fileName +"' | asset_url}}");
+        }
+        return response;
     }
 }
