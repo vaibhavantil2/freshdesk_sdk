@@ -61,6 +61,9 @@ public class PlugContentUnifier {
         compileCss(tmpFile, cssFile);
         String css = appendStyleTag(getFileContent(cssFile));
         output.append(css);
+        
+        // Delete the tmpFile:
+        tmpFile.delete();
 
         // For HTML:
         output.append("\n")
