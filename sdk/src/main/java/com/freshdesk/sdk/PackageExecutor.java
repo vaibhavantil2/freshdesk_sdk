@@ -4,12 +4,17 @@ import com.freshdesk.sdk.validators.PkgValidatorUtil;
 import com.freshdesk.sdk.validators.PostPkgValidator;
 import com.freshdesk.sdk.validators.PrePkgValidator;
 import com.freshdesk.sdk.plug.PlugContentUnifier;
+import com.freshdesk.sdk.plug.PlugFile;
 import com.freshdesk.sdk.plug.run.AppIdNSResolver;
 import io.airlift.airline.Command;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,7 +32,8 @@ public class PackageExecutor extends AbstractProjectExecutor {
     private static final Logger LOG = LogManager.getLogger(PackageExecutor.class);
     
     private static final String DIST_DIR = "dist";
-    
+    private List<File> FILES_TO_DIGEST;
+
     @Override
     public final void execute() throws SdkException {
         final File distDir = new File(prjDir, DIST_DIR);
@@ -55,10 +61,12 @@ public class PackageExecutor extends AbstractProjectExecutor {
 
         // For build dir:
         ManifestContents mf = new ManifestContents(prjDir);
+        File appDir = new File(prjDir, "app");
+        File digestFile = new File(prjDir, "digest.md5");
         String response = null;
         try {
-            response = new PlugContentUnifier(new File(prjDir, "app"), mf,
-                new AppIdNSResolver(prjDir).getNamespace()).getPlugResponse();
+            response = new PlugContentUnifier(appDir, mf,
+                    new AppIdNSResolver(prjDir).getNamespace()).getPlugResponse();
             AppIdNSResolver ns = new AppIdNSResolver(prjDir);
             response = replaceAssetUrl(replaceAppId(response, ns));
             File buildDir = new File(prjDir, "build");
@@ -69,11 +77,24 @@ public class PackageExecutor extends AbstractProjectExecutor {
             OutputStream os = new FileOutputStream(indexFile);
             os.write(response.getBytes());
             os.close();
+            FILES_TO_DIGEST = new ArrayList<>();
+            for (String fileName : PlugFile.getAllFiles()) {
+                FILES_TO_DIGEST.add(new File(appDir, fileName));
+            }
+            FILES_TO_DIGEST.add(indexFile);
+            
+            try (OutputStream osd = new FileOutputStream(digestFile)) {
+                InputStream is = new ByteArrayInputStream(response.getBytes());
+                String hashCode = DigestUtil.getHashCodeForFiles(FILES_TO_DIGEST, manifest);
+                osd.write(hashCode.getBytes());
+            }
         } catch (IOException e) {
             throw new FAException(e);
         }
 
         new PkgZipper(verbose).pack(prjDir, pkg);
+        
+        digestFile.delete();
 
         if(verbose) {
             System.out.println("Created package: dist/" + pkg.getName());
