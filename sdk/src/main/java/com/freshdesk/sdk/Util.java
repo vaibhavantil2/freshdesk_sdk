@@ -3,7 +3,6 @@ package com.freshdesk.sdk;
 import com.freshdesk.sdk.plug.PlugFile;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 
 /**
  *
@@ -12,19 +11,6 @@ import java.util.Arrays;
 public final class Util {
     
     private Util() {}
-    
-    public static String[] skipN(final String[] arr, int n) {
-        if(arr.length > n) {
-            return Arrays.copyOfRange(arr, n, arr.length);
-        }
-        else {
-            return new String[]{};
-        }
-    }
-    
-    public static String[] skipFirst(final String[] arr) {
-        return skipN(arr, 1);
-    }
     
     public static String getMimeType(final String fileName) {
         String contentType = null;

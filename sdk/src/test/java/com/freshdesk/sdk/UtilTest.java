@@ -8,30 +8,6 @@ import org.junit.Test;
  * @author subhash
  */
 public class UtilTest {
-    
-    /**
-     * Test of skipFirst method, of class Util.
-     */
-    @org.junit.Test
-    public void testSkipFirst() {
-        System.out.println("skipFirst");
-        String[] arr = new String[]{"one", "two"};
-        String[] expResult = new String[]{"two"};
-        String[] result = Util.skipFirst(arr);
-        assertArrayEquals(expResult, result);
-    }
-    
-    /**
-     * Test of skipFirst method, of class Util.
-     */
-    @org.junit.Test
-    public void testSkipFirstWithoutInput() {
-        System.out.println("skipFirst");
-        String[] arr = new String[]{};
-        String[] expResult = new String[]{};
-        String[] result = Util.skipFirst(arr);
-        assertArrayEquals(expResult, result);
-    }
 
     /**
      * Test of getMimeType method, of class Util.
