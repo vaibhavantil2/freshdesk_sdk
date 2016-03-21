@@ -28,7 +28,7 @@ public class DigestUtil {
                 buffer.clear();
             }
             catch (IOException ex) {
-                throw new SdkException(ExitStatus.CMD_FAILED, "Error while generating Digest.");
+                throw new SdkException(ExitStatus.CMD_FAILED, "Error generating digest.");
             }   
         }
         return dc.getHexHash();

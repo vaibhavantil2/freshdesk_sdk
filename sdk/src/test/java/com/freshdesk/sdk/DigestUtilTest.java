@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -44,8 +44,8 @@ public class DigestUtilTest {
         List<File> filesToDigest = new ArrayList<>();
         filesToDigest.add(new File("src/test/resources/digest-test.txt"));
         String expectedResult = "8b1a9953c4611296a827abf8c47804d7";
-        if( !(expectedResult.equals(DigestUtil.getHashCodeForFiles(filesToDigest)))) {
-            Assert.fail();
-        }
+        
+        assertEquals(expectedResult,
+                DigestUtil.getHashCodeForFiles(filesToDigest));
     }
 }
