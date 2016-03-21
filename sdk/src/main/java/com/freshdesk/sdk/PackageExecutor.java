@@ -7,11 +7,9 @@ import com.freshdesk.sdk.plug.PlugContentUnifier;
 import com.freshdesk.sdk.plug.PlugFile;
 import com.freshdesk.sdk.plug.run.AppIdNSResolver;
 import io.airlift.airline.Command;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,11 +82,11 @@ public class PackageExecutor extends AbstractProjectExecutor {
             FILES_TO_DIGEST.add(indexFile);
             
             try (OutputStream osd = new FileOutputStream(digestFile)) {
-                InputStream is = new ByteArrayInputStream(response.getBytes());
                 String hashCode = DigestUtil.getHashCodeForFiles(FILES_TO_DIGEST);
                 osd.write(hashCode.getBytes());
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             throw new SdkException(ExitStatus.CMD_FAILED, e);
         }
 
