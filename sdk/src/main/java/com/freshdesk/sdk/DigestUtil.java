@@ -41,7 +41,7 @@ public class DigestUtil {
             return getHashCode(new ByteArrayInputStream(content.toString().getBytes()));
         }
         catch (IOException ex) {
-            throw new FAException("Error while generating Digest.");
+            throw new SdkException(ExitStatus.CMD_FAILED, "Error while generating Digest.");
         }
     }
     
@@ -59,7 +59,7 @@ public class DigestUtil {
             out.deleteCharAt(out.toString().length() - 1);
             return out.toString();
         } catch (IOException ex) {
-            throw new FAException("Error while reading content from file.");
+            throw new SdkException(ExitStatus.CMD_FAILED, "Error while reading content from file.");
         }
     }
 

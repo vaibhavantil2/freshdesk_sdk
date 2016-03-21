@@ -4,6 +4,7 @@ import com.freshdesk.sdk.ManifestContents;
 import com.freshdesk.sdk.Util;
 import com.freshdesk.sdk.validators.BasePrePkgValidator;
 import com.freshdesk.sdk.ExitStatus;
+import com.freshdesk.sdk.FAException;
 import com.freshdesk.sdk.validators.PrePackageValidator;
 import com.freshdesk.sdk.SdkException;
 import com.freshdesk.sdk.plug.PlugContentUnifier;
@@ -44,6 +45,9 @@ public class ScssLiquidsValidator extends BasePrePkgValidator {
         }
         catch (FileNotFoundException ex) {
             throw new SdkException(ExitStatus.CMD_FAILED, "Files missing in app dir.");
+        }
+        catch (FAException ex) {
+            throw new SdkException(ExitStatus.CMD_FAILED, ex.getMessage());
         }
         htmlFile = new File(appDir, PlugFile.toString(PlugFile.HTML));
         scssFile = new File(appDir, PlugFile.toString(PlugFile.SCSS));

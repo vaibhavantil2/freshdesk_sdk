@@ -89,7 +89,7 @@ public class PackageExecutor extends AbstractProjectExecutor {
                 osd.write(hashCode.getBytes());
             }
         } catch (IOException e) {
-            throw new FAException(e);
+            throw new SdkException(ExitStatus.CMD_FAILED, e);
         }
 
         new PkgZipper(verbose).pack(prjDir, pkg);

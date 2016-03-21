@@ -44,10 +44,11 @@ public final class Util {
             File htmlFile = new File(appDir, PlugFile.toString(PlugFile.HTML));
             File scssFile = new File(appDir, PlugFile.toString(PlugFile.SCSS));
             File jsFile = new File(appDir, PlugFile.toString(PlugFile.JS));
-            if(!(htmlFile.isFile() && htmlFile.canRead()
-                && scssFile.isFile() && scssFile.canRead()
-                && jsFile.isFile() && jsFile.canRead())) {
+            if(!(htmlFile.isFile() && scssFile.isFile() && jsFile.isFile())) {
                 throw new FileNotFoundException();
+            }
+            else if(!(jsFile.canRead() || scssFile.canRead() || htmlFile.canRead())) {
+                throw new FAException("Cannot read file(s) in app dir.");
             }
         }
     }
