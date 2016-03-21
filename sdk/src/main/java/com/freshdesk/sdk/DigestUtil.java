@@ -17,14 +17,13 @@ import org.wiztools.commons.HexEncodeUtil;
  */
 public class DigestUtil {
     
-    public static String getHashCodeForFiles(List<File> files, ManifestContents manifest) {
+    public static String getHashCodeForFiles(List<File> files) {
         DigestCompute dc = new DigestCompute();
         for (File f : files) {
             try(
                     RandomAccessFile aFile = new RandomAccessFile(f, "r");
                     FileChannel inChannel = aFile.getChannel();) {
                 MappedByteBuffer buffer = inChannel.map(FileChannel.MapMode.READ_ONLY, 0, inChannel.size());
-                buffer.load();
                 dc.update(buffer);
                 buffer.clear();
             }

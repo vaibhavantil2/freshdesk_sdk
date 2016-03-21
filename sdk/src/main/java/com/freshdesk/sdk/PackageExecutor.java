@@ -85,7 +85,7 @@ public class PackageExecutor extends AbstractProjectExecutor {
             
             try (OutputStream osd = new FileOutputStream(digestFile)) {
                 InputStream is = new ByteArrayInputStream(response.getBytes());
-                String hashCode = DigestUtil.getHashCodeForFiles(FILES_TO_DIGEST, manifest);
+                String hashCode = DigestUtil.getHashCodeForFiles(FILES_TO_DIGEST);
                 osd.write(hashCode.getBytes());
             }
         } catch (IOException e) {
