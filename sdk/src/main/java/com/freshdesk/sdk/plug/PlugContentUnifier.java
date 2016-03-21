@@ -30,9 +30,9 @@ public class PlugContentUnifier {
     private static final String cssFileName = "app.css";
 
     public PlugContentUnifier(File appDir, ManifestContents mf, Map<String, Object> renderParams) {
-        htmlFile = new File(appDir, PlugFile.toString(PlugFile.HTML));
-        scssFile = new File(appDir, PlugFile.toString(PlugFile.SCSS));
-        jsFile = new File(appDir, PlugFile.toString(PlugFile.JS));
+        htmlFile = new File(appDir, AppFile.toString(AppFile.HTML));
+        scssFile = new File(appDir, AppFile.toString(AppFile.SCSS));
+        jsFile = new File(appDir, AppFile.toString(AppFile.JS));
         prjDir = appDir.getParentFile();
         workDir = new File(prjDir, workDirName);
         this.manifest = mf;

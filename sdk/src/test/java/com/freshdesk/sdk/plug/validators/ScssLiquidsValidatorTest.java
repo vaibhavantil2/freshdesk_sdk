@@ -3,7 +3,7 @@ package com.freshdesk.sdk.plug.validators;
 import com.freshdesk.sdk.*;
 import com.freshdesk.sdk.plug.validators.ScssLiquidsValidator;
 import com.freshdesk.sdk.validators.BasePrePkgValidator;
-import com.freshdesk.sdk.plug.PlugFile;
+import com.freshdesk.sdk.plug.AppFile;
 import org.junit.Test;
 import org.wiztools.commons.FileUtil;
 
@@ -72,7 +72,7 @@ public class ScssLiquidsValidatorTest {
             // to check if validator works.
 
             File appDir = new File(f, "app");
-            File scssFile = new File(appDir, PlugFile.toString(PlugFile.SCSS));
+            File scssFile = new File(appDir, AppFile.toString(AppFile.SCSS));
             String scssContent = FileUtil.getContentAsString(
                                scssFile, new ManifestContents(f).getCharset());
             scssContent = scssContent.replace("app_id","ticket_id");
@@ -117,7 +117,7 @@ public class ScssLiquidsValidatorTest {
             // to check if validator works.
 
             File appDir = new File(f, "app");
-            File scssFile = new File(appDir, PlugFile.toString(PlugFile.SCSS));
+            File scssFile = new File(appDir, AppFile.toString(AppFile.SCSS));
             String scssContent = FileUtil.getContentAsString(
                 scssFile, new ManifestContents(f).getCharset());
             scssContent = scssContent.replace("asset_url", "wrong_url");

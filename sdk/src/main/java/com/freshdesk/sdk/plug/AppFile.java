@@ -6,11 +6,11 @@ import com.freshdesk.sdk.FAException;
  *
  * @author raghav
  */
-public enum PlugFile {
+public enum AppFile {
     
     HTML, SCSS, JS;
     
-    public static String toString(PlugFile file) {
+    public static String toString(AppFile file) {
         switch(file) {
             case HTML :
                 return "template.html";

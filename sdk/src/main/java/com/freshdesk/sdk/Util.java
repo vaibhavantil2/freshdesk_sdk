@@ -1,6 +1,6 @@
 package com.freshdesk.sdk;
 
-import com.freshdesk.sdk.plug.PlugFile;
+import com.freshdesk.sdk.plug.AppFile;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -41,9 +41,9 @@ public final class Util {
 
     public static void appDirValidator(File appDir) throws FileNotFoundException {
         if (appDir.isDirectory() && appDir.canRead()) {
-            File htmlFile = new File(appDir, PlugFile.toString(PlugFile.HTML));
-            File scssFile = new File(appDir, PlugFile.toString(PlugFile.SCSS));
-            File jsFile = new File(appDir, PlugFile.toString(PlugFile.JS));
+            File htmlFile = new File(appDir, AppFile.toString(AppFile.HTML));
+            File scssFile = new File(appDir, AppFile.toString(AppFile.SCSS));
+            File jsFile = new File(appDir, AppFile.toString(AppFile.JS));
             if(!(htmlFile.isFile() && scssFile.isFile() && jsFile.isFile())) {
                 throw new FileNotFoundException();
             }

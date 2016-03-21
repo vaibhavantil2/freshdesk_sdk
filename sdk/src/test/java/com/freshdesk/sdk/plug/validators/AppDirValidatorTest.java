@@ -2,7 +2,7 @@ package com.freshdesk.sdk.plug.validators;
 
 import com.freshdesk.sdk.FAException;
 import com.freshdesk.sdk.InitExecutor;
-import com.freshdesk.sdk.plug.PlugFile;
+import com.freshdesk.sdk.plug.AppFile;
 import com.freshdesk.sdk.plug.validators.AppDirValidator;
 import com.freshdesk.sdk.validators.BaseRunValidator;
 import org.junit.Test;
@@ -50,7 +50,7 @@ public class AppDirValidatorTest {
 
             // Delete file for negative test case
             File appDir = new File(f, "app");
-            File htmlFile = new File(appDir, PlugFile.toString(PlugFile.HTML));
+            File htmlFile = new File(appDir, AppFile.toString(AppFile.HTML));
             htmlFile.delete();
 
             try {

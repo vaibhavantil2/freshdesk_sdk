@@ -8,7 +8,7 @@ import com.freshdesk.sdk.FAException;
 import com.freshdesk.sdk.validators.PrePackageValidator;
 import com.freshdesk.sdk.SdkException;
 import com.freshdesk.sdk.plug.PlugContentUnifier;
-import com.freshdesk.sdk.plug.PlugFile;
+import com.freshdesk.sdk.plug.AppFile;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 @PrePackageValidator
 public class ScssLiquidsValidator extends BasePrePkgValidator {
     
-    private static final String[] PLUG_FILES = PlugFile.getAllFiles();
+    private static final String[] PLUG_FILES = AppFile.getAllFiles();
     private static final String[] ALLOWED_LIQUIDS = {"app_id"};
     private static final String[] ALLOWED_FILTERS = {"asset_url"};
 
@@ -49,9 +49,9 @@ public class ScssLiquidsValidator extends BasePrePkgValidator {
         catch (FAException ex) {
             throw new SdkException(ExitStatus.CMD_FAILED, ex.getMessage());
         }
-        htmlFile = new File(appDir, PlugFile.toString(PlugFile.HTML));
-        scssFile = new File(appDir, PlugFile.toString(PlugFile.SCSS));
-        jsFile = new File(appDir, PlugFile.toString(PlugFile.JS));
+        htmlFile = new File(appDir, AppFile.toString(AppFile.HTML));
+        scssFile = new File(appDir, AppFile.toString(AppFile.SCSS));
+        jsFile = new File(appDir, AppFile.toString(AppFile.JS));
         PlugContentUnifier unifier = new PlugContentUnifier(appDir, manifest, Collections.EMPTY_MAP);
         exceptions = new ArrayList<>();
         try {
