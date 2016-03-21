@@ -17,11 +17,11 @@ import org.wiztools.commons.FileUtil;
  */
 public class DigestUtil {
 
-    private static String getHashCode(InputStream content) {
+    private static String getHashCode(InputStream is) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
-            String abc = getStringFromInputStream(content);
-            byte[] array = md.digest(abc.getBytes()); 
+            String content = getStringFromInputStream(is);
+            byte[] array = md.digest(content.getBytes()); 
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < array.length; ++i) {
                 sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
@@ -41,7 +41,7 @@ public class DigestUtil {
             return getHashCode(new ByteArrayInputStream(content.toString().getBytes()));
         }
         catch (IOException ex) {
-            throw new FAException("Error while generating Digest. Please try again");
+            throw new FAException("Error while generating Digest.");
         }
     }
     
