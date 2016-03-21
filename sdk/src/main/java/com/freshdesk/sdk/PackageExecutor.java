@@ -27,7 +27,12 @@ public class PackageExecutor extends AbstractProjectExecutor {
             }
         }
         
-        PackageValidations pv = new PackageValidations(prjDir, manifest, iparamConfig, iparams, extnType);
+        PackageValidations pv = new PackageValidations(prjDir,
+                manifest,
+                iparamConfig,
+                iparams,
+                extnType);
+        
         pv.runPrePkgValidations();
        
         final File pkg = new File(distDir, getPackageName());
