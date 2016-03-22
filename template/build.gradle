@@ -5,5 +5,7 @@ def plugTmpl = "${buildDir}/plug-template.zip"
 
 build.doLast {
   ant.zip(destfile: plugTmplOutFile, basedir: "plug")
-  ant.zip(destfile: plugTmpl, basedir: "plug")
+  ant.zip(destfile: plugTmpl){
+    fileset(dir: "plug", defaultexcludes: "no")
+  }
 }
