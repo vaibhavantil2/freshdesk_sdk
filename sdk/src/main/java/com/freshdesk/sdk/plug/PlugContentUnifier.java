@@ -25,10 +25,11 @@ public class PlugContentUnifier {
     private final File prjDir;
     private final File workDir;
     private final Map<String, Object> renderParams;
-    public static final String workDirName = "work";
-    private static final String cssFileName = "app.css";
-    private static PlugExecutionContext ctx;
-
+    private final PlugExecutionContext ctx;
+    
+    private static final String WORK_DIR_NME = "work";
+    private static final String CSS_FILE_NME = "app.css";
+    
     public PlugContentUnifier(File appDir, 
             ManifestContents mf, 
             Map<String, Object> renderParams, 
@@ -37,10 +38,10 @@ public class PlugContentUnifier {
         scssFile = new File(appDir, AppFile.toString(AppFile.SCSS));
         jsFile = new File(appDir, AppFile.toString(AppFile.JS));
         prjDir = appDir.getParentFile();
-        workDir = new File(prjDir, workDirName);
+        workDir = new File(prjDir, WORK_DIR_NME);
         this.manifest = mf;
         this.renderParams = renderParams;
-        this.cssFile = new File(workDir, cssFileName);
+        this.cssFile = new File(workDir, CSS_FILE_NME);
         this.ctx = ctx;
     }
     
