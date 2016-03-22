@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
 import org.wiztools.commons.FileUtil;
+import static com.freshdesk.sdk.plug.FileLastModifiedStore.*;
 
 /**
  *
@@ -57,20 +58,20 @@ public class PlugContentUnifier {
         }
 
         File tmpFile = File.createTempFile("fa_", "_app.scss", workDir);
-        OutputStream os = new FileOutputStream(tmpFile);
-        os.write(liqParsedScss.getBytes());
-        os.close();
-        
-        if(ctx == PlugExecutionContext.RUN) {
-            if(FileLastModifiedMonitor.getLastModified() == null) {
-                FileLastModifiedMonitor.setLastModified(scssFile);
-            }
-            if (FileLastModifiedMonitor.getLastModified() < scssFile.lastModified() || !cssFile.isFile()) {
-                compileCss(tmpFile, cssFile);
-                FileLastModifiedMonitor.setLastModified(scssFile);
-            }
+        try(OutputStream os = new FileOutputStream(tmpFile)) {
+            os.write(liqParsedScss.getBytes());
         }
         
+        if(ctx == PlugExecutionContext.RUN) {
+            if(getLastModified(scssFile) == null) {
+                setLastModified(scssFile);
+            }
+            if(getLastModified(scssFile) < scssFile.lastModified()
+                    || !cssFile.isFile()) {
+                compileCss(tmpFile, cssFile);
+                setLastModified(scssFile);
+            }
+        }
         else if (ctx == PlugExecutionContext.PACKAGE) {
             compileCss(tmpFile, cssFile);
         }
