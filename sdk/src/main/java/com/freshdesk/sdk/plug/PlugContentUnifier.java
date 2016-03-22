@@ -98,7 +98,7 @@ public class PlugContentUnifier {
     }
 
     private String appendScriptTag(String jsContent) {
-        return new StringBuilder().append("<script type='text/javascript'>\n")
+        return new StringBuilder().append("<script>\n")
             .append(jsContent)
             .append("\n</script>").toString();
     }
