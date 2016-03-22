@@ -40,7 +40,9 @@ public class BuildFileHandler {
         try {
             AppIdNSResolver ns = new AppIdNSResolver(prjDir);
             String response = new PlugContentUnifier(appDir, mf,
-                        ns.getNamespace()).getPlugResponse();
+                    ns.getNamespace(), 
+                    PlugExecutionContext.PACKAGE)
+                    .getPlugResponse();
             OutputStream os = new FileOutputStream(indexFile);
             response = replaceAssetUrl(replaceAppId(response, ns));
             os.write(response.getBytes());

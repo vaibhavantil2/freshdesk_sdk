@@ -1,9 +1,7 @@
 package com.freshdesk.sdk.plug;
 
-import com.freshdesk.sdk.FAException;
 import com.freshdesk.sdk.ManifestContents;
 import com.freshdesk.sdk.TemplateRendererSdk;
-import com.freshdesk.sdk.Util;
 import com.freshdesk.sdk.plug.run.ScssCompiler;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,8 +26,12 @@ public class PlugContentUnifier {
     private final Map<String, Object> renderParams;
     public static final String workDirName = "work";
     private static final String cssFileName = "app.css";
+    private static PlugExecutionContext ctx;
 
-    public PlugContentUnifier(File appDir, ManifestContents mf, Map<String, Object> renderParams) {
+    public PlugContentUnifier(File appDir, 
+            ManifestContents mf, 
+            Map<String, Object> renderParams, 
+            PlugExecutionContext ctx) {
         htmlFile = new File(appDir, AppFile.toString(AppFile.HTML));
         scssFile = new File(appDir, AppFile.toString(AppFile.SCSS));
         jsFile = new File(appDir, AppFile.toString(AppFile.JS));
@@ -38,6 +40,7 @@ public class PlugContentUnifier {
         this.manifest = mf;
         this.renderParams = renderParams;
         this.cssFile = new File(workDir, cssFileName);
+        this.ctx = ctx;
     }
     
     public String getFileContent(File f) throws IOException {
@@ -57,8 +60,21 @@ public class PlugContentUnifier {
         OutputStream os = new FileOutputStream(tmpFile);
         os.write(liqParsedScss.getBytes());
         os.close();
-
-        compileCss(tmpFile, cssFile);
+        
+        if(ctx == PlugExecutionContext.RUN) {
+            if(FileLastModifiedMonitor.getLastModified() == null) {
+                FileLastModifiedMonitor.setLastModified(scssFile);
+            }
+            if (FileLastModifiedMonitor.getLastModified() < scssFile.lastModified() || !cssFile.isFile()) {
+                compileCss(tmpFile, cssFile);
+                FileLastModifiedMonitor.setLastModified(scssFile);
+            }
+        }
+        
+        else if (ctx == PlugExecutionContext.PACKAGE) {
+            compileCss(tmpFile, cssFile);
+        }
+        
         String css = appendStyleTag(getFileContent(cssFile));
         output.append(css);
         

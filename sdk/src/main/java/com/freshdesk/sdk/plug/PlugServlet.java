@@ -130,7 +130,10 @@ public class PlugServlet extends SuperServlet {
                     .addExisting(namespace.getNamespace())
                     .addInstallationParams(ipc.getIParams()).build();
 
-            String consolidatedResponse = new PlugContentUnifier(appDir, manifest, renderParams).getPlugResponse();
+            String consolidatedResponse = new PlugContentUnifier(appDir,
+                    manifest, renderParams, PlugExecutionContext.RUN)
+                    .getPlugResponse();
+            
             TemplateRendererSdk renderer = new TemplateRendererSdk()
                     .registerFilter(new FilterAssetURLPlug(prjDir));
             String finalOutput = renderer.renderString(consolidatedResponse, renderParams);

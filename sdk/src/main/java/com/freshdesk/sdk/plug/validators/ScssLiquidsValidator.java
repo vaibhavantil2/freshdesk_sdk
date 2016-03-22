@@ -9,6 +9,7 @@ import com.freshdesk.sdk.validators.PrePackageValidator;
 import com.freshdesk.sdk.SdkException;
 import com.freshdesk.sdk.plug.PlugContentUnifier;
 import com.freshdesk.sdk.plug.AppFile;
+import com.freshdesk.sdk.plug.PlugExecutionContext;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -52,7 +53,8 @@ public class ScssLiquidsValidator extends BasePrePkgValidator {
         htmlFile = new File(appDir, AppFile.toString(AppFile.HTML));
         scssFile = new File(appDir, AppFile.toString(AppFile.SCSS));
         jsFile = new File(appDir, AppFile.toString(AppFile.JS));
-        PlugContentUnifier unifier = new PlugContentUnifier(appDir, manifest, Collections.EMPTY_MAP);
+        PlugContentUnifier unifier = new PlugContentUnifier(appDir, manifest, 
+                          Collections.EMPTY_MAP, PlugExecutionContext.PACKAGE);
         exceptions = new ArrayList<>();
         try {
             content = unifier.getFileContent(scssFile);
