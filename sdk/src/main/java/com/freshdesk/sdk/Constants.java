@@ -3,6 +3,9 @@ package com.freshdesk.sdk;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -27,6 +30,16 @@ public final class Constants {
     public static final String URL_SCHEME = "http";
     public static final String LOCAL_SERVER_URL = "localhost";
     public static final int SERVER_PORT = 10001;
+    
+    public static final List<String> APP_PKG_LIST = Collections.unmodifiableList(
+        Arrays.asList(new String[]{
+            "app",
+            "assets",
+            "build",
+            "iparam",
+            "digest.md5",
+            "manifest.yml",
+        }));
     
     private static File getFrshHome() {
         String home = System.getProperty(FRSH_HOME_ENV);
