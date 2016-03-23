@@ -1,6 +1,7 @@
 package com.freshdesk.sdk.plug;
 
 import com.freshdesk.sdk.TemplateCtxBuilder;
+import com.freshdesk.sdk.ExtnType;
 import com.freshdesk.sdk.FAException;
 import com.freshdesk.sdk.ManifestContents;
 import com.freshdesk.sdk.JsonUtil;
@@ -9,14 +10,18 @@ import com.freshdesk.sdk.MixedContentUtil;
 import com.freshdesk.sdk.SuperServlet;
 import com.freshdesk.sdk.TemplateRendererSdk;
 import com.freshdesk.sdk.VerboseOptions;
+import com.freshdesk.sdk.plug.run.AppIdNSResolver;
 import com.freshdesk.sdk.plug.run.UserBean;
 import com.freshdesk.sdk.plug.run.UserLiquefier;
 import com.freshdesk.sdk.plug.run.UserType;
+import com.freshdesk.sdk.validators.RunValidator;
+import com.freshdesk.sdk.validators.RuntimeValidatorUtil;
 import com.freshdesk.sdkcommon.Versions;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +29,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.wiztools.appupdate.Version;
 import org.wiztools.appupdate.VersionImpl;
 import static java.nio.charset.StandardCharsets.*;
-import org.wiztools.commons.FileUtil;
 import org.wiztools.commons.StreamUtil;
 import org.wiztools.commons.StringUtil;
 
@@ -72,8 +76,7 @@ public class PlugServlet extends SuperServlet {
         }
 
         final File prjDir = new File(".");
-        final File libDir = new File(prjDir, "lib");
-        final File indexPage = new File(libDir, "index.html");
+        final File appDir = new File(prjDir, "app");
         final ManifestContents manifest = new ManifestContents(prjDir);
 
         String body = StreamUtil.inputStream2String(req.getInputStream(), UTF_8);
@@ -89,6 +92,11 @@ public class PlugServlet extends SuperServlet {
         }
         
         try {
+            for(RunValidator validator : getRuntimeValidators()) {
+                validator.setPrjDir(prjDir);
+                validator.validate();
+            }
+
             Map<String, Object> urlBody = JsonUtil.jsonToMap(body);
             @SuppressWarnings("unchecked")
             Map<String, Object> pageParams = (Map<String, Object>)urlBody
@@ -114,36 +122,33 @@ public class PlugServlet extends SuperServlet {
             Map<String, Object> currentUserDetails = UserLiquefier.getUserObject(
                                                      UserType.CURRENT_USER,
                                                      new UserBean((Map<String, Object>)urlBody.get("current_user")));
-
+            
+            AppIdNSResolver namespace = new AppIdNSResolver(prjDir);
             Map<String, Object> renderParams = new TemplateCtxBuilder()
                     .addExisting(params)
                     .addExisting(currentUserDetails)
+                    .addExisting(namespace.getNamespace())
                     .addInstallationParams(ipc.getIParams()).build();
 
-            if(indexPage.exists() && indexPage.isFile() && indexPage.canRead()) {
-                final String fileContents = FileUtil.getContentAsString(
-                        indexPage, manifest.getCharset());
-
-                TemplateRendererSdk renderer = new TemplateRendererSdk()
-                        .registerFilter(new FilterAssetURLPlug(prjDir));
-                String finalOutput = renderer.renderString(fileContents, renderParams);
-                if(trace) {
-                    System.out.println("### Plug response:\n");
-                    System.out.println(finalOutput);
-                    System.out.println();
-                }
-                
-                // To avoid SSL mixed-content warning:
-                MixedContentUtil.allowedOrigin(resp, "*");
-                
-                try(OutputStream os = resp.getOutputStream()) {
-                    os.write(finalOutput.getBytes());
-                    os.flush();
-                }
+            String consolidatedResponse = new PlugContentUnifier(appDir,
+                    manifest, renderParams, PlugExecutionContext.RUN)
+                    .getPlugResponse();
+            
+            TemplateRendererSdk renderer = new TemplateRendererSdk()
+                    .registerFilter(new FilterAssetURLPlug(prjDir));
+            String finalOutput = renderer.renderString(consolidatedResponse, renderParams);
+            if(trace) {
+                System.out.println("### Plug response:\n");
+                System.out.println(finalOutput);
+                System.out.println();
             }
-            else {
-                System.err.println("index.html not found!");
-                resp.sendError(HttpServletResponse.SC_NOT_FOUND, "index.html not found");
+
+            // To avoid SSL mixed-content warning:
+            MixedContentUtil.allowedOrigin(resp, "*");
+
+            try(OutputStream os = resp.getOutputStream()) {
+                os.write(finalOutput.getBytes());
+                os.flush();
             }
         }
         catch(FAException ex) {
@@ -152,6 +157,14 @@ public class PlugServlet extends SuperServlet {
                 ex.printStackTrace(System.err);
             }
             throw new ServletException(ex);
+        }
+    }
+
+    private Set<RunValidator> getRuntimeValidators() {
+        try {
+            return RuntimeValidatorUtil.getRuntimeValidators(ExtnType.PLUG);
+        } catch (InstantiationException | IllegalAccessException ex) {
+            throw new FAException(ex.getMessage());
         }
     }
     

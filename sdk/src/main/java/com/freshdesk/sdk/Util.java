@@ -1,7 +1,8 @@
 package com.freshdesk.sdk;
 
+import com.freshdesk.sdk.plug.AppFile;
 import java.io.File;
-import java.util.Arrays;
+import java.io.FileNotFoundException;
 
 /**
  *
@@ -10,19 +11,6 @@ import java.util.Arrays;
 public final class Util {
     
     private Util() {}
-    
-    public static String[] skipN(final String[] arr, int n) {
-        if(arr.length > n) {
-            return Arrays.copyOfRange(arr, n, arr.length);
-        }
-        else {
-            return new String[]{};
-        }
-    }
-    
-    public static String[] skipFirst(final String[] arr) {
-        return skipN(arr, 1);
-    }
     
     public static String getMimeType(final String fileName) {
         String contentType = null;
@@ -49,5 +37,19 @@ public final class Util {
 
     public static boolean isDirEmpty(File f) {
         return f.isDirectory() && f.list().length == 0;
+    }
+
+    public static void appDirValidator(File appDir) throws FileNotFoundException {
+        if (appDir.isDirectory() && appDir.canRead()) {
+            File htmlFile = new File(appDir, AppFile.toString(AppFile.HTML));
+            File scssFile = new File(appDir, AppFile.toString(AppFile.SCSS));
+            File jsFile = new File(appDir, AppFile.toString(AppFile.JS));
+            if(!(htmlFile.isFile() && scssFile.isFile() && jsFile.isFile())) {
+                throw new FileNotFoundException();
+            }
+            else if(!(jsFile.canRead() || scssFile.canRead() || htmlFile.canRead())) {
+                throw new FAException("Cannot read file(s) in app dir.");
+            }
+        }
     }
 }

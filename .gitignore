@@ -14,3 +14,7 @@
 /.nb-gradle/
 /.idea/
 **/*.bak
+**/*.iml
+build.sh
+template_replacer.sh
+**/.DS_Store

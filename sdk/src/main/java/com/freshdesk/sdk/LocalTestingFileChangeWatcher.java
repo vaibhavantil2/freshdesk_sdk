@@ -41,7 +41,7 @@ public class LocalTestingFileChangeWatcher {
                 return FileVisitResult.CONTINUE;
             }
         };
-        Files.walkFileTree(prjDir.toPath(), fileVisitor);
+        Files.walkFileTree(new File(prjDir, "app").toPath(), fileVisitor);
         
         while(true) {
             WatchKey watchKey;

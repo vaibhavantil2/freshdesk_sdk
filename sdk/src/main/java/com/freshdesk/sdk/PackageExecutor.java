@@ -1,13 +1,11 @@
 package com.freshdesk.sdk;
 
-import com.freshdesk.sdk.pkgvalidator.PkgValidatorUtil;
-import com.freshdesk.sdk.pkgvalidator.PostPkgValidator;
-import com.freshdesk.sdk.pkgvalidator.PrePkgValidator;
+import com.freshdesk.sdk.plug.BuildFileHandler;
+import com.freshdesk.sdk.plug.DigestFileHandler;
+import com.freshdesk.sdk.plug.PackageValidations;
 import io.airlift.airline.Command;
 import java.io.File;
-import java.util.Set;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 
 /**
  *
@@ -16,10 +14,9 @@ import org.apache.logging.log4j.Logger;
 @Command(name = "package")
 public class PackageExecutor extends AbstractProjectExecutor {
     
-    private static final Logger LOG = LogManager.getLogger(PackageExecutor.class);
     
     private static final String DIST_DIR = "dist";
-    
+
     @Override
     public final void execute() throws SdkException {
         final File distDir = new File(prjDir, DIST_DIR);
@@ -29,44 +26,31 @@ public class PackageExecutor extends AbstractProjectExecutor {
                         "Dir creation failed: " + distDir.getName());
             }
         }
-
-        // 1. Run pre-package validations:
-        for(PrePkgValidator validator: getPrePkgValidators()) {
-            // Instantiate:
-            validator.setPrjDir(prjDir);
-            validator.setManifest(manifest);
-            validator.setIparamConfig(iparamConfig);
-            validator.setIParam(iparams);
-            
-            // Now validate:
-            validator.validate();
-        }
         
-        // 2. Create package:
+        PackageValidations pv = new PackageValidations(prjDir,
+                manifest,
+                iparamConfig,
+                iparams,
+                extnType);
+        
+        pv.runPrePkgValidations();
+       
         final File pkg = new File(distDir, getPackageName());
+        BuildFileHandler bfh = new BuildFileHandler(prjDir, manifest);
+        DigestFileHandler dfh = new DigestFileHandler(prjDir);
+        
+        bfh.generateBuildFile();
+        dfh.generateDigestFile();
+        
         new PkgZipper(verbose).pack(prjDir, pkg);
-
+        
+        bfh.deleteBuildDir();
+        dfh.deleteDigestFile();
+        
         if(verbose) {
             System.out.println("Created package: dist/" + pkg.getName());
         }
-        
-        // 3. Run post-package validations:
-        for(PostPkgValidator validator: getPostPkgValidators()) {
-            try {
-                // Instantiate:
-                validator.setPkgFile(pkg);
-                
-                // Validate:
-                validator.validate();
-            }
-            catch(SdkException ex) {
-                // on validation error, delete package:
-                pkg.delete();
-                
-                // rethrow the exception:
-                throw new SdkException(ex);
-            }
-        }
+        pv.runPostPkgValidations(pkg);
     }
     
     protected static String cleanFileName(String input) {
@@ -84,24 +68,6 @@ public class PackageExecutor extends AbstractProjectExecutor {
         }
         else {
             return "zip";
-        }
-    }
-
-    private Set<PrePkgValidator> getPrePkgValidators() {
-        try {
-            return PkgValidatorUtil.getPrePkgValidators(extnType);
-        }
-        catch(InstantiationException | IllegalAccessException ex) {
-            throw new SdkException(ExitStatus.CMD_FAILED, ex);
-        }
-    }
-    
-    private Set<PostPkgValidator> getPostPkgValidators() {
-        try {
-            return PkgValidatorUtil.getPostPkgValidators(extnType);
-        }
-        catch(InstantiationException | IllegalAccessException ex) {
-            throw new SdkException(ExitStatus.CMD_FAILED, ex);
         }
     }
 }

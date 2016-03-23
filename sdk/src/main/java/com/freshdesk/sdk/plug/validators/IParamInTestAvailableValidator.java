@@ -2,12 +2,12 @@
  * Validates the iparam used in local testing `test_data.yml` are also
  * present in the `iparam_??.yml` files.
  */
-package com.freshdesk.sdk.plug.pkgvalidator;
+package com.freshdesk.sdk.plug.validators;
 
 import com.freshdesk.sdk.ExitStatus;
 import com.freshdesk.sdk.SdkException;
-import com.freshdesk.sdk.pkgvalidator.BasePrePkgValidator;
-import com.freshdesk.sdk.pkgvalidator.PrePackageValidator;
+import com.freshdesk.sdk.validators.BasePrePkgValidator;
+import com.freshdesk.sdk.validators.PrePackageValidator;
 import java.util.Set;
 
 /**
