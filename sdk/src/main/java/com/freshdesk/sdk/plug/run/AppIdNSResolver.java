@@ -18,7 +18,7 @@ public class AppIdNSResolver {
     protected String getName(String input) {
         final int MAX_CHARS = 6;
         String processed = input.toLowerCase()
-                .replaceAll("[^a-zA-Z0-9]", "-");
+                .replaceAll("[^a-zA-Z0-9]", "_");
         if(processed.length() > MAX_CHARS) {
             processed = processed.substring(0, MAX_CHARS);
         }

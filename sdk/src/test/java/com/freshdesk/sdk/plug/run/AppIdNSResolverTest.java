@@ -41,7 +41,7 @@ public class AppIdNSResolverTest {
     public void testGetName() throws Exception {
         System.out.println("getNamespace");
         AppIdNSResolver instance = new AppIdNSResolver(new File("src/test/resources/plg-prj"));
-        String expResult = "fa_plg-pr_101";
+        String expResult = "fa_plg_pr_101";
         String result = instance.getName("plg Prj");
         assertEquals(expResult, result);
     }
