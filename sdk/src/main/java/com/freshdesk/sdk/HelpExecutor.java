@@ -33,8 +33,9 @@ public class HelpExecutor extends BaseCommandExecutor {
         CMD.put("init", "Create a new plug project.");
         CMD.put("run", "Run embedded server for local testing.");
         CMD.put("validate", "Validate project for issues.");
+        CMD.put("build", "Builds the unified `build/index.html` from the project.");
         CMD.put("package", "Generate the deployable package.");
-        CMD.put("clean", "Remove `dist/' dir created by package command.");
+        CMD.put("clean", "Remove `work/', `build/' and `dist/' dir.");
         CMD.put("info", "Print project details.");
         CMD.put("version", "Print version details.");
         CMD.put("help", "Print the help message.");

@@ -1,6 +1,6 @@
 package com.freshdesk.sdk.plug;
 
-import com.freshdesk.sdk.Constants;
+import static com.freshdesk.sdk.Constants.*;
 import com.freshdesk.sdk.ExitStatus;
 import com.freshdesk.sdk.ManifestContents;
 import com.freshdesk.sdk.SdkException;
@@ -43,10 +43,10 @@ public class BuildFileHandler {
                     ns.getNamespace(), 
                     PlugExecutionContext.PACKAGE)
                     .getPlugResponse();
-            OutputStream os = new FileOutputStream(indexFile);
-            response = replaceAssetUrl(replaceAppId(response, ns));
-            os.write(response.getBytes());
-            os.close();
+            try(OutputStream os = new FileOutputStream(indexFile)) {
+                response = replaceAssetUrl(replaceAppId(response, ns));
+                os.write(response.getBytes());
+            }
         }
         catch (IOException ex) {
             throw new SdkException(ExitStatus.CMD_FAILED, "Could not generate build file.");
@@ -56,7 +56,8 @@ public class BuildFileHandler {
     public void deleteBuildDir() {
         try {
             FileUtils.deleteDirectory(buildDir);
-        } catch (IOException ex) {
+        }
+        catch (IOException ex) {
             throw new SdkException(ExitStatus.CMD_FAILED, "Couldn't delete build dir.");
         }
     }
@@ -69,11 +70,13 @@ public class BuildFileHandler {
         Matcher m = Pattern.compile("assets/(.*)\\w").matcher(response);
         while (m.find()) {
             String fileName =  m.group(0).split("/")[1];
-            response = response.replace(Constants.URL_SCHEME + "://" +
-                                            Constants.LOCAL_SERVER_URL + ":" +
-                                            Constants.SERVER_PORT +
-                                            "/assets/" + fileName,
-                                            "{{'" + fileName +"' | asset_url}}");
+            String toBeReplaced = String.format("%s://%s:%s/assets/%s",
+                    URL_SCHEME,
+                    LOCAL_SERVER_URL,
+                    SERVER_PORT,
+                    fileName);
+            String replaceWith = String.format("{{'%s' | asset_url}}", fileName);
+            response = response.replace(toBeReplaced, replaceWith);
         }
         return response;
     }

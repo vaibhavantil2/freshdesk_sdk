@@ -26,6 +26,7 @@ public class FreshSDKMain {
                             InitExecutor.class,
                             RunExecutor.class,
                             ValidateExecutor.class,
+                            BuildExecutor.class,
                             PackageExecutor.class,
                             CleanExecutor.class,
                             InfoExecutor.class,
