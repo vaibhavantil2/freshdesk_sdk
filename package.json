@@ -1,0 +1,31 @@
+{
+  "name": "frsh-sdk",
+  "version": "0.1.0",
+  "description": "Fresh SDK",
+  "main": "index.js",
+  "author": "Subhash",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "cliparse": "^0.2.5",
+    "commander": "^2.9.0",
+    "empty-dir": "^0.2.0",
+    "express": "^4.13.4",
+    "fs-extra": "^0.27.0",
+    "js-yaml": "^3.6.0",
+    "liquid-node": "^2.6.1",
+    "machinepack-zip": "^1.1.0",
+    "node-sass": "^3.4.2",
+    "semver": "^5.1.0",
+    "ws": "^1.1.0"
+  },
+  "preferGlobal": true,
+  "bin": {
+    "frsh": "./index.js"
+  },
+  "private": true,
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5"
+  }
+}
