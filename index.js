@@ -34,6 +34,11 @@ program.command('run')
     require(__dirname + '/lib/cli-run').run();
   });
 
+program.command('validate').description('validation.')
+    .action(function(){
+        require(__dirname + '/lib/cli-validate').run();
+    });
+
 program.command('pack')
   .description('pack for distribution.')
   .action(function(){
