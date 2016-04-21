@@ -42,6 +42,12 @@ program.command('help', null, {isDefault:true})
     program.outputHelp();
   });
 
+program.command('clean')
+  .description('cleans build/ and dist/ dirs.')
+  .action(function() {
+    require(__dirname + '/lib/cli-clean').run();
+  });
+
 program.command('*', null, {noHelp:true})
   .action(function(cmd){
     console.error('unrecognized command: ' + cmd);
