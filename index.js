@@ -10,6 +10,10 @@ program.version(pjson.version)
   .option('-v, --verbose', 'verbose execution', function() {
     global.verbose = true;
     return true;
+  })
+  .option('-x, --exception', 'print exception trace', function(){
+    global.trace = true;
+    return true;
   });
 
 program.command('init <type> [dir]')
