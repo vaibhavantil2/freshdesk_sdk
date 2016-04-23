@@ -64,3 +64,8 @@ program.command('*', null, {noHelp:true})
   });
 
 program.parse(process.argv);
+
+// Process no command execution:
+if (!process.argv.slice(2).length) {
+  program.outputHelp();
+}
