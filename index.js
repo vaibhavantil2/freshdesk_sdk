@@ -59,7 +59,7 @@ program.command('clean')
 
 program.command('*', null, {noHelp:true})
   .action(function(cmd){
-    console.error('unrecognized command: ' + cmd);
+    console.error(`Unrecognized command: ${cmd}.`);
     program.outputHelp();
   });
 
