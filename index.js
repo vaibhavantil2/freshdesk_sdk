@@ -17,7 +17,7 @@ program.version(pjson.version)
   });
 
 program.command('init <type> [dir]')
-  .description('create a new project')
+  .description('create a new project.')
   .action(function(type, dir){
     require(__dirname + '/lib/cli-init').run(type, dir);
   });
@@ -34,7 +34,7 @@ program.command('run')
     require(__dirname + '/lib/cli-run').run();
   });
 
-program.command('validate').description('validation.')
+program.command('validate').description('run all validations.')
     .action(function(){
         require(__dirname + '/lib/cli-validate').run();
     });
@@ -63,7 +63,4 @@ program.command('*', null, {noHelp:true})
     program.outputHelp();
   });
 
-  // .command('validate', 'validate for correctness.')
-  // .command('build', 'build the unified index.html')
-  // .command('clean', 'clean the project.')
 program.parse(process.argv);
