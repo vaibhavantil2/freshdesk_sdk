@@ -26,6 +26,9 @@
     "async": "2.0.0-rc.3 "
   },
   "preferGlobal": true,
+  "scripts": {
+    "test": "mocha test/"
+  },
   "bin": {
     "frsh": "./index.js"
   },

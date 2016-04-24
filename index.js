@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+"use strict";
+
 var program = require('commander');
 
 var pjson = require(__dirname + '/package.json');
