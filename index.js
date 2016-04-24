@@ -40,14 +40,12 @@ program.command('run')
 program.command('validate').description('run all validations.')
     .action(function(){
       var validationStatus = require(__dirname + '/lib/cli-validate').run(validationConst.PRE_PKG_VALIDATION);
-      if(validationStatus)
-      {
+      if(validationStatus) {
         console.log("No failures observed when running validations.");
       }
       else {
         console.log("Validation failed with above errors.");
       }
-
     });
 
 program.command('pack')
