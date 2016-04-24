@@ -6,6 +6,7 @@ var program = require('commander');
 
 var pjson = require(__dirname + '/package.json');
 global.pjson = pjson;
+var validationConst = require( __dirname + '/lib/constants').validationContants;
 
 // Cli parsing:
 program.version(pjson.version)
@@ -38,7 +39,15 @@ program.command('run')
 
 program.command('validate').description('run all validations.')
     .action(function(){
-        require(__dirname + '/lib/cli-validate').run();
+      var validationStatus = require(__dirname + '/lib/cli-validate').run(validationConst.PRE_PKG_VALIDATION);
+      if(validationStatus)
+      {
+        console.log("No failures observed when running validations.");
+      }
+      else {
+        console.log("Validation failed with above errors.");
+      }
+
     });
 
 program.command('pack')
