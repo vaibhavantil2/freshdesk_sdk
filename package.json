@@ -7,23 +7,24 @@
   "license": "ISC",
   "dependencies": {
     "archiver": "^1.0.0",
+    "async": "2.0.0-rc.3 ",
     "body-parser": "^1.15.0",
     "cliparse": "^0.2.5",
     "commander": "^2.9.0",
     "crypto-js": "^3.1.6",
+    "dateformat": "^1.0.12",
     "empty-dir": "^0.2.0",
     "express": "^4.13.4",
     "fs-extra": "^0.27.0",
     "js-yaml": "^3.6.0",
+    "junk": "1.0.2",
     "liquid-node": "^2.6.1",
     "machinepack-zip": "^1.1.0",
     "node-sass": "^3.4.2",
     "rimraf": "^2.5.2",
     "semver": "^5.1.0",
-    "ws": "^1.1.0",
-    "junk": "1.0.2",
     "underscore": "1.8.3",
-    "async": "2.0.0-rc.3 "
+    "ws": "^1.1.0"
   },
   "preferGlobal": true,
   "scripts": {
