@@ -3,7 +3,7 @@ var expect = require('chai').expect;
 
 describe("test liquid filter asset_url", function(){
   var input = "asset: {{'a.png' | asset_url}}";
-  var exp = "asset: assets/a.png";
+  var exp = "asset: http://localhost:10001/assets/a.png";
 
   it("should pass", function(done){
     liquid.render(input, {}, function(result){
