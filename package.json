@@ -27,7 +27,7 @@
   },
   "preferGlobal": true,
   "scripts": {
-    "test": "mocha test/"
+    "test": "./node_modules/mocha/bin/mocha test/"
   },
   "bin": {
     "frsh": "./index.js"
