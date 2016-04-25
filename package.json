@@ -28,7 +28,8 @@
   },
   "preferGlobal": true,
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test/"
+    "test": "./node_modules/mocha/bin/mocha test/",
+    "ci-test": "istanbul cover _mocha -- -R tap test/*.js  > test.tap && istanbul report clover"
   },
   "bin": {
     "frsh": "./index.js"
@@ -36,6 +37,7 @@
   "private": true,
   "devDependencies": {
     "chai": "^3.5.0",
+    "istanbul": "^0.4.3",
     "mocha": "^2.4.5"
   }
 }
