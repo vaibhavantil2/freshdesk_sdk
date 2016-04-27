@@ -9,18 +9,14 @@ global.pjson = pjson;
 var validationConst = require( __dirname + '/lib/constants').validationContants;
 
 // Cli Parsing:
-// Fetching arguments from cli
-var cliArg = process.argv.slice(2);
 
 // Registering Cli commands
 var prg = new Program('frsh', '[global-options] [command] [command-options] [arguments]');
-prg.addHelp();
 
 prg.addOpt('v', 'verbose', 'enable verbose output.');
-prg.addOpt('x', 'exception', 'display exception trace');
+prg.addOpt('x', 'exception', 'display exception trace.');
 
 var initCmd = prg.addCmd('init', 'create a new project.');
-initCmd.addOpt('h', 'help', 'Usage: \n frsh [global-options] init <type> [dir]\n type can be "plug"');
 prg.addCmd('info', 'display information about the project.');
 var runCmd = prg.addCmd('run', 'local testing.');
 runCmd.addOpt('h', 'help')
@@ -29,8 +25,18 @@ prg.addCmd('pack', 'pack for distribution.');
 prg.addCmd('clean', 'cleans build/ and dist/ dirs.');
 prg.addCmd('version', 'prints the version of SDK.');
 
-// Pasring for commands
-var res = prg.parseSync(cliArg);
+prg.addHelp();
+
+// Parsing for commands:
+// Fetching arguments from cli
+var cliArg = process.argv.slice(2);
+try {
+  var res = prg.parseSync(cliArg);
+}
+catch(err) {
+  console.error(`Cli parse error: ${err.message}.`);
+  process.exit(1);
+}
 
 // Setting the global options
 if(res.gopts) {
@@ -42,19 +48,16 @@ if(res.gopts) {
   }
 }
 
-// Print and exit if command is help
+// Print and exit if command is help:
 if(res.gopts.has('h') || res.cmd === 'help') {
   prg.printHelp(res);
+  process.exit();
 }
-// Other commands.
+
+// Other commands:
 switch(res.cmd) {
 
   case 'init':
-    if(res.opts.has('h')) {
-      console.log("Usage:\nfrsh init <type> [dir]\n  <type> is plug\n  " +
-       "[dir] (optional) - dir to init the project, initializes in current working dir if no option is specified");
-      break;
-    }
     require(__dirname + '/lib/cli-init').run(res.args[0], res.args[1]);
     break;
 
