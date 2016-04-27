@@ -36,7 +36,7 @@ try {
   var res = prg.parseSync(cliArg);
 }
 catch(err) {
-  console.error(`Cli parse error: ${err.message}.`);
+  console.error(`Cli parse error: ${err}`);
   process.exit(1);
 }
 
