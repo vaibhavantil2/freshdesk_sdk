@@ -11,19 +11,21 @@ var validationConst = require( __dirname + '/lib/constants').validationContants;
 // Cli Parsing:
 
 // Registering Cli commands
-var prg = new Program('frsh', '[global-options] [command] [command-options] [arguments]');
+var prg = new Program('frsh', '[global-options] [command] [command-options] [arguments]', 'Fresh SDK.');
 
 prg.addOpt('v', 'verbose', 'enable verbose output.');
 prg.addOpt('x', 'exception', 'display exception trace.');
 
-var initCmd = prg.addCmd('init', 'create a new project.');
-prg.addCmd('info', 'display information about the project.');
-var runCmd = prg.addCmd('run', 'local testing.');
+var initCmd = prg.addCmd('init',
+  '<type> [folder]', 'create a new project.',
+  'Supported <type>: plug. When [folder] is not given, CWD (if empty) is used to init.');
+prg.addCmd('info', null, 'display information about the project.');
+var runCmd = prg.addCmd('run', null, 'local testing.');
 runCmd.addOpt('h', 'help')
-prg.addCmd('validate', 'run all validations.');
-prg.addCmd('pack', 'pack for distribution.');
-prg.addCmd('clean', 'cleans build/ and dist/ dirs.');
-prg.addCmd('version', 'prints the version of SDK.');
+prg.addCmd('validate', null, 'run all validations.');
+prg.addCmd('pack', null, 'pack for distribution.');
+prg.addCmd('clean', null, 'removes build/ and dist/ dirs.');
+prg.addCmd('version', null, 'prints the version of SDK.');
 
 prg.addHelp();
 
