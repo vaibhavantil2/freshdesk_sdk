@@ -28,7 +28,7 @@
   },
   "preferGlobal": true,
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test/",
+    "test": "./node_modules/mocha/bin/mocha test/", 
     "ci-test": "istanbul cover --include-all-sources -x \"**/template/**\" _mocha -- -R tap test/*.js  > test.tap && istanbul report clover"
   },
   "bin": {
