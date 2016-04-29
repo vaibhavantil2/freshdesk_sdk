@@ -4,7 +4,7 @@
   "description": "Fresh SDK",
   "main": "index.js",
   "author": "Subhash",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "archiver": "^1.0.0",
     "async": "2.0.0-rc.3 ",
@@ -28,7 +28,7 @@
   },
   "preferGlobal": true,
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test/", 
+    "test": "./node_modules/mocha/bin/mocha test/",
     "ci-test": "istanbul cover --include-all-sources -x \"**/template/**\" _mocha -- -R tap test/*.js  > test.tap && istanbul report clover"
   },
   "bin": {
