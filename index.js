@@ -22,7 +22,7 @@ var initCmd = prg.addCmd('init',
   '<type> [folder]',
   'Supported <type>: plug. When [folder] is not given, CWD (if empty) is used to init.');
 prg.addCmd('info', 'display information about the project.');
-var runCmd = prg.addCmd('run', 'local testing.');
+prg.addCmd('run', 'local testing.');
 prg.addCmd('validate', 'run all validations.');
 prg.addCmd('pack', 'pack for distribution.');
 prg.addCmd('clean', 'removes build/ and dist/ dirs.');
