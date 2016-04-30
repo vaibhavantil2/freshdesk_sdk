@@ -2,38 +2,37 @@
 
 "use strict";
 
-var Program = require('wiz-cliparse');
-
 var pjson = require(__dirname + '/package.json');
 global.pjson = pjson;
 var validationConst = require( __dirname + '/lib/constants').validationContants;
 
 // Cli Parsing:
 
-// Registering Cli commands
-var prg = new Program('frsh', '[global-options] [command] [command-options] [arguments]', 'Fresh SDK.');
+// 1. Registering Cli commands
+var Program = require('wiz-cliparse');
+var prg = new Program('frsh',
+  'Fresh SDK.',
+  '[global-options] [command] [command-options] [arguments]');
 
 prg.addOpt('v', 'verbose', 'enable verbose output.');
 prg.addOpt('x', 'exception', 'display exception trace.');
 
 var initCmd = prg.addCmd('init',
-  '<type> [folder]', 'create a new project.',
+  'create a new project.',
+  '<type> [folder]',
   'Supported <type>: plug. When [folder] is not given, CWD (if empty) is used to init.');
-prg.addCmd('info', null, 'display information about the project.');
-var runCmd = prg.addCmd('run', null, 'local testing.');
-runCmd.addOpt('h', 'help')
-prg.addCmd('validate', null, 'run all validations.');
-prg.addCmd('pack', null, 'pack for distribution.');
-prg.addCmd('clean', null, 'removes build/ and dist/ dirs.');
-prg.addCmd('version', null, 'prints the version of SDK.');
+prg.addCmd('info', 'display information about the project.');
+var runCmd = prg.addCmd('run', 'local testing.');
+prg.addCmd('validate', 'run all validations.');
+prg.addCmd('pack', 'pack for distribution.');
+prg.addCmd('clean', 'removes build/ and dist/ dirs.');
+prg.addCmd('version', 'prints the version of SDK.');
 
 prg.addHelp();
 
-// Parsing for commands:
-// Fetching arguments from cli
-var cliArg = process.argv.slice(2);
+// 2. Parse cli options:
 try {
-  var res = prg.parseSync(cliArg);
+  var res = prg.parse();
 }
 catch(err) {
   console.error(`Cli parse error: ${err}`);
