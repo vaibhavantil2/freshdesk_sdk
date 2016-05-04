@@ -19,7 +19,7 @@ describe('manifest validate', function(){
   });
 
   it('should fail', function(done){
-    var srcmfFile = testResourceDir + '/manifest1.yml';
+    var srcmfFile = testResourceDir + '/manifest_no_pages.yml';
     var destmfFile = projectDir['name'] + '/manifest.yml';
     fs.copySync(srcmfFile, destmfFile);
     mf.reload();
@@ -28,7 +28,7 @@ describe('manifest validate', function(){
   });
 
   it('should fail', function(done){
-    var srcmfFile = testResourceDir + '/manifest2.yml';
+    var srcmfFile = testResourceDir + '/manifest_invalid_pg.yml';
     var destmfFile = projectDir['name'] + '/manifest.yml';
     fs.copySync(srcmfFile, destmfFile);
     mf.reload();
