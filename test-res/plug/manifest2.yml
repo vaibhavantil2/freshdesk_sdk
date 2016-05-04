@@ -3,4 +3,4 @@ source-charset: utf8
 pkg-type: plug
 pages:
   - ticket
-  - contact
+  - admin

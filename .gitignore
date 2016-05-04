@@ -4,4 +4,4 @@ node_modules/
 coverage/
 *.tap
 nbproject
-
+/.idea/
