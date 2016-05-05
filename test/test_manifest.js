@@ -1,5 +1,4 @@
 var expect = require('chai').expect;
-var tmp = require('tmp');
 var helper = require('./helper');
 var mfValidate;
 var mf;
@@ -11,7 +10,7 @@ describe('manifest validate', function(){
     process.chdir(projectDir['name']);
     mf = require(sdkDir + '/lib/manifest');
     mfValidate = require(sdkDir + '/lib/validations/manifest-validation');
-  })
+  });
 
   it('should succeed', function(done){
     expect([]).eql(mfValidate.validate());
