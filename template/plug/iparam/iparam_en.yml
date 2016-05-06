@@ -5,11 +5,11 @@
 # Fields for the keys are:
 # 1. display_name - Users will see this name in installation form
 # 2. description - A short description of the param
-# 3. Type - Can be "text" or "dropdown"
-# 4. Required (optional) - Input mandatory from the app installer? Default is false.
+# 3. type - Can be "text" or "dropdown"
+# 4. required (optional) - Input mandatory from the app installer? Default is false.
 
 # Fields that are need only for dropdown
-# 5. Options - List of dropdown options
+# 5. options - List of dropdown options
 # 6. default_value - Make one as default from the options
 
 # Sample:

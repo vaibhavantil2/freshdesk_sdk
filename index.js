@@ -25,7 +25,7 @@ prg.addCmd('info', 'display information about the project.');
 prg.addCmd('run', 'local testing.');
 prg.addCmd('validate', 'run all validations.');
 prg.addCmd('pack', 'pack for distribution.');
-prg.addCmd('clean', 'removes build/ and dist/ dirs.');
+prg.addCmd('clean', 'removes dist/ and work/ dirs.');
 prg.addCmd('version', 'prints the version of SDK.');
 
 prg.addHelp();
