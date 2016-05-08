@@ -5,3 +5,4 @@ coverage/
 *.tap
 nbproject
 /.idea/
+*.tgz
