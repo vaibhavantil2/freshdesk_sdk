@@ -8,5 +8,6 @@ global.testResourceDir = "";
   projectDir = tmp.dirSync();
   sdkDir = process.cwd();
   testResourceDir = process.cwd() + "/test-res";
+  global.verbose = true;
   require(__dirname + '/../lib/cli-init').run('plug', projectDir['name']);
 })();
