@@ -10,7 +10,8 @@ describe("test pack", function(){
   it("should generate the package in dist/ dir.", function(done){
     require(__dirname + '/../lib/cli-pack').run();
     setTimeout(function(){
-      fs.accessSync(process.cwd() + '/dist/freshapps_sdk.plg');
+      var ns = require(__dirname + '/../lib/ns-resolver');
+      fs.accessSync(projectDir['name'] + '/dist/'+ ns.getRootFolder() + '.plg');
       done();
     },50);
   });

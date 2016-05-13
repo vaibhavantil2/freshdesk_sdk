@@ -5,7 +5,7 @@ global.sdkDir = "";
 global.testResourceDir = "";
 
 (function(){
-  projectDir = tmp.dirSync();
+  projectDir = tmp.dirSync({prefix: 'freshapps_sdk'});
   sdkDir = process.cwd();
   testResourceDir = process.cwd() + "/test-res";
   global.verbose = true;
