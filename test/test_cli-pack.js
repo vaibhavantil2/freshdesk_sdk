@@ -13,7 +13,7 @@ describe("test pack", function(){
       var ns = require(__dirname + '/../lib/ns-resolver');
       fs.accessSync(projectDir['name'] + '/dist/'+ ns.getRootFolder() + '.plg');
       done();
-    },50);
+    }, 200);
   });
 
   it("should clean dirs", function(done) {
