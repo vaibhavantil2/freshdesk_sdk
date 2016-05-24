@@ -1,6 +1,6 @@
 {
   "name": "frsh-sdk",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Fresh SDK",
   "main": "index.js",
   "author": "Subhash",
