@@ -1,16 +1,16 @@
-## Freshdesk Plug Project
+## Freshdesk App Project
 
-Congratulations on creating your Plug Project! Feel free to replace this text with your project description.
+Congratulations on creating your App Project! Feel free to replace this text with your project description.
 
 ### Project folder structure explained
 
     .
     ├── .gitignore              In case you decide to version this code with Git.
     ├── README.md               This file.
-    ├── app                     Source code of plug.
-    │   └── template.liquid     HTML for the plug.
-    |   └── app.js              Business logic for the plug.
-    |   └── style.scss          Styles for the plug.
+    ├── app                     Source code of the app.
+    │   └── template.liquid     HTML for the app.
+    |   └── app.js              Business logic for the app.
+    |   └── style.scss          Styles for the app.
     ├── assets                  Store all project assets like CSS, JS and images.
     │   └── logo.png
     ├── iparam                  Installation parameter configs.

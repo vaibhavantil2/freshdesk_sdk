@@ -19,8 +19,8 @@ prg.addOpt('x', 'exception', 'display exception trace.');
 
 var initCmd = prg.addCmd('init',
   'create a new project.',
-  '<type> [folder]',
-  'Supported <type>: plug. When [folder] is not given, CWD (if empty) is used to init.');
+  '[folder]',
+  'When [folder] is not given, CWD (if empty) is used to init.');
 prg.addCmd('info', 'display information about the project.');
 prg.addCmd('run', 'local testing.');
 prg.addCmd('validate', 'run all validations.');
@@ -59,7 +59,7 @@ if(res.gopts.has('h') || res.cmd === 'help') {
 switch(res.cmd) {
 
   case 'init':
-    require(__dirname + '/lib/cli-init').run(res.args[0], res.args[1]);
+    require(__dirname + '/lib/cli-init').run(res.args[0]);
     break;
 
   case 'info':

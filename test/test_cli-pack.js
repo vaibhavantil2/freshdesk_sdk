@@ -11,7 +11,7 @@ describe("test pack", function(){
     require(__dirname + '/../lib/cli-pack').run();
     setTimeout(function(){
       var ns = require(__dirname + '/../lib/ns-resolver');
-      fs.accessSync(projectDir['name'] + '/dist/'+ ns.getRootFolder() + '.plg');
+      fs.accessSync(projectDir['name'] + '/dist/'+ ns.getRootFolder() + '.zip');
       done();
     }, 200);
   });
