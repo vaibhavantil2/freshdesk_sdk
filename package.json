@@ -29,7 +29,8 @@
   "preferGlobal": true,
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha test/",
-    "ci-test": "istanbul cover --include-all-sources -x \"**/template/**\" -x \"**/mochawesome-reports/**\" _mocha -- -R tap test/*.js  > test.tap && istanbul report clover"
+    "ci-test": "istanbul cover --include-all-sources -x \"**/template/**\" -x \"**/mochawesome-reports/**\" _mocha -- -R tap test/*.js  > test.tap && istanbul report clover",
+    "check-build": "check-build"
   },
   "bin": {
     "frsh": "./index.js"
