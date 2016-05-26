@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-"use strict";
+'use strict';
 
 var pjson = require(__dirname + '/package.json');
 global.pjson = pjson;
-var validationConst = require( __dirname + '/lib/constants').validationContants;
+var validationConst = require(__dirname + '/lib/constants').validationContants;
 
 // Cli Parsing:
 
@@ -33,30 +33,29 @@ prg.addHelp();
 // 2. Parse cli options:
 try {
   var res = prg.parse();
-}
-catch(err) {
+} catch (err) {
   console.error(`Cli parse error: ${err}`);
   process.exit(1);
 }
 
 // Setting the global options
-if(res.gopts) {
-  if(res.gopts.has('v')) {
+if (res.gopts) {
+  if (res.gopts.has('v')) {
     global.verbose = true;
   }
-  if(res.gopts.has('x')) {
+  if (res.gopts.has('x')) {
     global.trace = true;
   }
 }
 
 // Print and exit if command is help:
-if(res.gopts.has('h') || res.cmd === 'help') {
+if (res.gopts.has('h') || res.cmd === 'help') {
   prg.printHelp(res);
   process.exit();
 }
 
 // Other commands:
-switch(res.cmd) {
+switch (res.cmd) {
 
   case 'init':
     require(__dirname + '/lib/cli-init').run(res.args[0]);
@@ -71,13 +70,13 @@ switch(res.cmd) {
     break;
 
   case 'validate':
-    var validationStatus = require(__dirname + '/lib/cli-validate').run(validationConst.PRE_PKG_VALIDATION);
-    if(validationStatus) {
-      if(global.verbose) {
+    var validationStatus = require(__dirname + '/lib/cli-validate').run(
+      validationConst.PRE_PKG_VALIDATION);
+    if (validationStatus) {
+      if (global.verbose) {
         console.log("No failures observed when running validations.");
       }
-    }
-    else {
+    } else {
       console.log("Validation failed with above errors.");
     }
     break;
