@@ -17,7 +17,6 @@
     "express-ws": "^1.0.0",
     "fs-extra": "^0.27.0",
     "js-yaml": "^3.6.0",
-    "junk": "1.0.2",
     "liquid-node": "^2.6.1",
     "machinepack-zip": "^1.1.0",
     "node-sass": "^3.4.2",
