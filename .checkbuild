@@ -1,35 +1,26 @@
 {
-"checkbuild":{
-"enable":	["eslint", "jshint", "jsinspect", "buddyjs", "nsp", "david"],
-"continueOnError":	true,
-"allowFailures":	false
-	},
-"eslint":{
-"args":	["lib/**"],
-"env":		{
-	"node":	true
-		},
-"url":			"https://raw.githubusercontent.com/felixge/node-style-guide/master/.eslintrc"
-	},
-"jshint":{
-"args":	["lib/**"],
-"url":			"https://raw.githubusercontent.com/felixge/node-style-guide/master/.jshintrc"
-	},
-"jsinspect":{
-"args":	["lib/*.js"],
-"diff":		true,
-"identifiers":		true,
-	},
-"buddyjs":{
-"args":	["lib/*.js"],
-"detectObjects":	false,
-"enforceConst":	false,
-	},
-"nsp":	{
-	},
-"david":{
-"dev":		false,
-"stable":		true,
-"ignore":		[]
-	}
+    "checkbuild": {
+        "enable": ["eslint", "jsinspect", "buddyjs", "nsp", "david"],
+        "continueOnError": true,
+        "allowFailures": false
+    },
+    "eslint": {
+        "args": ["lib/**"]
+    },
+    "jsinspect": {
+        "args": ["lib/*.js"],
+        "diff": true,
+        "identifiers": true,
+    },
+    "buddyjs": {
+        "args": ["lib/*.js"],
+        "detectObjects": false,
+        "enforceConst": false,
+    },
+    "nsp": {},
+    "david": {
+        "dev": false,
+        "stable": true,
+        "ignore": []
+    }
 }
