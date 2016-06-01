@@ -5,7 +5,7 @@
   },
   "rules": {
     // "quotes": [1, "single"], // Can vist strict quotes convention later.
-    "brace-style": [2, "1tbs"],
+    "brace-style": [2, "stroustrup", { "allowSingleLine": true }],
     "block-scoped-var": 2,
     "strict": 0,
     "curly": 1,
