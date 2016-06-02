@@ -2,9 +2,9 @@
 
 'use strict';
 
-var pjson = require(__dirname + '/package.json');
+var pjson = require('./package.json');
 global.pjson = pjson;
-var validationConst = require(__dirname + '/lib/constants').validationContants;
+var validationConst = require('./lib/constants').validationContants;
 
 // Cli Parsing:
 
@@ -17,7 +17,7 @@ var prg = new Program('frsh',
 prg.addOpt('v', 'verbose', 'enable verbose output.');
 prg.addOpt('x', 'exception', 'display exception trace.');
 
-var initCmd = prg.addCmd('init',
+prg.addCmd('init',
   'create a new project.',
   '[folder]',
   'When [folder] is not given, CWD (if empty) is used to init.');
@@ -31,9 +31,11 @@ prg.addCmd('version', 'prints the version of SDK.');
 prg.addHelp();
 
 // 2. Parse cli options:
+var res = null;
 try {
-  var res = prg.parse();
-} catch (err) {
+  res = prg.parse();
+}
+catch (err) {
   console.error(`Cli parse error: ${err}`);
   process.exit(1);
 }
@@ -58,35 +60,36 @@ if (res.gopts.has('h') || res.cmd === 'help') {
 switch (res.cmd) {
 
   case 'init':
-    require(__dirname + '/lib/cli-init').run(res.args[0]);
+    require('./lib/cli-init').run(res.args[0]);
     break;
 
   case 'info':
-    require(__dirname + '/lib/cli-info').run();
+    require('./lib/cli-info').run();
     break;
 
   case 'run':
-    require(__dirname + '/lib/cli-run').run();
+    require('./lib/cli-run').run();
     break;
 
   case 'validate':
-    var validationStatus = require(__dirname + '/lib/cli-validate').run(
+    var validationStatus = require('./lib/cli-validate').run(
       validationConst.PRE_PKG_VALIDATION);
     if (validationStatus) {
       if (global.verbose) {
         console.log("No failures observed when running validations.");
       }
-    } else {
+    }
+    else {
       console.log("Validation failed with above errors.");
     }
     break;
 
   case 'pack':
-    require(__dirname + '/lib/cli-pack').run();
+    require('./lib/cli-pack').run();
     break;
 
   case 'clean':
-    require(__dirname + '/lib/cli-clean').run();
+    require('./lib/cli-clean').run();
     break;
 
   case 'version':

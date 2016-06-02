@@ -1,21 +1,16 @@
 {
     "checkbuild": {
-        "enable": ["eslint", "jsinspect", "buddyjs", "nsp", "david"],
+        "enable": ["eslint", "jsinspect", "nsp", "david"],
         "continueOnError": true,
         "allowFailures": false
     },
     "eslint": {
-        "args": ["lib/**"]
+        "args": ["lib/**", "*.js"]
     },
     "jsinspect": {
-        "args": ["lib/*.js"],
+        "args": ["lib/*.js", "*.js"],
         "diff": true,
         "identifiers": true,
-    },
-    "buddyjs": {
-        "args": ["lib/*.js"],
-        "detectObjects": false,
-        "enforceConst": false,
     },
     "nsp": {},
     "david": {
