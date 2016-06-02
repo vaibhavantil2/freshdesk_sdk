@@ -1,5 +1,4 @@
 platform-version: 1.0
-source-charset: utf8
 pages:
   - ticket
   - admin
