@@ -4,7 +4,7 @@
 
 var pjson = require('./package.json');
 global.pjson = pjson;
-var validationConst = require('./lib/constants').validationContants;
+var validationConst = require('./lib/validations/constants').validationContants;
 
 // Cli Parsing:
 
