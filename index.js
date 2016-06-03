@@ -76,7 +76,7 @@ switch (res.cmd) {
       validationConst.PRE_PKG_VALIDATION);
     if (validationStatus) {
       if (global.verbose) {
-        console.log("No failures observed when running validations.");
+        console.log("Validation successful.");
       }
     }
     else {
