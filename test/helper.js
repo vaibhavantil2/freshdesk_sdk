@@ -12,5 +12,5 @@ global.testResourceDir = "";
   sdkDir = process.cwd();
   testResourceDir = process.cwd() + "/test-res";
   global.verbose = true;
-  require(__dirname + '/../lib/cli-init').run(projectDir['name']);
+  require(__dirname + '/../lib/cli/init').run(projectDir['name']);
 })();

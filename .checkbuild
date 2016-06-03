@@ -5,10 +5,10 @@
         "allowFailures": false
     },
     "eslint": {
-        "args": ["lib/**", "*.js"]
+        "args": ["lib/**/*.js", "index.js"]
     },
     "jsinspect": {
-        "args": ["lib/*.js", "*.js"],
+        "args": ["lib/**/*.js", "index.js"],
         "diff": true,
         "identifiers": true,
     },

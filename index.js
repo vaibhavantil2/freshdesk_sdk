@@ -60,19 +60,19 @@ if (res.gopts.has('h') || res.cmd === 'help') {
 switch (res.cmd) {
 
   case 'init':
-    require('./lib/cli-init').run(res.args[0]);
+    require('./lib/cli/init').run(res.args[0]);
     break;
 
   case 'info':
-    require('./lib/cli-info').run();
+    require('./lib/cli/info').run();
     break;
 
   case 'run':
-    require('./lib/cli-run').run();
+    require('./lib/cli/run').run();
     break;
 
   case 'validate':
-    var validationStatus = require('./lib/cli-validate').run(
+    var validationStatus = require('./lib/cli/validate').run(
       validationConst.PRE_PKG_VALIDATION);
     if (validationStatus) {
       if (global.verbose) {
@@ -85,11 +85,11 @@ switch (res.cmd) {
     break;
 
   case 'pack':
-    require('./lib/cli-pack').run();
+    require('./lib/cli/pack').run();
     break;
 
   case 'clean':
-    require('./lib/cli-clean').run();
+    require('./lib/cli/clean').run();
     break;
 
   case 'version':

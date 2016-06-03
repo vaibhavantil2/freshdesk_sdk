@@ -11,16 +11,16 @@ describe("test pack", function(){
   });
 
   it("should generate the package in dist/ dir.", function(done){
-    require(__dirname + '/../lib/cli-pack').run();
+    require(__dirname + '/../lib/cli/pack').run();
     setTimeout(function(){
-      var ns = require(__dirname + '/../lib/ns-resolver');
+      var ns = require(__dirname + '/../lib/utils/ns-resolver');
       fs.accessSync(projectDir['name'] + '/dist/'+ ns.getRootFolder() + '.zip');
       done();
     }, 200);
   });
 
   it("should clean dirs", function(done) {
-    require(__dirname + '/../lib/cli-clean').run();
+    require(__dirname + '/../lib/cli/clean').run();
     done();
   }); 
 });

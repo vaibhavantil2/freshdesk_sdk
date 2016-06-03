@@ -11,7 +11,7 @@ describe('page util test', function(){
   });
 
   it('should get ticket page params', function(done) {
-    var page_util = require(__dirname + '/../lib/page-util');
+    var page_util = require(__dirname + '/../lib/liquid/page-util');
     var data = fs.readFileSync(testResourceDir + '/ticket_page_params.json');
     var jsonData = JSON.parse(data.toString());
     var res = page_util.getParams(jsonData);
@@ -21,7 +21,7 @@ describe('page util test', function(){
   });
 
   it('should get contact page params', function(done) {
-    var page_util = require(__dirname + '/../lib/page-util');
+    var page_util = require(__dirname + '/../lib/liquid/page-util');
     var data = fs.readFileSync(testResourceDir + '/contact_page_params.json');
     var jsonData = JSON.parse(data.toString());
     var res = page_util.getParams(jsonData);
@@ -31,7 +31,7 @@ describe('page util test', function(){
   });
 
   it('should check allowed pages', function(done) {
-    var page_util = require(__dirname + '/../lib/page-util');
+    var page_util = require(__dirname + '/../lib/liquid/page-util');
     var data = fs.readFileSync(testResourceDir + '/ticket_page_params.json');
     var jsonData = JSON.parse(data.toString());
     page_util.allowedPage(jsonData);

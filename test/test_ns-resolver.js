@@ -10,7 +10,7 @@ describe('page util test', function(){
   });
 
   it('should get app_id', function(done) {
-    var ns = require(__dirname + '/../lib/ns-resolver');
+    var ns = require(__dirname + '/../lib/utils/ns-resolver');
     expect('{"app_id":"fa_fresha_101"}').eql(JSON.stringify(ns.getNamespace()));
     done();
   });

@@ -1,7 +1,7 @@
 /* Copyright (C) 2016 Freshdesk, Inc.
 This source code is a part of the Fresh SDK and is covered by the our license terms. For details about this license, please read the LICENSE.txt which is bundled with this source code. */
 
-var liquid = require(__dirname + '/../lib/liquid');
+var liquid = require(__dirname + '/../lib/liquid/parser');
 var expect = require('chai').expect;
 
 describe("test liquid filter asset_url", function(){
