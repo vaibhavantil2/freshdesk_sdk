@@ -27,10 +27,12 @@ var prg = new Program('frsh',
 prg.addOpt('v', 'verbose', 'enable verbose output.');
 prg.addOpt('x', 'exception', 'display exception trace.');
 
-prg.addCmd('init',
+var cmdInit = prg.addCmd('init',
   'create a new project.',
   '[folder]',
   'When [folder] is not given, CWD (if empty) is used to init.');
+cmdInit.addOpt('t', 'template', 'Project template to use.', {hasArg: true});
+
 prg.addCmd('info', 'display information about the project.');
 prg.addCmd('run', 'local testing.');
 prg.addCmd('validate', 'run all validations.');
@@ -70,7 +72,8 @@ if (res.gopts.has('h') || res.cmd === 'help') {
 switch (res.cmd) {
 
   case 'init':
-    require('./lib/cli/init').run(res.args[0]);
+    let template = res.opts.has('t')? res.optArg.get('t'): null;
+    require('./lib/cli/init').run(res.args[0], template);
     break;
 
   case 'info':
