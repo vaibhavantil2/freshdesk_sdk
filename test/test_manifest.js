@@ -40,11 +40,14 @@ describe('manifest validate', function() {
 
   it('should fail', function(done) {
     var srcmfFile = testResourceDir + '/manifest_invalid_pg.yml';
+    var validsrcmFile = testResourceDir + '/manifest_valid.yml';
     var destmfFile = projectDir['name'] + '/manifest.yml';
     fs.copySync(srcmfFile, destmfFile);
     mf.reload();
     expect('Invalid page(s) mentioned in manifest.yml: admin.').eql(
       mfValidate.validate()[0]);
+    fs.copySync(validsrcmFile, destmfFile);
+    mf.reload();
     done();
   });
 
