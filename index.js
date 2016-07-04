@@ -31,8 +31,6 @@ var cmdInit = prg.addCmd('init',
   'create a new project.',
   '[folder]',
   'When [folder] is not given, CWD (if empty) is used to init.');
-cmdInit.addOpt('t', 'template', 'Project template to use.', {hasArg: true});
-
 prg.addCmd('info', 'display information about the project.');
 prg.addCmd('run', 'local testing.');
 prg.addCmd('validate', 'run all validations.');
@@ -73,7 +71,7 @@ switch (res.cmd) {
 
   case 'init':
     let template = res.opts.has('t')? res.optArg.get('t'): null;
-    require('./lib/cli/init').run(res.args[0], template);
+    require('./lib/cli/init').run(res.args[0], 'default');
     break;
 
   case 'info':
