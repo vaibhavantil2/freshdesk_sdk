@@ -5,18 +5,18 @@ Congratulations on creating your App Project! Feel free to replace this text wit
 ### Project folder structure explained
 
     .
-    ├── .gitignore              In case you decide to version this code with Git.
-    ├── README.md               This file.
-    ├── app                     Source code of the app.
-    │   └── template.liquid     HTML for the app.
-    |   └── app.js              Business logic for the app.
-    |   └── style.scss          Styles for the app.
-    ├── assets                  Store all project assets like CSS, JS and images.
+    ├── .gitignore                In case you decide to version this code with Git.
+    ├── README.md                 This file.
+    ├── app                       Source code of the app.
+    │   └── template.html         HTML for the app.
+    |   └── app.js                Business logic for the app.
+    |   └── style.scss            Styles for the app.
+    ├── assets                    Store all project assets like CSS, JS and images.
     │   └── logo.png
-    ├── config                  Installation parameter configs.
-    │   ├── iparam_en.yml       Installation parameter config in English language.
-    │   └── iparam_test_data.yml       Installation parameter data for local testing.
-    └── manifest.yml            Project manifest.
+    ├── config                    Installation parameter configs.
+    │   ├── iparam_en.yml         Installation parameter config in English language.
+    │   └── iparam_test_data.yml  Installation parameter data for local testing.
+    └── manifest.yml              Project manifest.
 
 More details on the structure and files:
 
