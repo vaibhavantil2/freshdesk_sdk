@@ -3,7 +3,8 @@
     initialize: function() {
       console.log("My first app!");
       if(page_type == "ticket") {
-        var requesterName = domHelper.ticket.getTicketInfo().helpdesk_ticket.requester_name;
+        var requesterName = domHelper.ticket.getTicketInfo()
+          .helpdesk_ticket.requester_name;
         jQuery('#apptext').text("Ticket created by " + requesterName);
       }
       else if(page_type == "contact"){
@@ -14,13 +15,19 @@
   }
 })();
 
+/*
 {%comment%}
 
-# Iparam
-  The ​installation parameters or iparams ​are essentially the settings that you
-  want your users to configure when installing the apps.
-# Iparam Usage
-  - {{iparam.username}}
-  - {{iparam.country}}
+## Help: Using iparam (​installation parameters) in code
+
+iparam: The ​settings that you want your users to configure when installing the
+app.
+
+iparam definition is made in config/iparam_en.yml file. To use the defined
+iparam in code, use Liquid notation like:
+
+- {{iparam.username}}
+- {{iparam.country}}
 
 {%endcomment%}
+*/
