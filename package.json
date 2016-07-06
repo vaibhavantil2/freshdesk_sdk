@@ -1,7 +1,7 @@
 {
   "name": "frsh-sdk",
   "version": "0.2.9",
-  "description": "Fresh SDK",
+  "description": "Freshdesk SDK",
   "main": "index.js",
   "author": "Subhash",
   "license": "Apache-2.0",
