@@ -1,6 +1,6 @@
 {
   "name": "frsh-sdk",
-  "version": "0.2.9",
+  "version": "1.0.0",
   "description": "Freshdesk SDK",
   "main": "index.js",
   "author": "Subhash",
