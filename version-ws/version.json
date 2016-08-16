@@ -1,11 +1,11 @@
 {
   "sdkCli":{
-    "version": "1.0.0",
-    "dl": "http://dl.frshdev.io/sdk/frsh-sdk-1.0.0.tgz",
-    "cmd": "npm install http://dl.freshdev.io/sdk/frsh-sdk-1.0.0.tgz -g"
+    "version": "2.0.1",
+    "dl": "http://dl.frshdev.io/sdk/frsh-sdk-2.0.1.tgz",
+    "cmd": "npm install http://dl.freshdev.io/sdk/frsh-sdk-2.0.1.tgz -g"
   },
   "sdkChromeExtn": {
-    "version": "1.0.0",
+    "version": "2.0.1",
     "dl": "https://chrome.google.com/webstore/detail/freshdesk-developer-exten/dhiijfebjgnbjcncjcdhmgehmhhojffe"
   }
 }
