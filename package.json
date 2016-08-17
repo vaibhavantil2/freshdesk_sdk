@@ -12,7 +12,7 @@
     "dateformat": "^1.0.12",
     "empty-dir": "^0.2.0",
     "express": "^4.13.4",
-    "express-ws": "^1.0.0",
+    "express-ws": "2.0.0",
     "fs-extra": "^0.30.0",
     "js-yaml": "^3.6.0",
     "liquid-node": "^2.6.1",
