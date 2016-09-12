@@ -1,6 +1,6 @@
 {
   "name": "frsh-sdk",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Freshdesk SDK",
   "main": "index.js",
   "author": "Subhash",
@@ -12,7 +12,7 @@
     "dateformat": "^1.0.12",
     "empty-dir": "^0.2.0",
     "express": "^4.13.4",
-    "express-ws": "^1.0.0",
+    "express-ws": "2.0.0",
     "fs-extra": "^0.30.0",
     "js-yaml": "^3.6.0",
     "liquid-node": "^2.6.1",
@@ -20,7 +20,9 @@
     "rimraf": "^2.5.2",
     "semver": "^5.1.0",
     "underscore": "1.8.3",
-    "wiz-cliparse": "^0.5.4"
+    "wiz-cliparse": "^0.5.4",
+    "node-storage": "0.0.7",
+    "object-sizeof": "1.1.0"
   },
   "preferGlobal": true,
   "scripts": {
@@ -36,6 +38,7 @@
     "chai": "^3.5.0",
     "check-build": "^2.8.2",
     "istanbul": "^0.4.3",
+    "supertest": "2.0.0",
     "mocha": "^2.4.5",
     "tmp": "0.0.28"
   }
