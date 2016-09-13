@@ -1,7 +1,7 @@
 (function() {
   return {
     initialize: function() {
-      console.log("My first app!");
+      console.log("Basic Demo App!");
       if(page_type == "ticket") {
         var requesterName = domHelper.ticket.getTicketInfo()
           .helpdesk_ticket.requester_name;
