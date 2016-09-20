@@ -1,6 +1,7 @@
 node {
 try {
    stage 'Unit Tests'
+   checkout scm
    def nodeHome = tool 'node'
    env.PATH = "${nodeHome}/bin:${env.PATH}"
    sh 'npm install'
