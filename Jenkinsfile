@@ -1,7 +1,7 @@
 node {
 try {
    stage 'Unit Tests'
-   git branch: 'master', credentialsId: '8caa9e6f-de7b-4667-ada3-4f1380acd19d', url: 'git@github.com:freshdesk/freshapps_sdk.git'
+   scm checkout
    def nodeHome = tool 'node'
    env.PATH = "${nodeHome}/bin:${env.PATH}"
    sh 'npm install'
