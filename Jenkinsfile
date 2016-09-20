@@ -19,7 +19,7 @@ try {
        echo 'check-build failed. still continuing.'
    }
    stage 'Integration Tests'
-   git credentialsId: '8caa9e6f-de7b-4667-ada3-4f1380acd19d', url: 'git@github.com:freshdesk/freshapps_sdk-test.git'
+   git branch: env.BRANCH_NAME, credentialsId: '8caa9e6f-de7b-4667-ada3-4f1380acd19d', url: 'git@github.com:freshdesk/freshapps_sdk-test.git'
    unstash name: 'frsh-sdk'
    sh 'npm install'
    sh 'npm test --sdkurl=frsh-sdk*.tgz'
