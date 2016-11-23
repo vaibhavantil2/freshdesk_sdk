@@ -15,10 +15,12 @@ describe('iparam validate', function() {
   });
 
   it('should fail', function(done) {
-    var srcmfFile = testResourceDir + '/invalid_iparam_en.yml';
-    var destmfFile = projectDir['name'] + '/config/iparam_en.yml';
-    fs.copySync(srcmfFile, destmfFile);
+    var invalidIparamFile = testResourceDir + '/invalid_iparam_en.yml';
+    var validIparamFile = testResourceDir + '/valid_iparam_en.yml';
+    var destIparamFile = projectDir['name'] + '/config/iparam_en.yml';
+    fs.copySync(invalidIparamFile, destIparamFile);
     expect(["Invalid type 'textd' found in iparam_en.yml."]).eql(iparamValidator.validate());
+    fs.copySync(validIparamFile, destIparamFile);
     done();
   })
 

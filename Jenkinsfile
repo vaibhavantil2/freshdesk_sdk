@@ -1,10 +1,12 @@
 node {
 try {
+
    stage 'Unit Tests'
    checkout scm
    def nodeHome = tool 'node'
    env.PATH = "${nodeHome}/bin:${env.PATH}"
    sh 'npm install'
+
    sh 'npm run ci-test'
    sh 'npm pack'
    archive 'frsh-sdk*.tgz'
@@ -13,6 +15,7 @@ try {
    step([$class: 'CloverPublisher', cloverReportDir: 'coverage', cloverReportFileName: 'clover.xml'])
 
    stage 'Code Style Check'
+
    try {
        sh 'npm run check-build'
    } catch(Exception e) {

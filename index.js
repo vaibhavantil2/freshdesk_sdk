@@ -10,12 +10,14 @@ bundled with this source code.
 
 */
 
-'use strict';
-
 var pjson = require('./package.json');
 global.pjson = pjson;
 var validationConst = require('./lib/validations/constants').validationContants;
 
+if (Number(process.versions.node.split(".")[0]) < 4) {
+  console.log('Node version of 4.x.x and above is required to run SDK. ' + process.versions.node + ' found.');
+  process.exit(0);
+}
 // Cli Parsing:
 
 // 1. Registering Cli commands
@@ -31,6 +33,23 @@ var cmdInit = prg.addCmd('init',
   'create a new project.',
   '[folder]',
   'When [folder] is not given, CWD (if empty) is used to init.');
+cmdInit.addOpt('f', 'feature', 'Features to be added to the project.', {
+  hasArg: true
+});
+
+var cmdUpdate = prg.addCmd('update',
+  'update existing project.',
+  '[folder]',
+  'When [folder] is not given, CWD (if empty) is used to init.');
+cmdUpdate.addOpt('a', 'addfeature', 'Add features to existing project.', {
+  hasArg: true,
+  multiArg: true
+})
+cmdUpdate.addOpt('r', 'removefeature', 'Remove features from existing project.', {
+  hasArg: true,
+  multiArg: true
+})
+
 prg.addCmd('info', 'display information about the project.');
 prg.addCmd('run', 'local testing.');
 prg.addCmd('validate', 'run all validations.');
@@ -46,7 +65,7 @@ try {
   res = prg.parse();
 }
 catch (err) {
-  console.error(`Cli parse error: ${err}`);
+  console.error('Cli parse error: ' + err);
   process.exit(1);
 }
 
@@ -70,8 +89,8 @@ if (res.gopts.has('h') || res.cmd === 'help') {
 switch (res.cmd) {
 
   case 'init':
-    let template = res.opts.has('t')? res.optArg.get('t'): null;
-    require('./lib/cli/init').run(res.args[0], 'default');
+    var template = res.opts.has('f')? res.optArg.get('f'): 'default';
+    require('./lib/cli/init').run(res.args[0], template);
     break;
 
   case 'info':
@@ -105,6 +124,17 @@ switch (res.cmd) {
 
   case 'version':
     console.log(pjson.version);
+    break;
+
+  case 'update':
+    var options = {};
+    if (res.opts.has('a')) {
+      options['add'] = res.optArg.get('a');
+    }
+    if (res.opts.has('r')) {
+      options['remove'] = res.optArg.get('r');
+    }
+    require('./lib/cli/update').run(options);
     break;
 
   default:

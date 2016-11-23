@@ -51,4 +51,16 @@ describe('manifest validate', function() {
     done();
   });
 
+  it('should fail - invalid feature', function(done) {
+    var srcmfFile = testResourceDir + '/manifest_invalid_feature.yml';
+    var validsrcmFile = testResourceDir + '/manifest_valid.yml';
+    var destmfFile = projectDir['name'] + '/manifest.yml';
+    fs.copySync(srcmfFile, destmfFile);
+    mf.reload();
+    expect('Invalid feature mentioned in manifest.yml: featurex.').eql(
+      mfValidate.validate()[0]);
+    fs.copySync(validsrcmFile, destmfFile);
+    mf.reload();
+    done();
+  });
 });

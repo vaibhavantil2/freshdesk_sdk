@@ -1,0 +1,19 @@
+# Oauth configration settings:
+# 1. client_id - Identifier used by the API to identify the App.
+# 2. client_secret - Used to authenticate the identity of the app to the API.
+# 3. authorize_url - URL for authorization.
+# 4. token_url - URL to request for access token.
+# 5. scope - specifies the level of access that the App is requesting (read write sign).
+# 6. token_type - specifies the level of token requested (account user).
+# 7. options (optional) - options as [key, value] pair.
+# 8. header (optional) - any parameters can be added in the header.
+
+#sample:
+
+client_id: "CLIENT ID"
+client_secret: "CLIENT SECRET"
+authorize_url: "AUTHORIZE URL"
+token_url: "ACCESS TOKEN URL"
+options:
+  scope: "SCOPE"
+token_type: "account"
