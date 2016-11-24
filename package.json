@@ -4,7 +4,7 @@
   "description": "Freshdesk SDK",
   "main": "index.js",
   "author": "Subhash",
-  "license": "Apache-2.0",
+  "license": "ISC",
   "dependencies": {
     "archiver": "^1.0.0",
     "body-parser": "^1.15.0",
