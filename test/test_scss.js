@@ -21,7 +21,7 @@ describe("scss compile", function(){
     scss.compile(input, oput);
     var result = fs.readFileSync(oput, 'utf8');
     var exp = fs.readFileSync(__dirname + '/../test-res/src.css', 'utf8');
-    expect(exp).equals(result);
+    expect(result).equals(exp);
     fs.unlinkSync(oput);
     done();
   });

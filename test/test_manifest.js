@@ -24,7 +24,7 @@ describe('manifest validate', function() {
   });
 
   it('should succeed', function(done) {
-    expect([]).eql(mfValidate.validate());
+    expect(mfValidate.validate()).eql([]);
     done();
   });
 
@@ -33,8 +33,7 @@ describe('manifest validate', function() {
     var destmfFile = projectDir['name'] + '/manifest.yml';
     fs.copySync(srcmfFile, destmfFile);
     mf.reload();
-    expect('pages not specified in manifest.yml.').eql(mfValidate.validate()[
-      0]);
+    expect(mfValidate.validate()[0]).eql('pages not specified in manifest.yml.');
     done();
   });
 
@@ -44,8 +43,7 @@ describe('manifest validate', function() {
     var destmfFile = projectDir['name'] + '/manifest.yml';
     fs.copySync(srcmfFile, destmfFile);
     mf.reload();
-    expect('Invalid page(s) mentioned in manifest.yml: admin.').eql(
-      mfValidate.validate()[0]);
+    expect(mfValidate.validate()[0]).eql('Invalid page(s) mentioned in manifest.yml: admin.');
     fs.copySync(validsrcmFile, destmfFile);
     mf.reload();
     done();

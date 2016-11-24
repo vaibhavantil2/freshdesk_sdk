@@ -17,7 +17,7 @@ describe("test liquid filter asset_url", function(){
 
   it("should pass", function(done){
     liquid.render(input, {}, function(result){
-      expect(exp).equals(result);
+      expect(result).equals(exp);
       done();
     });
   });

@@ -18,7 +18,7 @@ describe('Name space resolver test', function(){
 
   it('should get app_id', function(done) {
     var ns = require(__dirname + '/../lib/utils/ns-resolver');
-    expect('{"app_id":"fresha_101_101"}').eql(JSON.stringify(ns.getNamespace()));
+    expect(JSON.stringify(ns.getNamespace())).eql('{"app_id":"fresha_101_101"}');
     done();
   });
 });

@@ -29,7 +29,7 @@ describe('iparam validate', function() {
     var validIparamFile = testResourceDir + '/valid_iparam_en.yml';
     var destIparamFile = projectDir['name'] + '/config/iparam_en.yml';
     fs.copySync(invalidIparamFile, destIparamFile);
-    expect(["Invalid type 'textd' found in iparam_en.yml."]).eql(iparamValidator.validate());
+    expect(iparamValidator.validate()).eql(["Invalid type 'textd' found in iparam_en.yml."]);
     fs.copySync(validIparamFile, destIparamFile);
     done();
   })

@@ -16,6 +16,7 @@ global.testResourceDir = "";
 process.setMaxListeners(0);
 
 (function(){
+  process.setMaxListeners(0);
   projectDir = tmp.dirSync({prefix: 'freshapps_sdk'});
   sdkDir = process.cwd();
   testResourceDir = process.cwd() + "/test-res";
