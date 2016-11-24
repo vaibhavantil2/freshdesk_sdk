@@ -1,8 +1,8 @@
 {
   "sdkCli":{
-    "version": "2.1.1",
-    "dl": "http://dl.freshdev.io/sdk/frsh-sdk-2.1.1.tgz",
-    "cmd": "npm install http://dl.freshdev.io/sdk/frsh-sdk-2.1.1.tgz -g"
+    "version": "2.2.1",
+    "dl": "http://dl.freshdev.io/sdk/frsh-sdk-2.2.1.tgz",
+    "cmd": "npm install http://dl.freshdev.io/sdk/frsh-sdk-2.2.1.tgz -g"
   },
   "sdkChromeExtn": {
     "version": "2.1.1",

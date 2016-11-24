@@ -1,0 +1,8 @@
+platform-version: '1.0'
+features:
+  - oauth
+pages:
+  - ticket
+  - contact
+whitelisted-domains:
+  - https://www.google.com

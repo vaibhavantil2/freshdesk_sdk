@@ -13,6 +13,7 @@ var rmdir = require('rimraf');
 global.projectDir = "";
 global.sdkDir = "";
 global.testResourceDir = "";
+process.setMaxListeners(0);
 
 (function(){
   projectDir = tmp.dirSync({prefix: 'freshapps_sdk'});

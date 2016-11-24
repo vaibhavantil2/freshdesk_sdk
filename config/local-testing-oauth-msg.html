@@ -1,0 +1,13 @@
+<div class='open-box'>
+  <p>
+    Oauth2 feature has been enabled in the app. Please authorize the app to proceed further
+  </p>
+  <div class="text-center" style="margin-bottom:6px;">
+    <button id="authButton" class="btn btn-primary">Authorize</button>
+  </div>
+</div>
+<script type="text/javascript">
+  document.getElementById("authButton").onclick = function () {
+    location.href = "http://localhost:10001/auth/index?callback=" + document.URL;
+  };
+</script>
