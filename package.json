@@ -32,8 +32,9 @@
   },
   "preferGlobal": true,
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test/",
-    "ci-test": "istanbul cover --include-all-sources -x \"**/template/**\" -x \"**index.js**\" -x \"**/mochawesome-reports/**\" _mocha -- -R tap test/*.js  > test.tap && istanbul report clover",
+    "test": "npm run-script analyze-coverage && npm run-script check-coverage",
+    "analyze-coverage": "istanbul cover --include-all-sources -x \"**/template/**\" -x \"**/sample-app/**\" -x \"**index.js**\" -x \"**/mochawesome-reports/**\" _mocha -- -R tap test/*.js  > test.tap && istanbul report clover",
+    "check-coverage": "istanbul check-coverage --lines 79",
     "check-build": "check-build"
   },
   "bin": {

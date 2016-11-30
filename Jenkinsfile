@@ -44,14 +44,14 @@ try {
     step([$class: 'ClaimPublisher'])
     throw any
    } finally {
-    step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'freshapps-engg@freshdesk.com', sendToIndividuals: false])
+    step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: "${env.MAIL_FA_ENGG}", sendToIndividuals: false])
   }
 
 //Check for newer version of SDK:
 sh 'ls frsh-sdk* | wc -l > ./count'
 def count = readFile('count').trim()
 if(count == "2" ) {
-    mail (to: 'freshapps-engg@freshdesk.com, freshapps-qa@freshdesk.com',
+    mail (to: "${env.MAIL_FA_ENGG}, ${env.MAIL_FA_QA}",
         subject: "New Version of SDK is available!",
         body: "You can download it from ${env.BUILD_URL}.");
     sh 'ls -t1 frsh-sdk-* | tail -n 1  | xargs rm'
