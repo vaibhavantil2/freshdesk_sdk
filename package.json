@@ -1,10 +1,14 @@
 {
-  "name": "frsh-sdk",
+  "name": "frsh",
   "version": "2.2.1",
   "description": "Freshdesk SDK",
   "main": "index.js",
   "author": "Subhash",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/freshdesk/freshdesk_sdk.git"
+  },
   "dependencies": {
     "archiver": "^1.0.0",
     "body-parser": "^1.15.0",
