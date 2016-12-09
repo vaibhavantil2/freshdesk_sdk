@@ -44,7 +44,6 @@
   "bin": {
     "frsh": "./index.js"
   },
-  "private": true,
   "devDependencies": {
     "chai": "^3.5.0",
     "check-build": "^2.8.2",
